@@ -24,9 +24,13 @@ void doFortune(string name)
 	}
 }
 
-//the function that does all the stuff the script is meant to do. main is used to check if the script should even run at all.
-void main2()
+void main()
 {
+	if(item_amount($item[Clan VIP Lounge key]) == 0)
+	{
+		return;
+	}
+	
 	//check if there are consults left today, and if so consult with FCA defaults
 	if (get_property("_clanFortuneConsultUses").to_int() < 3)
 	{
@@ -104,18 +108,4 @@ void main2()
 		print("Warning: Fortuneask ran out of clanmates to consult about fortunes. Remaining consults:" + remainingConsults, "red");
 		print("");
 	}
-}
-
-//normally the main function, instead only checks if the script should run. If you have a VIP key it will run, otherwise do nothing.
-void main()
-{
-	if(item_amount($item[Clan VIP Lounge key]) > 0)
-	{
-	main2();
-	}
-	else
-	{
-	print("You do not have a VIP key. Can't check zatara for fortunes", "red");
-	}
-
 }
