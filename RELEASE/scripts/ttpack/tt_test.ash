@@ -1,3 +1,5 @@
+//this is a file for testing specific functions in autoscend by calling them directly.
+
 import <autoscend.ash>
 
 float meat_per_mp()
