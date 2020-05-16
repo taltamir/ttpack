@@ -70,6 +70,7 @@ boolean displayTinyPlasticItem(item it, boolean mallbuy, int max_price)
 	//remove excess from display, so that they can be sold.
 	if(get_property("figurines_displayRemoveExcess").to_boolean() && display_amount(it) > target)
 	{
+		print("[" + it + "] will have excess units removed from display", "green");
 		take_display(display_amount(it) - target, it);
 	}
 	
@@ -77,6 +78,7 @@ boolean displayTinyPlasticItem(item it, boolean mallbuy, int max_price)
 	if(display_amount(it) < target && item_amount(it) > 0)
 	{
 		temp = min(target-display_amount(it), item_amount(it));
+		print("[" + it + "] will be added to display", "green");
 		put_display(temp, it);
 	}
 	
@@ -85,6 +87,7 @@ boolean displayTinyPlasticItem(item it, boolean mallbuy, int max_price)
 	{
 		temp = min(target-display_amount(it), closet_amount(it));
 		take_closet(temp, it);
+		print("[" + it + "] will be added to display", "green");
 		put_display(temp, it);
 	}
 	
@@ -93,6 +96,7 @@ boolean displayTinyPlasticItem(item it, boolean mallbuy, int max_price)
 	{
 		temp = min(target-display_amount(it), shop_amount(it));
 		take_shop(temp, it);
+		print("[" + it + "] will be added to display", "green");
 		put_display(temp, it);
 	}
 	
@@ -101,6 +105,7 @@ boolean displayTinyPlasticItem(item it, boolean mallbuy, int max_price)
 	{
 		temp = min(target-display_amount(it), floor(my_meat()/mall_price(it)));
 		buy(temp, it, max_price);
+		print("[" + it + "] will be added to display", "green");
 		put_display(temp, it);
 	}
 	
