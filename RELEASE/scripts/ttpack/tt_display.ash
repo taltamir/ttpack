@@ -529,11 +529,11 @@ void displayFigurines()
 	figurines_getObsolete();
 }
 
-void main()
+void help()
 {
-	print("welcome to tt_display which will help you display various item types. It can acquire them as well. To use type in gCLI:" , "blue");
+	print("To use type in gCLI:" , "blue");
 	print("tt_display [goal]" , "blue");
-	print("Options for [goal] are:" , "blue");
+	print("Currently supported options for [goal]:" , "blue");
 	print("figurines = display tiny plastic and die casted figurines. A set of collectors items with several associated trophies" , "blue");
 }
 
@@ -549,4 +549,14 @@ void main(string goal)
 	}
 	
 	tt_depreciate();
+	
+	boolean goal_is_valid = false;
+	switch(goal)
+	{
+		case "figurines" : displayFigurines(); break;
+	}
+	if(!goal_is_valid)
+	{
+		help();
+	}
 }
