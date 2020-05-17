@@ -28,6 +28,8 @@ void crimbo2019_settings()
 	print("tt_display_crimbo2019_inventoryTarget = " + get_property("tt_display_crimbo2019_inventoryTarget"), "blue");
 	print("Add +1 to inventoryTarget for items that can be double fisted:", "blue");
 	print("tt_display_crimbo2019_doubleFisting = " + get_property("tt_display_crimbo2019_doubleFisting"), "blue");
+	
+	print();
 	print("You can make changes to these settings by typing:", "blue");
 	print("set [setting_name] = [target]", "blue");
 	

@@ -8,13 +8,15 @@ import <ttpack/display/tt_display_crimbo2019.ash>
 
 void help()
 {
-	print("To use type in gCLI:" , "blue");
-	print("tt_display [goal]" , "blue");
-	print("Currently supported options for [goal]:" , "blue");
-	print("figurines = display tiny plastic and die casted figurines. A set of collectors items with several associated trophies" , "blue");
-	print("hobopolis = auto zap hobopolis gear 1/day if you have a zapwand. display excess gear" , "blue");
-	print("hobo = same as hobopolis" , "blue");
-	print("crimbo2019 = display and count the rare drops from crimbo2019. display the counts and their mall values" , "blue");
+	print("Welcome to tt_display" , "blue");
+	print("To use type in gCLI:");
+	print("tt_display [goal]");
+	print("Currently supported options for [goal]:");
+	print("figurines = display tiny plastic and die casted figurines. A set of collectors items with several associated trophies");
+	print("hobopolis = auto zap hobopolis gear 1/day if you have a zapwand. display excess gear");
+	print("hobo = same as hobopolis");
+	print("crimbo2019 = display and count the rare drops from crimbo2019. display the counts and their mall values");
+	print("crimbo19 = same as crimbo2019");
 }
 
 void main(string goal)
@@ -28,7 +30,7 @@ void main(string goal)
 		abort("You do not have unlimited mall access. Break prism or ronin");
 	}
 	
-	tt_depreciate();
+	tt_depreciate();	//adjust renamed settings. delete deleted settings.
 	
 	goal = to_lower_case(goal);
 	if(goal == "figurines")
