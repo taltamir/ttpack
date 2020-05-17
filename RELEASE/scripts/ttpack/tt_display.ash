@@ -49,15 +49,9 @@ void figurines_settings()
 	print("tt_display_figurines_displayRemoveExcess = " + get_property("tt_display_figurines_displayRemoveExcess"), "blue");
 	print("tt_display_figurines_takeFromMyStore = " + get_property("tt_display_figurines_takeFromMyStore"), "blue");
 	print("tt_display_figurines_mallbuyCurrent = " + get_property("tt_display_figurines_mallbuyCurrent"), "blue");
-	if(get_property("tt_display_figurines_mallbuyCurrent").to_boolean())		//only print max price in mall if we want to buy in mall at all.
-	{
-		print("tt_display_figurines_mallbuyCurrentMaxPrice = " + get_property("tt_display_figurines_mallbuyCurrentMaxPrice"), "blue");
-	}
+	print("tt_display_figurines_mallbuyCurrentMaxPrice = " + get_property("tt_display_figurines_mallbuyCurrentMaxPrice"), "blue");
 	print("tt_display_figurines_mallbuyObsolete = " + get_property("tt_display_figurines_mallbuyObsolete"), "blue");
-	if(get_property("tt_display_figurines_mallbuyObsolete").to_boolean())		//only print max price in mall if we want to buy in mall at all.
-	{
-		print("tt_display_figurines_mallbuyObsoleteMaxPrice = " + get_property("tt_display_figurines_mallbuyObsoleteMaxPrice"), "blue");
-	}
+	print("tt_display_figurines_mallbuyObsoleteMaxPrice = " + get_property("tt_display_figurines_mallbuyObsoleteMaxPrice"), "blue");
 	
 	if(new_setting_added)
 	{
@@ -553,7 +547,10 @@ void main(string goal)
 	boolean goal_is_valid = false;
 	switch(goal)
 	{
-		case "figurines" : displayFigurines(); break;
+		case "figurines" :
+			displayFigurines();
+			goal_is_valid = true;
+			break;
 	}
 	if(!goal_is_valid)
 	{
