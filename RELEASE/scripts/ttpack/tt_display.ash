@@ -3,6 +3,7 @@
 
 import <ttpack/tt_util.ash>
 import <ttpack/display/tt_display_figurines.ash>
+import <ttpack/display/tt_display_crimbo2019.ash>
 
 void manageHoboItems()
 {
@@ -16,6 +17,7 @@ void help()
 	print("Currently supported options for [goal]:" , "blue");
 	print("figurines = display tiny plastic and die casted figurines. A set of collectors items with several associated trophies" , "blue");
 	print("hobo = auto zap hobo gear 1/day if you have a zapwand. display excess gear" , "blue");
+	print("crimbo2019 = display and count the rare drops from crimbo2019. display the counts and their mall values" , "blue");
 }
 
 void main(string goal)
@@ -39,6 +41,10 @@ void main(string goal)
 	else if(goal == "hobo")
 	{
 		manageHoboItems();
+	}
+	else if(goal == "crimbo2019")
+	{
+		manageCrimbo2019();
 	}
 	else help();
 }

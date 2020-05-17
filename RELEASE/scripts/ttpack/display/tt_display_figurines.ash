@@ -1,4 +1,4 @@
-//do not run this file
+//DO NOT RUN THIS FILE
 
 void figurines_settings()
 {
@@ -49,6 +49,8 @@ void figurines_settings()
 	print("tt_display_figurines_mallbuyCurrentMaxPrice = " + get_property("tt_display_figurines_mallbuyCurrentMaxPrice"), "blue");
 	print("tt_display_figurines_mallbuyObsolete = " + get_property("tt_display_figurines_mallbuyObsolete"), "blue");
 	print("tt_display_figurines_mallbuyObsoleteMaxPrice = " + get_property("tt_display_figurines_mallbuyObsoleteMaxPrice"), "blue");
+	print("You can make changes to these settings by typing:", "blue");
+	print("set [setting_name] = [target]", "blue");
 	
 	if(new_setting_added)
 	{
