@@ -1,3 +1,5 @@
+import <ttpack/tt_util.ash>
+
 void chooseFamiliar()
 {
 	if(have_familiar($familiar[Lil\' Barrel Mimic]));
@@ -6,19 +8,10 @@ void chooseFamiliar()
 	}
 }
 
-boolean tt_acquire(item it)
+boolean iceHouse()
 {
-	if(item_amount(it) > 0) return true;
-	
-	int expected_price = mall_price(it);
-	//TODO add store price
-	
-	if(my_meat()+20000 > expected_price)
-	{
-		buy(1, it, expected_price);
-		if(item_amount(it) > 0) return true;
-	}
-	
+	//2020-05-17 refresh icehouse status. mafia often thinks it is empty when it is not. maybe because it is out of standard?
+	//http://127.0.0.1:60083/museum.php?action=icehouse
 	return false;
 }
 
@@ -44,5 +37,6 @@ void meatfarm()
 void main()
 {
 	chooseFamiliar();
+	iceHouse();
 	meatfarm();
 }
