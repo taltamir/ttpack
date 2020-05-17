@@ -3,64 +3,63 @@
 
 import <ttpack/tt_util.ash>
 
-void settings()
+void figurines_settings()
 {
-	tt_depreciate();
-	boolean change_made = false;
+	boolean new_setting_added = false;
 	
 	//set defaults
-	if(get_property("figurines_displayTarget") == "" || get_property("figurines_displayTarget").to_int() < 0)
+	if(get_property("tt_display_figurines_displayTarget") == "" || get_property("tt_display_figurines_displayTarget").to_int() < 0)
 	{
-		change_made = true;
-		set_property("figurines_displayTarget", 1);
+		new_setting_added = true;
+		set_property("tt_display_figurines_displayTarget", 1);
 	}
-	if(get_property("figurines_displayRemoveExcess") == "")
+	if(get_property("tt_display_figurines_displayRemoveExcess") == "")
 	{
-		change_made = true;
-		set_property("figurines_displayRemoveExcess", true);
+		new_setting_added = true;
+		set_property("tt_display_figurines_displayRemoveExcess", true);
 	}
-	if(get_property("figurines_takeFromMyStore") == "")
+	if(get_property("tt_display_figurines_takeFromMyStore") == "")
 	{
-		change_made = true;
-		set_property("figurines_takeFromMyStore", false);
+		new_setting_added = true;
+		set_property("tt_display_figurines_takeFromMyStore", false);
 	}
-	if(get_property("figurines_mallbuyCurrent") == "")
+	if(get_property("tt_display_figurines_mallbuyCurrent") == "")
 	{
-		change_made = true;
-		set_property("figurines_mallbuyCurrent", true);
+		new_setting_added = true;
+		set_property("tt_display_figurines_mallbuyCurrent", true);
 	}
-	if(get_property("figurines_mallbuyCurrentMaxPrice") == "" || get_property("figurines_mallbuyCurrentMaxPrice").to_int() < 1000)
+	if(get_property("tt_display_figurines_mallbuyCurrentMaxPrice") == "" || get_property("tt_display_figurines_mallbuyCurrentMaxPrice").to_int() < 1000)
 	{
-		change_made = true;
-		set_property("figurines_mallbuyCurrentMaxPrice", 1000);
+		new_setting_added = true;
+		set_property("tt_display_figurines_mallbuyCurrentMaxPrice", 1000);
 	}
-	if(get_property("figurines_mallbuyObsolete") == "")
+	if(get_property("tt_display_figurines_mallbuyObsolete") == "")
 	{
-		change_made = true;
-		set_property("figurines_mallbuyObsolete", false);
+		new_setting_added = true;
+		set_property("tt_display_figurines_mallbuyObsolete", false);
 	}
-	if(get_property("figurines_mallbuyObsoleteMaxPrice") == "" || get_property("figurines_mallbuyCurrentMaxPrice").to_int() < 1000)
+	if(get_property("tt_display_figurines_mallbuyObsoleteMaxPrice") == "" || get_property("tt_display_figurines_mallbuyCurrentMaxPrice").to_int() < 1000)
 	{
-		change_made = true;
-		set_property("figurines_mallbuyObsoleteMaxPrice", 1000);
+		new_setting_added = true;
+		set_property("tt_display_figurines_mallbuyObsoleteMaxPrice", 1000);
 	}
 
 	//print current settings status
-	print("figurines_displayTarget = " + get_property("figurines_displayTarget"), "blue");
-	print("figurines_displayRemoveExcess = " + get_property("figurines_displayRemoveExcess"), "blue");
-	print("figurines_takeFromMyStore = " + get_property("figurines_takeFromMyStore"), "blue");
-	print("figurines_mallbuyCurrent = " + get_property("figurines_mallbuyCurrent"), "blue");
-	if(get_property("figurines_mallbuyCurrent").to_boolean())		//only print max price in mall if we want to buy in mall at all.
+	print("tt_display_figurines_displayTarget = " + get_property("tt_display_figurines_displayTarget"), "blue");
+	print("tt_display_figurines_displayRemoveExcess = " + get_property("tt_display_figurines_displayRemoveExcess"), "blue");
+	print("tt_display_figurines_takeFromMyStore = " + get_property("tt_display_figurines_takeFromMyStore"), "blue");
+	print("tt_display_figurines_mallbuyCurrent = " + get_property("tt_display_figurines_mallbuyCurrent"), "blue");
+	if(get_property("tt_display_figurines_mallbuyCurrent").to_boolean())		//only print max price in mall if we want to buy in mall at all.
 	{
-		print("figurines_mallbuyCurrentMaxPrice = " + get_property("figurines_mallbuyCurrentMaxPrice"), "blue");
+		print("tt_display_figurines_mallbuyCurrentMaxPrice = " + get_property("tt_display_figurines_mallbuyCurrentMaxPrice"), "blue");
 	}
-	print("figurines_mallbuyObsolete = " + get_property("figurines_mallbuyObsolete"), "blue");
-	if(get_property("figurines_mallbuyObsolete").to_boolean())		//only print max price in mall if we want to buy in mall at all.
+	print("tt_display_figurines_mallbuyObsolete = " + get_property("tt_display_figurines_mallbuyObsolete"), "blue");
+	if(get_property("tt_display_figurines_mallbuyObsolete").to_boolean())		//only print max price in mall if we want to buy in mall at all.
 	{
-		print("figurines_mallbuyObsoleteMaxPrice = " + get_property("figurines_mallbuyObsoleteMaxPrice"), "blue");
+		print("tt_display_figurines_mallbuyObsoleteMaxPrice = " + get_property("tt_display_figurines_mallbuyObsoleteMaxPrice"), "blue");
 	}
 	
-	if(change_made)
+	if(new_setting_added)
 	{
 		abort("Settings have been configured to default. Please verify they are correct before running me again");
 	}
@@ -68,11 +67,11 @@ void settings()
 
 boolean displayItem(item it, boolean mallbuy, int max_price)
 {
-	int target = get_property("figurines_displayTarget").to_int();
+	int target = get_property("tt_display_figurines_displayTarget").to_int();
 	int temp = 0;
 	
 	//remove excess from display, so that they can be sold.
-	if(get_property("figurines_displayRemoveExcess").to_boolean() && display_amount(it) > target)
+	if(get_property("tt_display_figurines_displayRemoveExcess").to_boolean() && display_amount(it) > target)
 	{
 		print("[" + it + "] will have excess units removed from display", "green");
 		take_display(display_amount(it) - target, it);
@@ -96,7 +95,7 @@ boolean displayItem(item it, boolean mallbuy, int max_price)
 	}
 	
 	//take from your own store in the mall
-	if(get_property("figurines_takeFromMyStore").to_boolean() && display_amount(it) < target && shop_amount(it) > 0)
+	if(get_property("tt_display_figurines_takeFromMyStore").to_boolean() && display_amount(it) < target && shop_amount(it) > 0)
 	{
 		temp = min(target-display_amount(it), shop_amount(it));
 		take_shop(temp, it);
@@ -123,7 +122,7 @@ boolean displayItem(item it, boolean mallbuy, int max_price)
 boolean setCheckCurrent(string set_name, boolean[item] item_set, boolean mallbuy, string acquire_msg)
 {
 	boolean set_complete = true;
-	int max_price = get_property("figurines_mallbuyCurrentMaxPrice").to_int();
+	int max_price = get_property("tt_display_figurines_mallbuyCurrentMaxPrice").to_int();
 	foreach it in item_set
 	{
 		if(!displayItem(it, mallbuy, max_price))
@@ -146,7 +145,7 @@ boolean setCheckCurrent(string set_name, boolean[item] item_set, boolean mallbuy
 boolean setCheckObsolete(string set_name, boolean[item] item_set, boolean mallbuy, string acquire_msg)
 {
 	boolean set_complete = true;
-	int max_price = get_property("figurines_mallbuyObsoleteMaxPrice").to_int();
+	int max_price = get_property("tt_display_figurines_mallbuyObsoleteMaxPrice").to_int();
 	foreach it in item_set
 	{
 		if(!displayItem(it, mallbuy, max_price))
@@ -169,14 +168,14 @@ boolean setCheckObsolete(string set_name, boolean[item] item_set, boolean mallbu
 	return set_complete;
 }
 
-void getObsolete()
+void figurines_getObsolete()
 {
 	//this is for sets for which no new instances can be acquired. you can only buy surplus in the mall.
 	
 	string set_name = "";
 	string acquire_msg = "";
 	boolean[item] item_set;
-	boolean mallbuy = get_property("figurines_mallbuyObsolete").to_boolean();
+	boolean mallbuy = get_property("tt_display_figurines_mallbuyObsolete").to_boolean();
 	
 	//Tiny Plastic Series 1C
 	set_name = "Tiny Plastic Series 1C \(Crimbo 2005\)";
@@ -319,14 +318,14 @@ void getObsolete()
 	setCheckObsolete(set_name, item_set, mallbuy, acquire_msg);
 }
 
-void getCurrent()
+void figurines_getCurrent()
 {
 	//this is for sets for which new instances can be acquired in the game.
 	
 	string set_name = "";
 	string acquire_msg = "";
 	boolean[item] item_set;
-	boolean mallbuy = get_property("figurines_mallbuyCurrent").to_boolean();
+	boolean mallbuy = get_property("tt_display_figurines_mallbuyCurrent").to_boolean();
 	
 	//Tiny Plastic Series 1
 	set_name = "Tiny Plastic Series 1 \(February 1st, 2005\)";
@@ -523,7 +522,22 @@ void getCurrent()
 	setCheckCurrent(set_name, item_set, mallbuy, acquire_msg);
 }
 
+void displayFigurines()
+{
+	figurines_settings();
+	figurines_getCurrent();
+	figurines_getObsolete();
+}
+
 void main()
+{
+	print("welcome to tt_display which will help you display various item types. It can acquire them as well. To use type in gCLI:" , "blue");
+	print("tt_display [goal]" , "blue");
+	print("Options for [goal] are:" , "blue");
+	print("figurines = display tiny plastic and die casted figurines. A set of collectors items with several associated trophies" , "blue");
+}
+
+void main(string goal)
 {
 	if(!have_display())
 	{
@@ -534,8 +548,5 @@ void main()
 		abort("You do not have unlimited mall access. Break prism or ronin");
 	}
 	
-	settings();
-	
-	getCurrent();
-	getObsolete();
+	tt_depreciate();
 }
