@@ -1,7 +1,11 @@
-//This is a script for acquiring and managing tiny plastic items for the achievements.
+//This is a script for acquiring and displaying tiny plastic or die casted figurines.
+//mainly for the achievement, but also just to have.
+
+import <ttpack/tt_util.ash>
 
 void settings()
 {
+	tt_depreciate();
 	boolean change_made = false;
 	
 	//set defaults
@@ -62,7 +66,7 @@ void settings()
 	}
 }
 
-boolean displayTinyPlasticItem(item it, boolean mallbuy, int max_price)
+boolean displayItem(item it, boolean mallbuy, int max_price)
 {
 	int target = get_property("figurines_displayTarget").to_int();
 	int temp = 0;
@@ -122,7 +126,7 @@ boolean setCheckCurrent(string set_name, boolean[item] item_set, boolean mallbuy
 	int max_price = get_property("figurines_mallbuyCurrentMaxPrice").to_int();
 	foreach it in item_set
 	{
-		if(!displayTinyPlasticItem(it, mallbuy, max_price))
+		if(!displayItem(it, mallbuy, max_price))
 		{
 			set_complete = false;
 			print("[" + set_name + "] is still missing [" + it + "]. mallprice = " + mall_price(it));
@@ -145,7 +149,7 @@ boolean setCheckObsolete(string set_name, boolean[item] item_set, boolean mallbu
 	int max_price = get_property("figurines_mallbuyObsoleteMaxPrice").to_int();
 	foreach it in item_set
 	{
-		if(!displayTinyPlasticItem(it, mallbuy, max_price))
+		if(!displayItem(it, mallbuy, max_price))
 		{
 			set_complete = false;
 			if(mallbuy)
@@ -165,7 +169,7 @@ boolean setCheckObsolete(string set_name, boolean[item] item_set, boolean mallbu
 	return set_complete;
 }
 
-void obsolete()
+void getObsolete()
 {
 	//this is for sets for which no new instances can be acquired. you can only buy surplus in the mall.
 	
@@ -315,7 +319,7 @@ void obsolete()
 	setCheckObsolete(set_name, item_set, mallbuy, acquire_msg);
 }
 
-void current()
+void getCurrent()
 {
 	//this is for sets for which new instances can be acquired in the game.
 	
@@ -532,6 +536,6 @@ void main()
 	
 	settings();
 	
-	current();
-	obsolete();
+	getCurrent();
+	getObsolete();
 }
