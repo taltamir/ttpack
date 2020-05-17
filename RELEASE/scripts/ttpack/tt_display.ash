@@ -12,7 +12,8 @@ void help()
 	print("tt_display [goal]" , "blue");
 	print("Currently supported options for [goal]:" , "blue");
 	print("figurines = display tiny plastic and die casted figurines. A set of collectors items with several associated trophies" , "blue");
-	print("hobopolis \/ hobo = auto zap hobo gear 1/day if you have a zapwand. display excess gear" , "blue");
+	print("hobopolis = auto zap hobopolis gear 1/day if you have a zapwand. display excess gear" , "blue");
+	print("hobo = same as hobopolis" , "blue");
 	print("crimbo2019 = display and count the rare drops from crimbo2019. display the counts and their mall values" , "blue");
 }
 
