@@ -1,6 +1,6 @@
 import <ttpack/tt_util.ash>
 
-void chooseFamiliar()
+void tt_chooseFamiliar()
 {
 	if(have_familiar($familiar[Lil\' Barrel Mimic]));
 	{
@@ -8,14 +8,19 @@ void chooseFamiliar()
 	}
 }
 
-boolean iceHouse()
+boolean tt_iceHouse()
 {
 	//2020-05-17 refresh icehouse status. mafia often thinks it is empty when it is not. maybe because it is out of standard?
 	//http://127.0.0.1:60083/museum.php?action=icehouse
 	return false;
 }
 
-void meatfarm()
+boolean tt_fatLootToken()
+{
+	return false;
+}
+
+boolean tt_meatFarm()
 {
 	//castle in the sky NCs
 	set_property("choiceAdventure675", 1);
@@ -31,12 +36,23 @@ void meatfarm()
 	}
 	maximize(maximizer_string, false);
 
-	adv1($location[The Castle in the Clouds in the Sky (Top Floor)], -1, "");
+	return adv1($location[The Castle in the Clouds in the Sky (Top Floor)], -1, "");
+}
+
+boolean tt_doTasks()
+{
+	//main loop of tt_aftercore. returning true resets the loop. returning false exists the loop
+	
+	if(tt_iceHouse()) return true;
+	if(tt_fatLootToken()) return true;
+	if(tt_meatFarm()) return true;
+	return false;
 }
 
 void main()
 {
-	chooseFamiliar();
-	iceHouse();
-	meatfarm();
+	tt_chooseFamiliar();
+	
+	//main loop is doTasks which is run as part of the while.
+	while(auto_unreservedAdvRemaining() && tt_doTasks());
 }

@@ -1,3 +1,7 @@
+//utility functions for ttpack. since I do a lot of autoscend dev I figured I would reuse functionality and I start off by importing all autoscend functions.
+
+import <autoscend.ash>
+
 boolean tt_acquire(item it)
 {
 	if(item_amount(it) > 0) return true;

@@ -1,3 +1,4 @@
+https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/beta/RELEASE/
 https://github.com/Ezandora/Briefcase/branches/Release/
 https://github.com/Ezandora/Voting-Booth/trunk/Release/
 https://github.com/Ezandora/Comb-Beach/trunk/Release/
