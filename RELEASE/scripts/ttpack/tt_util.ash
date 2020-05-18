@@ -5,7 +5,7 @@ import <ttpack/tt_depreciate.ash>
 
 boolean tt_acquire(item it)
 {
-	if(item_amount(it) > 0) return true;
+	if(item_amount(it) + equipped_amount(it) + closet_amount(it) > 0) return true;
 	
 	int expected_price = mall_price(it);
 	//TODO add store price
