@@ -31,6 +31,12 @@ void main()
 		return;
 	}
 	
+	//
+	if(get_clan_name() != "Ferengi Commerce Authority")
+	{
+		return;		//at the moment only one clan is supported. will refactor this for general use later.
+	}
+	
 	//check if there are consults left today, and if so consult with FCA defaults
 	if (get_property("_clanFortuneConsultUses").to_int() < 3)
 	{
