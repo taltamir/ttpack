@@ -1,4 +1,5 @@
-//utility functions for ttpack. since I do a lot of autoscend dev I figured I would reuse functionality and I start off by importing all autoscend functions.
+//utility functions for ttpack.
+//importing autoscend since I do a lot of dev there and want to reuse functions
 
 import <autoscend.ash>
 import <ttpack/tt_depreciate.ash>
