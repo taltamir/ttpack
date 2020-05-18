@@ -37,12 +37,18 @@ boolean tt_getFamiliarFromItem(item hatchling, familiar adult)
 	{
 		return true;
 	}
+	if(item_amount(hatchling) == 0)
+	{
+		return false;
+	}
 	
+	print("Trying to acquire familiar [" + adult + "]", "blue");
 	visit_url("inv_familiar.php?pwd=&which=3&whichitem=" + hatchling.to_int());
 	
 	cli_execute("refresh all");
 	if(have_familiar(adult))
 	{
+		print("Successfully acquired familiar [" + adult + "]", "blue");
 		return true;
 	}
 	print("Failed to convert the familiar hatchling [" + hatchling + "] into the familiar [" + adult + "]", "red");
@@ -56,13 +62,12 @@ void tt_acquireFamiliars()
 	//Very cheap IOTM derivative that is very useful. providing MP/HP regen, and your main source of early food.
 	if(!have_familiar($familiar[Lil\' Barrel Mimic]))
 	{
-		if(tt_acquire($item[tiny barrel]))
-		{
-			tt_getFamiliarFromItem($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
-		}
+		tt_acquire($item[tiny barrel]);
+		tt_getFamiliarFromItem($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
 	}
 
 	//Gelatinous Cubeling familiar costs 27 fat loot tokens and significantly improves doing daily dungeon in run.
+	//we only want to buy it from vending machine. do not spend meat on it in mall
 	if(!have_familiar($familiar[Gelatinous Cubeling]))
 	{
 		if(item_amount($item[dried gelatinous cube]) < 1 && item_amount($item[fat loot token]) > 26)
