@@ -1,11 +1,4 @@
 //this script should be run automatically after the prism is broken (and thus ending hardcore/ronin restrictions)
-//history
-//2020-03-23: set recovery script to universal recovery for aftercore.
-//2020-03-01: remove auto mojo filters, those are taken care of in tt_login. print notice that about to pvp.
-//2020-02-28: adjusted filename for login script
-//2019-11-10: auto use mojo filters
-//v3 calls login script and removes some redundant things done there such as meteorite-ade.
-//v2 uses cleaner code for Meteorite-Ade, and only consumes them if you are a millionaire.
 
 print("");
 print("Running prismbreak script", "green");

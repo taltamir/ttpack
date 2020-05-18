@@ -1,8 +1,4 @@
 //This script should be set to auto run on pre-ascension
-//Version History
-// 2020-04-30 added void displayTake() for instant karma
-// 2020-03-23 set recovery script to none before ascending
-
 
 //replies to all zatara fortune teller requests with whatever you configured as mafia's default
 void fortuneReply()

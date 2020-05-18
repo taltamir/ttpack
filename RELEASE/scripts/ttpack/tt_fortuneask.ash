@@ -1,8 +1,6 @@
 //This script uses CLI command to perform a fortune request on clanmates (if uses remain today, to avoid aborting on failure).
 //It will automatically set the correct asking words for the people being asked to get a high reward.
 //Currently populated with clanmates from FCA clan. Change the names in void main.
-//History:
-//2019-10-23 - replaced relaybot with chatplanet bot.
 
 //CONFIG START - set your options below
 

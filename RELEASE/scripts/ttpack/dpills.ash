@@ -9,10 +9,6 @@ to spend X adventures farming pills
 Or you can click on it from the dropdown scripts menu to be asked how many fights you want.
 
 Do note that you are expected to have set an appropriate mood, ccs, and outfit ahead of time.
-
-Version History
-2020-01-19b actually display finishing message with pill count if you asked it to run for more adventures than you have
-2020-01-19 initial version
 */
 
 
