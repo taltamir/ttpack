@@ -121,18 +121,30 @@ void startQuests()
 
 void setSnojo()
 {
-	//set snowjo to match your class
-	visit_url("place.php?whichplace=snojo&action=snojo_controller");
-	if((my_class() == $class[Turtle Tamer]) || (my_class() == $class[Seal Clubber]))
+	if(!get_property("snojoAvailable").to_boolean())
 	{
+		return;		//don't have snojo
+	}
+	
+	string current_setting = get_property("snojoSetting");
+	boolean mus_class = my_class() == $class[Turtle Tamer] || my_class() == $class[Seal Clubber];
+	boolean mys_class = my_class() == $class[Sauceror] || my_class() == $class[Pastamancer];
+	boolean mox_class = my_class() == $class[Disco Bandit] || my_class() == $class[Accordion Thief];
+	
+	//set snowjo to match your class
+	if(mus_class && current_setting != "MUSCLE")
+	{
+		visit_url("place.php?whichplace=snojo&action=snojo_controller");
 		run_choice(1);
 	}
-	if((my_class() == $class[Sauceror]) || (my_class() == $class[Pastamancer]))
+	if(mys_class && current_setting != "MYSTICALITY")
 	{
+		visit_url("place.php?whichplace=snojo&action=snojo_controller");
 		run_choice(2);
 	}
-	if((my_class() == $class[Disco Bandit]) || (my_class() == $class[Accordion Thief]))
+	if(mox_class && current_setting != "MOXIE")
 	{
+		visit_url("place.php?whichplace=snojo&action=snojo_controller");
 		run_choice(3);
 	}
 }
