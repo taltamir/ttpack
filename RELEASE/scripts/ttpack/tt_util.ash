@@ -18,3 +18,29 @@ boolean tt_acquire(item it)
 	
 	return false;
 }
+
+void tt_closetPutAll(item it)
+{
+	int qty = item_amount(it);
+	if (qty > 0)
+	{
+		print("putting in closet " + qty + " " + it);
+		put_closet(qty, it);
+	}
+}
+
+void tt_closetTakeAll(item it)
+{
+	int qty = closet_amount(it);
+	if (qty > 0)
+	{
+		print("taking from closet " + qty + " " + it);
+		take_closet(qty, it);
+	}
+}
+
+boolean tt_isRich()
+{
+	if(my_meat() > 1000000) return true;
+	else return false;
+}
