@@ -1,25 +1,4 @@
 //This script should be set to auto run on login
-//History
-//2020-04-25: fixed starting armorer and legerer pie quest
-//2020-04-21: refactored some code.
-//2020-04-12: if current spleen is over max it means you likely just finished an ed run and should not be wasting resources on mojo filters
-//2020-04-02: spacegate is not available during Kingdom of Exploathing
-//2020-03-30: briefcase collect needs to be run twice on first day
-//2020-03-28: check that you have beach comb before combing beach for free
-//2020-03-26: check to make sure you actually own the spacegate, boxing daycare, boombox, gloenn's golden dice. adjusted tt_fortuneask filename
-//2020-02-27: spacegate turn in alien stuff for research and grab all outfit pieces
-//2020-01-20: check that KGB is available before trying to use it
-//2020-01-13: auto fight glitch monster
-//2020-01-05: milk of magnesium auto consume
-//2019-11-10: boombox set to food if it is anything else, rather than only if unset.
-//2019-09-17: only get 4-d camera if you have not used one today yet.
-//2019-08-13: rain-doh
-//2019-08-08: bees hate you path compatibility
-//2019-06-26: added manual of transmission/dexterity/labor
-//2019-04-03: discobandit knife summon
-//v4 free daily boxing daycare scavenging, aftercore daily stuff, carboload, bittycar meatcar
-//v3 added a bunch of features.
-//v2 integrated the fortunereply script as a function, instead of calling on it as an external script. Cleaned up code
 
 void closetPutAll(item it)
 {
