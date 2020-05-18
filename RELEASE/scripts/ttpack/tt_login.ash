@@ -45,14 +45,20 @@ void boxingDaycare()
 
 void KGB()
 {
-	if (item_amount($item[Kremlin's Greatest Briefcase]) == 0)
+	if(item_amount($item[Kremlin's Greatest Briefcase]) == 0)
 	{
 		return;
 	}
 	
-	cli_execute("briefcase unlock");		//unlock the briefcase using ezandora script
-	cli_execute("briefcase collect");		//collect 3x epic drinks using ezandora script
-	cli_execute("briefcase collect");		//need to be run twice on first day. harmless on future days
+	if(!get_property("_kgbLeftDrawerUsed").to_boolean() || !get_property("_kgbRightDrawerUsed").to_boolean())
+	{
+		//ezandora script will do: unlockCrank(); unlockMartiniHose(); openLeftDrawer(); openRightDrawer(); unlockButtons();
+		cli_execute("briefcase unlock");
+	}
+	if(get_property("_kgbDispenserUses").to_int() < 3)
+	{
+		cli_execute("briefcase epic");			//ezandora script collects 3x epic drinks
+	}
 }
 
 void startQuests()
