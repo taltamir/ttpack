@@ -1,7 +1,7 @@
-//this script should be run automatically after the prism is broken (and thus ending hardcore/ronin restrictions)
+//this script should be run automatically after the king is liberated. which ends hardcore/ronin restrictions
 
 print("");
-print("Running prismbreak script", "green");
+print("Running tt_kingliberated script", "green");
 print("");
 
 //set MP recovery, HP recovery, CCS, and buff balancing for aftercore
@@ -81,5 +81,5 @@ set_property("recoveryScript", "scripts\\Universal_recovery.ash");
 
 //notify player that you are done.
 print("");
-print("prismbreak script finished", "green");
+print("tt_kingliberated script finished", "green");
 print("");

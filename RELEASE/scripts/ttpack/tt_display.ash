@@ -27,7 +27,7 @@ void main(string goal)
 	}
 	if(!can_interact())
 	{
-		abort("You do not have unlimited mall access. Break prism or ronin");
+		abort("You do not have unlimited mall access. liberate the king or break ronin");
 	}
 	
 	tt_depreciate();	//adjust renamed settings. delete deleted settings.
