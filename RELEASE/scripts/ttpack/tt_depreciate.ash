@@ -2,5 +2,5 @@
 
 void tt_depreciate()
 {
-	
+	//remove_property("property_name");
 }
