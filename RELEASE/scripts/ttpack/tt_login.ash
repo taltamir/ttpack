@@ -2,8 +2,28 @@
 
 import <ttpack/tt_util.ash>
 
+void tt_login_settings()
+{
+	//set defaults
+	if(get_property("tt_login_pvp") == "")
+	{
+		set_property("tt_login_pvp", true);
+	}
+
+	//print current settings status
+	print("tt_display_figurines_displayTarget = " + get_property("tt_display_figurines_displayTarget"), "blue");
+	
+	print();
+	print("You can make changes to these settings by typing:", "blue");
+	print("set [setting_name] = [target]", "blue");
+}
+
 void pvpEnable()
 {
+	if(!get_property("tt_login_pvp").to_boolean())
+	{
+		return;
+	}
 	if(!hippy_stone_broken())
 	{
 		visit_url("peevpee.php?action=smashstone&pwd&confirm=on&shatter=Smash+that+Hippy+Crap%21"); 	//break hippy stone
@@ -34,7 +54,7 @@ void boxingDaycare()
 		return;		//do not have IOTM
 	}
 
-	//checks to see if you scavenged exactly 0 times today. Meaning the scavenging is free. If so, then perform 1 scavenge operation.
+	//checks to see if you scavenged exactly 0 times today. Meaning the scavenging is free. If so, then perform 1 scavenge
 	if (get_property("_daycareGymScavenges").to_int() == 0)
 	{
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
@@ -42,7 +62,7 @@ void boxingDaycare()
 		run_choice(2);
 	}
 	
-	//checks to see if you recruited exactly 0 times today. Meaning it costs 100 meat. If so, then perform 1 scavenge operation.
+	//checks to see if you recruited exactly 0 times today. Meaning it costs 100 meat. If so, then perform 1 recruit toddlers
 	if (get_property("_daycareRecruits").to_int() == 0 && my_meat() > 10000)
 	{
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
@@ -372,11 +392,12 @@ void aftercore()
 
 void main()
 {
+	tt_login_settings();					//print current settings. configure defaults if needed.
 	pvpEnable();							//breaks the hippy stone to enable PVP fighting
-	songboomSetting(2);						//set boombox to food.
+	songboomSetting(2);						//set boombox to food if available.
 	fortuneReply();							//replies to all zatara fortune requests with mafia configured responses
 	cli_execute("tt_fortuneask.ash");		//calls on external script called fortuneask, to ask 3 daily fortunes from clanmates.
-	boxingDaycare();						//perform one free scavenge in boxing daycare
+	boxingDaycare();						//perform free scavenge and 100 meat worth of recruit toddlers
 	KGB();									//daily collections from kremlin greatest briefcase
 	bittycar();								//activate your bittycar meatcar if available.
 	raindoh();								//unpack a can of rain-doh if available
@@ -387,12 +408,13 @@ void main()
 	spaceGate();							//get spacegate equipment and turn in alien stuff
 	postStuff();							//do various things in aftercore/postronin/casual
 	aftercore();							//do aftercore only thing. we do not want this in casual/postronin
-	startQuests();							//start various quests
-	setSnojo();								//set snojo to match your class.
+	startQuests();							//start quests (no adv spent)
+	setSnojo();								//set snojo control panel to match your class.
 	cli_execute("breakfast");				//run mafia's built in "breakfast" script. doesn't eat food, just performs tasks
 	milkOfMagnesium();						//uses milk of magnesium as appropriate.
 	glitchmon();							//fight glitch monster
 	auto_beachUseFreeCombs();				//use free beach combs
+	
 	print();
 	print("login script finished", "green");
 }
