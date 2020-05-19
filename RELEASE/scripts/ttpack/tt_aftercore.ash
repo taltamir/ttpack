@@ -88,12 +88,63 @@ void tt_acquireFamiliars()
 	}
 	tt_getFamiliarFromItem($item[pile of smoking rags], $familiar[Ragamuffin Imp]);
 	
+	//easy attack familiar
+	if(!have_familiar($familiar[Howling Balloon Monkey]))
+	{
+		retrieve_item(1, $item[balloon monkey])
+	}
+	tt_getFamiliarFromItem($item[balloon monkey], $familiar[Howling Balloon Monkey]);
+	
+	//delevel enemy cheaply
+	if(!have_familiar($familiar[barrrnacle]))
+	{
+		retrieve_item(1, $item[Barrrnacle])
+	}
+	tt_getFamiliarFromItem($item[barrrnacle], $familiar[Barrrnacle]);
+	
+	//stat gains cheaply
+	if(!have_familiar($familiar[Blood-Faced Volleyball]))
+	{
+		retrieve_item(1, $item[blood-faced volleyball])
+	}
+	tt_getFamiliarFromItem($item[blood-faced volleyball], $familiar[Blood-Faced Volleyball]);
+	
+	//meat, MP/HP, confuse, or attack cheaply
+	if(!have_familiar($familiar[Cocoabo]))
+	{
+		retrieve_item(1, $item[cocoa egg])
+	}
+	tt_getFamiliarFromItem($item[cocoa egg], $familiar[Cocoabo]);
+	
+	//initiative and hot damage
+	if(!have_familiar($familiar[Cute Meteor]))
+	{
+		retrieve_item(1, $item[cute meteoroid])
+	}
+	tt_getFamiliarFromItem($item[cute meteoroid], $familiar[Cute Meteor]);
+	
+	//initiative for in standard runs
+	if(!have_familiar($familiar[Oily Woim]))
+	{
+		tt_acquire($item[woim]);
+	}
+	tt_getFamiliarFromItem($item[woim], $familiar[Oily Woim]);
+	
 	//get an egg every ascension. if you didn't eat it then get the familiar.
 	tt_getFamiliarFromItem($item[grue egg], $familiar[Grue]);
 	
+	//nemesis quest familiars
+	tt_getFamiliarFromItem($item[adorable seal larva], $familiar[Adorable Seal Larva]);		//seal clubber
+	tt_getFamiliarFromItem($item[untamable turtle], $familiar[Untamed Turtle]);				//turtle tamer
+	tt_getFamiliarFromItem($item[macaroni duck], $familiar[Animated Macaroni Duck]);		//pastamancer
+	tt_getFamiliarFromItem($item[friendly cheez blob], $familiar[Pet Cheezling]);			//sauceror
+	tt_getFamiliarFromItem($item[unusual disco ball], $familiar[Autonomous Disco Ball]);	//disco bandit
+	tt_getFamiliarFromItem($item[stray chihuahua], $familiar[Mariachi Chihuahua]);			//accordion thief
+	
 	//quest items that are familiar hatchlings
-	tt_getFamiliarFromItem($item[reassembled blackbird], $familiar[Reassembled Blackbird]);		//get one every ascension.
-	tt_getFamiliarFromItem($item[mosquito larva], $familiar[Mosquito]);		//get one every ascension.
+	tt_getFamiliarFromItem($item[reassembled blackbird], $familiar[Reassembled Blackbird]);	//every ascension
+	tt_getFamiliarFromItem($item[mosquito larva], $familiar[Mosquito]);						//every ascension
+	tt_getFamiliarFromItem($item[black kitten], $familiar[Black Cat]);						//bad moon
 }
 
 boolean tt_dailyDungeon()
