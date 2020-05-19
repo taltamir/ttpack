@@ -93,7 +93,7 @@ void tt_acquireFamiliars()
 	
 	//quest items that are familiar hatchlings
 	tt_getFamiliarFromItem($item[reassembled blackbird], $familiar[Reassembled Blackbird]);		//get one every ascension.
-	
+	tt_getFamiliarFromItem($item[mosquito larva], $familiar[Mosquito]);		//get one every ascension.
 }
 
 boolean tt_dailyDungeon()
