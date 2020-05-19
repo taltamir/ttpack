@@ -160,7 +160,11 @@ void milkOfMagnesium()
 		return;		//if you exceed the fullness limit then you cannot benefit from milk today. consuming it will be a waste
 	}
 	
-	retrieve_item(1,$item[milk of magnesium]);
+	if(can_interact() || creatable_amount($item[milk of magnesium]) > 0)
+	{
+		retrieve_item(1,$item[milk of magnesium]);
+	}
+
 	if(item_amount($item[milk of magnesium]) > 0)
 	{
 		use(1, $item[milk of magnesium]);
