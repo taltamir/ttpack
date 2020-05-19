@@ -12,7 +12,7 @@ boolean tt_meatFarm();
 
 void tt_chooseFamiliar()
 {
-	tt_acquireFamiliars();	//get important familiars.
+	tt_acquireFamiliars();	//get familiars.
 	
 	if(have_familiar($familiar[Lil\' Barrel Mimic]));
 	{
@@ -63,19 +63,37 @@ void tt_acquireFamiliars()
 	if(!have_familiar($familiar[Lil\' Barrel Mimic]))
 	{
 		tt_acquire($item[tiny barrel]);
-		tt_getFamiliarFromItem($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
 	}
+	tt_getFamiliarFromItem($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
 
 	//Gelatinous Cubeling familiar costs 27 fat loot tokens and significantly improves doing daily dungeon in run.
 	//we only want to buy it from vending machine. do not spend meat on it in mall
-	if(!have_familiar($familiar[Gelatinous Cubeling]))
+	if(!have_familiar($familiar[Gelatinous Cubeling]) && item_amount($item[dried gelatinous cube]) < 1 && item_amount($item[fat loot token]) > 26)
 	{
-		if(item_amount($item[dried gelatinous cube]) < 1 && item_amount($item[fat loot token]) > 26)
-		{
-			buy($coinmaster[Vending Machine], 1, $item[dried gelatinous cube]);
-		}
-		tt_getFamiliarFromItem($item[dried gelatinous cube], $familiar[Gelatinous Cubeling]);
+		buy($coinmaster[Vending Machine], 1, $item[dried gelatinous cube]);
 	}
+	tt_getFamiliarFromItem($item[dried gelatinous cube], $familiar[Gelatinous Cubeling]);
+	
+	//If you don't already have leprechaun you are a new account so poor that it is worth spending ~2 full to save ~18k meat
+	while(!have_familiar($familiar[Leprechaun]) && item_amount($item[leprechaun hatchling]) < 1 && fullness_left() > 0 && retrieve_item(1, $item[bowl of lucky charms]))
+	{
+		eat(1, $item[bowl of lucky charms]);
+	}
+	tt_getFamiliarFromItem($item[leprechaun hatchling], $familiar[Leprechaun]);
+	
+	//attack familiar that is very easy to get.
+	if(!have_familiar($familiar[Ragamuffin Imp]) && !get_property("demonSummoned").to_boolean() && item_amount($item[pile of smoking rags]) < 1 && display_amount($item[pile of smoking rags]) < 1)
+	{
+		cli_execute("summon Tatter");
+	}
+	tt_getFamiliarFromItem($item[pile of smoking rags], $familiar[Ragamuffin Imp]);
+	
+	//get an egg every ascension. if you didn't eat it then get the familiar.
+	tt_getFamiliarFromItem($item[grue egg], $familiar[Grue]);
+	
+	//quest items that are familiar hatchlings
+	tt_getFamiliarFromItem($item[reassembled blackbird], $familiar[Reassembled Blackbird]);		//get one every ascension.
+	
 }
 
 boolean tt_dailyDungeon()
