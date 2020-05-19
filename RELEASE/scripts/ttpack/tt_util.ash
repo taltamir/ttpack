@@ -14,12 +14,12 @@ void tt_printSetting(string name, string desc)
 	print(name + " = " + get_property(name), "blue");
 	if(desc != "")
 	{
-		print("    ^" desc);
+		print("    ^" + desc);
 	}
 }
 void tt_printSetting(string name)
 {
-	tt_printSetting(name, "")
+	tt_printSetting(name, "");
 }
 
 boolean tt_acquire(item it)
