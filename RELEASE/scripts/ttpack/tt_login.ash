@@ -2,20 +2,26 @@
 
 import <ttpack/tt_util.ash>
 
-void tt_login_settings()
+void tt_login_settings_defaults()
 {
 	//set defaults
 	if(get_property("tt_login_pvp") == "")
 	{
 		set_property("tt_login_pvp", true);
 	}
+}
 
+void tt_login_settings_print()
+{
 	//print current settings status
+	print();
+	print("Current settings for tt_login:", "blue");
 	print("tt_login_pvp = " + get_property("tt_login_pvp"), "blue");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
 	print("set [setting_name] = [target]", "blue");
+	print();
 }
 
 void pvpEnable()
@@ -392,7 +398,7 @@ void aftercore()
 
 void main()
 {
-	tt_login_settings();					//print current settings. configure defaults if needed.
+	tt_login_settings_defaults();			//set default settings if needed.
 	pvpEnable();							//breaks the hippy stone to enable PVP fighting
 	songboomSetting(2);						//set boombox to food if available.
 	fortuneReply();							//replies to all zatara fortune requests with mafia configured responses
@@ -415,6 +421,6 @@ void main()
 	glitchmon();							//fight glitch monster
 	auto_beachUseFreeCombs();				//use free beach combs
 	
-	print();
+	tt_login_settings_print();				//print current settings.
 	print("login script finished", "green");
 }
