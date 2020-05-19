@@ -11,7 +11,7 @@ void tt_login_settings()
 	}
 
 	//print current settings status
-	print("tt_display_figurines_displayTarget = " + get_property("tt_display_figurines_displayTarget"), "blue");
+	print("tt_login_pvp = " + get_property("tt_login_pvp"), "blue");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
