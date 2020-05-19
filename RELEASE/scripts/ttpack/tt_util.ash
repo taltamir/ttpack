@@ -9,20 +9,44 @@ boolean in_aftercore()
 	return get_property("kingLiberated").to_boolean();
 }
 
+void tt_printSetting(string name, string desc)
+{
+	print(name + " = " + get_property(name), "blue");
+	if(desc != "")
+	{
+		print("    ^" desc);
+	}
+}
+void tt_printSetting(string name)
+{
+	tt_printSetting(name, "")
+}
+
 boolean tt_acquire(item it)
 {
+	//already have it?
 	if((item_amount(it) + equipped_amount(it)) > 0) return true;
+	
+	//uncloset it
 	if(closet_amount(it) > 0)
 	{
 		take_closet(1, it);
 		return true;
 	}
+	
+	//pull from hangk
 	if(canPull(it))
 	{
 		if(pullXWhenHaveY(it, 1, 0)) return true;
 	}
 	
-	//check availability and best price.
+	//take from your own mall store.
+	if(shop_amount(it) > 0)
+	{
+		take_shop(1, it);
+	}
+	
+	//check store availability and best price.
 	int mall_price = mall_price(it);	//-1 means out of stock, 0 means untradeable.
 	int npc_price = npc_price(it);		//0 means unavailable
 	int expected_price = 0;
