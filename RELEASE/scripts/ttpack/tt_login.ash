@@ -9,6 +9,14 @@ void tt_login_settings_defaults()
 	{
 		set_property("tt_login_pvp", true);
 	}
+	if(get_property("tt_login_chocolateEat") == "")
+	{
+		set_property("tt_login_chocolateEat", true);
+	}
+	if(get_property("tt_login_chocolateMaxPricePerAdv") == "" || get_property("tt_login_chocolateMaxPricePerAdv").to_int() < 1)
+	{
+		set_property("tt_login_chocolateMaxPricePerAdv", 100);
+	}
 }
 
 void tt_login_settings_print()
@@ -16,7 +24,9 @@ void tt_login_settings_print()
 	//print current settings status
 	print();
 	print("Current settings for tt_login:", "blue");
-	print("tt_login_pvp = " + get_property("tt_login_pvp"), "blue");
+	tt_printSetting("tt_login_pvp");
+	tt_printSetting("tt_login_chocolateEat");
+	tt_printSetting("tt_login_chocolateMaxPricePerAdv");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -328,7 +338,7 @@ void spaceGate()
 void postStuff()
 {
 	//do some stuff in casual, postronin, or aftercore
-	if(!can_interact())		//test if you have unrestricted mall access. which means aftercore, after ronin, or casual.
+	if(!can_interact())		//are we not in any of: aftercore, after ronin, or casual
 	{
 		return;
 	}
@@ -396,6 +406,90 @@ void aftercore()
 	}
 }
 
+void eatChocolate()
+{
+	//will automatically buy and eat chocolate based on price per adv gained.
+	
+	if(!can_interact())		//are we not in any of: aftercore, after ronin, or casual
+	{
+		return;
+	}
+	if(!get_property("tt_login_chocolateEat").to_boolean())
+	{
+		return;
+	}
+	
+	int maxPricePerAdv = get_property("tt_login_chocolateMaxPricePerAdv").to_int();
+	if(maxPricePerAdv > 20000)
+	{
+		print("For some reason your chocolate max price per adv is set above 20\,000 meat. This is madness... skipping", "red");
+		return;
+	}
+	
+	//eat class specific chocolate.
+	int class_chocolate_consumed = get_property("_chocolatesUsed").to_int();
+	if(class_chocolate_consumed < 3)
+	{
+		item chocolate_item;
+		if(my_class() == $class[seal clubber])			chocolate_item = $item[chocolate seal-clubbing club];
+		if(my_class() == $class[turtle tamer])			chocolate_item = $item[chocolate turtle totem];
+		if(my_class() == $class[pastamancer])			chocolate_item = $item[chocolate pasta spoon];
+		if(my_class() == $class[sauceror])				chocolate_item = $item[chocolate saucepan];
+		if(my_class() == $class[disco bandit])			chocolate_item = $item[chocolate disco ball];
+		if(my_class() == $class[accordion thief])		chocolate_item = $item[chocolate stolen accordion];
+		
+		int chocolate_value = mall_price(chocolate_item);
+		int qty_goal = 0;
+		if(maxPricePerAdv > (chocolate_value / 3))		qty_goal++;		//first chocolate gives 3 adv
+		if(maxPricePerAdv > (chocolate_value / 2))		qty_goal++;		//second chocolate gives 2 adv
+		if(maxPricePerAdv > chocolate_value)			qty_goal++;		//third chocolate gives 1 adv
+		
+		int will_eat = qty_goal - class_chocolate_consumed;
+		if(will_eat > 0)
+		{
+			use(will_eat, chocolate_item);
+		}
+	}
+	
+	//eat [fancy chocolate sculpture].
+	int sculpture_chocolate_consumed = get_property("_chocolateSculpturesUsed").to_int();
+	if(sculpture_chocolate_consumed < 3)
+	{
+		item chocolate_item = $item[fancy chocolate sculpture];
+		
+		int chocolate_value = mall_price(chocolate_item);
+		int qty_goal = 0;
+		if(maxPricePerAdv > (chocolate_value / 5))		qty_goal++;		//first chocolate gives 5 adv
+		if(maxPricePerAdv > (chocolate_value / 3))		qty_goal++;		//second chocolate gives 3 adv
+		if(maxPricePerAdv > chocolate_value)			qty_goal++;		//third chocolate gives 1 adv
+		
+		int will_eat = qty_goal - sculpture_chocolate_consumed;
+		if(will_eat > 0)
+		{
+			use(will_eat, chocolate_item);
+		}
+	}
+	
+	//eat [LOV Extraterrestrial Chocolate].
+	int love_chocolate_consumed = get_property("_loveChocolatesUsed").to_int();
+	if(love_chocolate_consumed < 3)
+	{
+		item chocolate_item = $item[LOV Extraterrestrial Chocolate];
+		
+		int chocolate_value = 20000;									//traded via sellbot.
+		int qty_goal = 0;
+		if(maxPricePerAdv > (chocolate_value / 3))		qty_goal++;		//first chocolate gives 3 adv
+		if(maxPricePerAdv > (chocolate_value / 2))		qty_goal++;		//second chocolate gives 2 adv
+		if(maxPricePerAdv > chocolate_value)			qty_goal++;		//third chocolate gives 1 adv
+		
+		int will_eat = qty_goal - love_chocolate_consumed;
+		if(will_eat > 0)
+		{
+			use(will_eat, chocolate_item);
+		}
+	}
+}
+
 void main()
 {
 	tt_login_settings_defaults();			//set default settings if needed.
@@ -420,6 +514,7 @@ void main()
 	milkOfMagnesium();						//uses milk of magnesium as appropriate.
 	glitchmon();							//fight glitch monster
 	auto_beachUseFreeCombs();				//use free beach combs
+	eatChocolate();							//size 0 special consumables.
 	
 	tt_login_settings_print();				//print current settings.
 	print("login script finished", "green");
