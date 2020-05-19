@@ -91,35 +91,35 @@ void tt_acquireFamiliars()
 	//easy attack familiar
 	if(!have_familiar($familiar[Howling Balloon Monkey]))
 	{
-		retrieve_item(1, $item[balloon monkey])
+		retrieve_item(1, $item[balloon monkey]);
 	}
 	tt_getFamiliarFromItem($item[balloon monkey], $familiar[Howling Balloon Monkey]);
 	
 	//delevel enemy cheaply
 	if(!have_familiar($familiar[barrrnacle]))
 	{
-		retrieve_item(1, $item[Barrrnacle])
+		retrieve_item(1, $item[Barrrnacle]);
 	}
 	tt_getFamiliarFromItem($item[barrrnacle], $familiar[Barrrnacle]);
 	
 	//stat gains cheaply
 	if(!have_familiar($familiar[Blood-Faced Volleyball]))
 	{
-		retrieve_item(1, $item[blood-faced volleyball])
+		retrieve_item(1, $item[blood-faced volleyball]);
 	}
 	tt_getFamiliarFromItem($item[blood-faced volleyball], $familiar[Blood-Faced Volleyball]);
 	
 	//meat, MP/HP, confuse, or attack cheaply
 	if(!have_familiar($familiar[Cocoabo]))
 	{
-		retrieve_item(1, $item[cocoa egg])
+		retrieve_item(1, $item[cocoa egg]);
 	}
 	tt_getFamiliarFromItem($item[cocoa egg], $familiar[Cocoabo]);
 	
 	//initiative and hot damage
 	if(!have_familiar($familiar[Cute Meteor]))
 	{
-		retrieve_item(1, $item[cute meteoroid])
+		retrieve_item(1, $item[cute meteoroid]);
 	}
 	tt_getFamiliarFromItem($item[cute meteoroid], $familiar[Cute Meteor]);
 	
@@ -245,7 +245,7 @@ boolean tt_doTasks()
 
 void main()
 {
-	if(!get_property("kingLiberated").to_boolean())
+	if(!in_aftercore())
 	{
 		abort("Detected that king has not been liberated. This script should only be run in aftercore");
 	}

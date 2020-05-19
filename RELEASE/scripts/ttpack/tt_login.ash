@@ -378,7 +378,7 @@ void postStuff()
 void aftercore()
 {
 	//do some stuff in aftercore only. We do not want to do these in postronin or casual.
-	if(!get_property("kingLiberated").to_boolean())
+	if(!in_aftercore())
 	{
 		return;
 	}

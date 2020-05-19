@@ -4,6 +4,11 @@
 import <autoscend.ash>
 import <ttpack/tt_depreciate.ash>
 
+boolean in_aftercore()
+{
+	return get_property("kingLiberated").to_boolean();
+}
+
 boolean tt_acquire(item it)
 {
 	if((item_amount(it) + equipped_amount(it)) > 0) return true;
