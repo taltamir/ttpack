@@ -41,6 +41,14 @@ void boxingDaycare()
 		run_choice(3);
 		run_choice(2);
 	}
+	
+	//checks to see if you recruited exactly 0 times today. Meaning it costs 100 meat. If so, then perform 1 scavenge operation.
+	if (get_property("_daycareRecruits").to_int() == 0 && my_meat() > 10000)
+	{
+		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
+		run_choice(3);
+		run_choice(1);
+	}
 }
 
 void KGB()
