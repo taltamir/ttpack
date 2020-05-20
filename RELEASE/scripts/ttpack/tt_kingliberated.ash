@@ -23,24 +23,20 @@ void main()
 		abort("This script should only be run after the king was liberated");
 	}
 	
-	print("");
 	print("Running tt_kingliberated script", "blue");
-	print("");
-
 	changeSettingsForAfter();				//change assorted mafia settings for aftercore.
 	
 	print("Pulling all items from hangk's ancestral storage", "blue");
 	cli_execute("pull all");				//pull all hangk items
 	
 	cli_execute("tt_login.ash");			//run login script
-	
-	cli_execute("call fortunereply.ash");	//reply to zatara fortunes.
+	cli_execute("fortunereply.ash");	//reply to zatara fortunes.
 
 	print("Executing pvpprotect script", "blue");
-	cli_execute("call pvprotect.ash");
+	cli_execute("pvprotect.ash");
 
 	print("Executing cc_snapshot script", "blue");
-	cli_execute("call cc_snapshot.ash");
+	cli_execute("cc_snapshot.ash");
 
 	print("acquire bitchin' meatcar if you don't already have it", "blue");
 	retrieve_item(1, $item[Bitchin\' Meatcar]);
@@ -48,7 +44,5 @@ void main()
 	print("Using up all PvP attempts", "blue");
 	cli_execute("outfit pvp; pvp flowers 0;");
 
-	print("");
 	print("tt_kingliberated script finished", "blue");
-	print("");
 }

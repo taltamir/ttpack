@@ -39,7 +39,7 @@ void tt_login_settings_print()
 	tt_printSetting("tt_login_chocolateEat");
 	tt_printSetting("tt_login_chocolateMaxPricePerAdv");
 	tt_printSetting("tt_login_startQuestLTT");
-	tt_printSetting("tt_login_startQuestLTTDifficulty", "1 = easy. 2 = moderage. 3 = hard");
+	tt_printSetting("tt_login_startQuestLTTDifficulty", "1 = easy. 2 = moderate. 3 = hard");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -120,66 +120,69 @@ void KGB()
 
 void startQuests()
 {
-	//start pretentious artist quest
-	if(get_property("questM02Artist") == "unstarted")
+	//pretentious artist quest
+	if(quest_unstarted("questM02Artist"))
 	{
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_artist_noquest");
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_artist_noquest&getquest=1");
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_artist_quest");
 	}
 	
-	// start meatsmith quest if unstarted.
-	if(get_property("questM23Meatsmith") == "unstarted")
+	//meatsmith quest
+	if(quest_unstarted("questM23Meatsmith"))
 	{
 		visit_url("shop.php?whichshop=meatsmith");
 		visit_url("shop.php?whichshop=meatsmith&action=talk");
 		run_choice(1);
 	}
 	
-	// start doc galactic quest if unstarted.
-	if(get_property("questM24Doc") == "unstarted")
+	//doc galaktik quest
+	if(quest_unstarted("questM24Doc"))
 	{
 		visit_url("shop.php?whichshop=doc");
 		visit_url("shop.php?whichshop=doc&action=talk");
 		run_choice(1);
 	}	
 	
-	// start armorer and legerer pie quest if unstarted.
-	if(get_property("questM25Armorer") == "unstarted")
+	//armorer and legerer pie quest
+	if(quest_unstarted("questM25Armorer"))
 	{
 		visit_url("shop.php?whichshop=armory&action=talk");
 		run_choice(1);		//start the quest
 		run_choice(3);		//avoid getting stuck here when mafia is wrong about the quest being unstarted
 	}
 	
-	//start the guild acceptance quest.
+	//guild unlock quest
 	if(my_class() == $class[Sauceror] || my_class() == $class[Pastamancer])
 	{
-		if(get_property("questG07Myst") == "unstarted")
+		if(quest_unstarted("questG07Myst"))
 		{
 			visit_url("guild.php?place=challenge");
 		}
 	}
 	if(my_class() == $class[Disco Bandit] || my_class() == $class[Accordion Thief])
 	{
-		if(get_property("questG08Moxie") == "unstarted")
+		if(quest_unstarted("questG08Moxie"))
 		{
 			visit_url("guild.php?place=challenge");
 		}
 	}
 	if(my_class() == $class[Turtle Tamer] || my_class() == $class[Seal Clubber])
 	{
-		if(get_property("questG09Muscle") == "unstarted")
+		if(quest_unstarted("questG09Muscle"))
 		{
 			visit_url("guild.php?place=challenge");
 		}
 	}
 	
 	//start sea quest
-	visit_url("place.php?whichplace=sea_oldman&action=oldman_oldman");
+	if(quest_unstarted("questS01OldGuy"))
+	{
+		visit_url("place.php?whichplace=sea_oldman&action=oldman_oldman");
+	}
 	
 	//start LT&T quest.
-	if(get_property("tt_login_startQuestLTT").to_boolean() && internalQuestStatus("questLTTQuestByWire") == -1)
+	if(get_property("tt_login_startQuestLTT").to_boolean() && quest_unstarted("questLTTQuestByWire"))
 	{
 		int target = get_property("tt_login_startQuestLTTDifficulty").to_int();
 		visit_url("place.php?whichplace=town_right&action=townright_ltt");

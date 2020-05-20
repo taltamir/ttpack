@@ -9,6 +9,13 @@ boolean in_aftercore()
 	return get_property("kingLiberated").to_boolean();
 }
 
+boolean quest_unstarted(string quest_name)
+{
+	//returns true if a quest is currently unstarted.
+	//quest_name is using mafia tracking quest data types that track current stage via a string.
+	return get_property(quest_name) == "unstarted";
+}
+
 void tt_printSetting(string name, string desc)
 {
 	print(name + " = " + get_property(name), "blue");
