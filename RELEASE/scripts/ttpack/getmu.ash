@@ -17,7 +17,7 @@ boolean have_tall_grass()
 	return false;
 }
 
-int growth()
+int grass_growth()
 {
 	int [item] campground = get_campground();
 	foreach it,qty in campground
@@ -30,7 +30,7 @@ int growth()
 	return 0;
 }
 
-void main(int fertilizer_to_use)
+void main(int fertilizer_plan_to_use)
 {
 	if(!have_tall_grass())
 	{
@@ -40,31 +40,52 @@ void main(int fertilizer_to_use)
 	print("Trying to catch the elusive [Mu]");
 	print("You have " + item_amount($item[Pok&eacute;-Gro fertilizer]) + " [poké-gro fertilizer] in your inventory.");
 	
-	int fertilizer_initial = item_amount($item[Pok&eacute;-Gro fertilizer]);
 	int initial_mu = item_amount($item[Mu]);
+	fertilizer_plan_to_use = min(fertilizer_plan_to_use, item_amount($item[Pok&eacute;-Gro fertilizer]));
+	int fertilizer_uses_left = fertilizer_plan_to_use;
 	
-	while(item_amount($item[Pok&eacute;-Gro fertilizer]) > 0 && fertilizer_to_use > 0)
+	while(fertilizer_uses_left > 0 || grass_growth() > 0)
 	{
-		if(growth() == 0)
+		if(grass_growth() == 0)
 		{
-			use(1, $item[Pok&eacute;-Gro fertilizer]);
+			int multiuse = min(7,fertilizer_uses_left);
+			use(multiuse, $item[Pok&eacute;-Gro fertilizer]);
+			fertilizer_uses_left -= multiuse;
 		}
-		fertilizer_to_use--;
 		cli_execute("garden pick");
 	}
 	
-	int fertilizer_spent = fertilizer_initial - item_amount($item[Pok&eacute;-Gro fertilizer]);
 	int mu_found = item_amount($item[Mu]) - initial_mu;
+	int fertilizer_spent = fertilizer_plan_to_use - fertilizer_uses_left;
+	int lifetime_mu_found = mu_found + get_property("tt_getmu_lifetime_mu_found").to_int();
+	int lifetime_fertilizer_spent = fertilizer_spent + get_property("tt_getmu_lifetime_fertilizer_spent").to_int();
 	
-	if(mu_found > 0)
+	set_property("tt_getmu_lifetime_mu_found", lifetime_mu_found);
+	set_property("tt_getmu_lifetime_fertilizer_spent", lifetime_fertilizer_spent);
+	
+	//report this sessions results
+	if(mu_found > 0)	//don't want to divide by zero
 	{
-		//don't want to divide by zero so it needs to be inside this if
-		float fertilizer_per_mu = fertilizer_spent.to_float() / mu_found.to_float();
+		float fertilizer_per_mu_this_session = fertilizer_spent.to_float() / mu_found.to_float();
 		
-		print("You have successfully acquired " + mu_found + " [Mu] hatchlings. It cost " + fertilizer_per_mu + " [poké-gro fertilizer] per Mu","green");
+		print("You have successfully acquired " + mu_found + " [Mu] hatchlings this session. It cost " + fertilizer_per_mu_this_session + " [poké-gro fertilizer] per Mu","green");
 	}
 	else
 	{
-		print("Failed to find even a single [Mu] after spending " + fertilizer_spent + " [poké-gro fertilizer]","red");
+		print("Failed to find even a single [Mu] this session after spending " + fertilizer_spent + " [poké-gro fertilizer]","red");
 	}
+	
+	//report all sessions results
+	if(lifetime_mu_found > 0)	//don't want to divide by zero
+	{
+		float fertilizer_per_mu_lifetime = lifetime_fertilizer_spent.to_float() / lifetime_mu_found.to_float();
+		
+		print("You have successfully acquired " + lifetime_mu_found + " [Mu] hatchlings over all sessions. It cost " + fertilizer_per_mu_lifetime + " [poké-gro fertilizer] per Mu","green");
+	}
+	else
+	{
+		print("Failed to find even a single [Mu] over all sessions after spending " + lifetime_fertilizer_spent + " [poké-gro fertilizer]","red");
+	}
+	
+	print();
 }
