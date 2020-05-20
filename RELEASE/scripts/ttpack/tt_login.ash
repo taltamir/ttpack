@@ -17,6 +17,17 @@ void tt_login_settings_defaults()
 	{
 		set_property("tt_login_chocolateMaxPricePerAdv", 100);
 	}
+	
+	//start LT&T quest. default setting for activating is off for now until mafia tracking is added.
+	//see https://kolmafia.us/showthread.php?25027-LTT-is-not-listed-in-the-IOTM-tracking-preference-page&p=157520#post157520
+	if(get_property("tt_login_startQuestLTT") == "")
+	{
+		set_property("tt_login_startQuestLTT", false);
+	}
+	if(get_property("tt_login_startQuestLTTDifficulty") == "" || get_property("tt_login_startQuestLTTDifficulty").to_int() < 1 || get_property("tt_login_startQuestLTTDifficulty").to_int() > 3)
+	{
+		set_property("tt_login_startQuestLTTDifficulty", 3);
+	}
 }
 
 void tt_login_settings_print()
@@ -27,6 +38,8 @@ void tt_login_settings_print()
 	tt_printSetting("tt_login_pvp");
 	tt_printSetting("tt_login_chocolateEat");
 	tt_printSetting("tt_login_chocolateMaxPricePerAdv");
+	tt_printSetting("tt_login_startQuestLTT");
+	tt_printSetting("tt_login_startQuestLTTDifficulty", "1 = easy. 2 = moderage. 3 = hard");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -161,6 +174,15 @@ void startQuests()
 			visit_url("guild.php?place=challenge");
 		}
 	}
+	
+	//start LT&T quest.
+	if(get_property("tt_login_startQuestLTT").to_boolean())
+	{
+		int target = get_property("tt_login_startQuestLTTDifficulty").to_int();
+		visit_url("place.php?whichplace=town_right&action=townright_ltt");
+		run_choice(target);
+	}
+	
 }
 
 void setSnojo()
