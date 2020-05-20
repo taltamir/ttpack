@@ -4,13 +4,9 @@ import <ttpack/tt_util.ash>
 
 boolean have_tall_grass()
 {
-	int [item] campground = get_campground();
-	foreach it,qty in campground
+	if(my_garden_type() == "grass")
 	{
-		if(it == $item[packet of tall grass seeds])
-		{
-			return true;
-		}
+		return true;
 	}
 	
 	if(item_amount($item[packet of tall grass seeds]) > 0)
