@@ -4,17 +4,7 @@ import <ttpack/tt_util.ash>
 
 boolean have_tall_grass()
 {
-	if(my_garden_type() == "grass")
-	{
-		return true;
-	}
-	
-	if(item_amount($item[packet of tall grass seeds]) > 0)
-	{
-		return use(1, $item[packet of tall grass seeds]);
-	}
-		
-	return false;
+	return my_garden_type() == "grass" || item_amount($item[packet of tall grass seeds]) > 0;
 }
 
 int grass_growth()
@@ -35,6 +25,10 @@ void main(int fertilizer_plan_to_use)
 	if(!have_tall_grass())
 	{
 		abort("You do not have Tall Grass garden");
+	}
+	if(my_garden_type() != "grass")
+	{
+		abort("You own Tall Grass garden but it is not the currently planted garden");
 	}
 	
 	print("Trying to catch the elusive [Mu]");
