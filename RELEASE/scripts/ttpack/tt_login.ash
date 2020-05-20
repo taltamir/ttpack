@@ -175,8 +175,11 @@ void startQuests()
 		}
 	}
 	
+	//start sea quest
+	visit_url("place.php?whichplace=sea_oldman&action=oldman_oldman");
+	
 	//start LT&T quest.
-	if(get_property("tt_login_startQuestLTT").to_boolean())
+	if(get_property("tt_login_startQuestLTT").to_boolean() && internalQuestStatus("questLTTQuestByWire") == -1)
 	{
 		int target = get_property("tt_login_startQuestLTTDifficulty").to_int();
 		visit_url("place.php?whichplace=town_right&action=townright_ltt");

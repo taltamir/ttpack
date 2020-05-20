@@ -1,85 +1,54 @@
 //this script should be run automatically after the king is liberated. which ends hardcore/ronin restrictions
 
-print("");
-print("Running tt_kingliberated script", "green");
-print("");
+import <ttpack/tt_util.ash>
 
-//set MP recovery, HP recovery, CCS, and buff balancing for aftercore
-print("");
-print("Setting MP recovery, HP recovery, CCS, and buff balancing for aftercore", "green");
-print("");
-set_property("hpAutoRecovery", "0.70");
-set_property("hpAutoRecoveryTarget", "1.00");
-set_property("mpAutoRecovery", "0.10");
-set_property("mpAutoRecoveryTarget", "0.15");
-set_property("manaBurningTrigger", "1.00");
-set_property("manaBurningThreshold", "0.50");
-cli_execute("ccs aftercore");
-
-//pull all items out of hagnk ancestral storage.
-print("");
-print("Pulling all items from hangk's ancestral storage", "green");
-print("");
-cli_execute("pull all");
-
-//reply to fortune teller requests
-print("");
-print("Replying to all clanmate fortune teller requests", "green");
-print("");
-cli_execute("call fortunereply.ash");
-
-//visit old man by the sea before doing breakfast to start sea quest so that breakfast can get sea jelly
-visit_url("place.php?whichplace=sea_oldman&action=oldman_oldman");
-
-//run breakfast
-print("");
-print("Executing breakfast script", "green");
-print("");
-cli_execute("Breakfast");
-
-//run OCD Inventory Control
-if(have_shop())
+void changeSettingsForAfter()
 {
-	print("");
-	print("Executing OCD Inventory Control script", "green");
-	print("");
-	cli_execute("OCDInv.ash");
+	//change assorted mafia settings for aftercore.
+	print("Configuring recovery settings for aftercore", "blue");
+	set_property("recoveryScript", "scripts\\Universal_recovery.ash");
+	set_property("hpAutoRecovery", "0.70");
+	set_property("hpAutoRecoveryTarget", "1.00");
+	set_property("mpAutoRecovery", "0.10");
+	set_property("mpAutoRecoveryTarget", "0.15");
+	set_property("manaBurningTrigger", "1.00");
+	set_property("manaBurningThreshold", "0.50");
+	cli_execute("ccs aftercore");
 }
 
-//run pvpprotect
-print("");
-print("Executing pvpprotect script", "green");
-print("");
-cli_execute("call pvprotect.ash");
+void main()
+{
+	if(!in_aftercore())
+	{
+		abort("This script should only be run after the king was liberated");
+	}
+	
+	print("");
+	print("Running tt_kingliberated script", "blue");
+	print("");
 
-//run cc_snapshot script
-print("");
-print("Executing cc_snapshot script", "green");
-print("");
-cli_execute("call cc_snapshot.ash");
+	changeSettingsForAfter();				//change assorted mafia settings for aftercore.
+	
+	print("Pulling all items from hangk's ancestral storage", "blue");
+	cli_execute("pull all");				//pull all hangk items
+	
+	cli_execute("tt_login.ash");			//run login script
+	
+	cli_execute("call fortunereply.ash");	//reply to zatara fortunes.
 
-//acquire bitchin' meatcar if you don't already have it.
-print("");
-print("acquire bitchin' meatcar if you don't already have it", "green");
-print("");
-cli_execute("acquire bitchin");
+	print("Executing pvpprotect script", "blue");
+	cli_execute("call pvprotect.ash");
 
-//run login script to do various things.
-cli_execute("tt_login.ash");
+	print("Executing cc_snapshot script", "blue");
+	cli_execute("call cc_snapshot.ash");
 
-//PVP
-print("");
-print("Using up all PvP attempts", "green");
-print("");
-cli_execute("outfit pvp; pvp flowers 0;");
+	print("acquire bitchin' meatcar if you don't already have it", "blue");
+	retrieve_item(1, $item[Bitchin\' Meatcar]);
 
-//Set recovery script for aftercore
-print("");
-print("Setting recovery script to Universal Recovery for aftercore", "green");
-print("");
-set_property("recoveryScript", "scripts\\Universal_recovery.ash");
+	print("Using up all PvP attempts", "blue");
+	cli_execute("outfit pvp; pvp flowers 0;");
 
-//notify player that you are done.
-print("");
-print("tt_kingliberated script finished", "green");
-print("");
+	print("");
+	print("tt_kingliberated script finished", "blue");
+	print("");
+}
