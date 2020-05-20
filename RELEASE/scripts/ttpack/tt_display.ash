@@ -32,6 +32,8 @@ void main(string goal)
 	
 	tt_depreciate();	//adjust renamed settings. delete deleted settings.
 	
+	cli_execute("pull all");
+
 	goal = to_lower_case(goal);
 	if(goal == "figurines")
 	{

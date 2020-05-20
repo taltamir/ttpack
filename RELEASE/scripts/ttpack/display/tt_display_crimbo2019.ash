@@ -1,4 +1,4 @@
-//DO NOT RUN THIS FILE
+//DO NOT RUN THIS FILE. it is being imported by ttpack/tt_display.ash
 
 void crimbo2019_settings()
 {
