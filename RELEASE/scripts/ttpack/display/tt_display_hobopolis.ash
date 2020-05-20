@@ -26,6 +26,8 @@ void hobo_settings_defaults()
 void hobo_settings_print()
 {
 	//print current settings status
+	print();
+	print("Current settings for tt_display_hobopolis:", "blue");
 	tt_printSetting("tt_display_hobopolis_zapDailyLimit");
 	
 	print();
