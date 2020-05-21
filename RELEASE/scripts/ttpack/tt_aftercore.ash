@@ -45,7 +45,6 @@ boolean tt_getFamiliarFromItem(item hatchling, familiar adult)
 	print("Trying to acquire familiar [" + adult + "]", "blue");
 	visit_url("inv_familiar.php?pwd=&which=3&whichitem=" + hatchling.to_int());
 	
-	cli_execute("refresh all");
 	if(have_familiar(adult))
 	{
 		print("Successfully acquired familiar [" + adult + "]", "blue");
