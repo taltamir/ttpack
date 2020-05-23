@@ -249,6 +249,15 @@ void main()
 		abort("Detected that king has not been liberated. This script should only be run in aftercore");
 	}
 	
-	//main loop is doTasks which is run as part of the while.
-	while(auto_unreservedAdvRemaining() && tt_doTasks());
+	try
+	{
+		backupSetting("dontStopForCounters", true);
+		
+		//main loop is doTasks which is run as part of the while.
+		while(auto_unreservedAdvRemaining() && tt_doTasks());
+	}
+	finally
+	{
+		restoreAllSettings();
+	}
 }
