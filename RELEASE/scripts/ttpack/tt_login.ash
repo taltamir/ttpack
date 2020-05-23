@@ -182,9 +182,8 @@ void startQuests()
 	}
 	
 	//start LT&T quest.
-	if(get_property("tt_login_startQuestLTT").to_boolean() && get_property("telegraphOfficeAvailable").to_boolean() && get_property("_tt_login_lttQuestStartedToday").to_boolean())
+	if(get_property("tt_login_startQuestLTT").to_boolean() && get_property("telegraphOfficeAvailable").to_boolean() && quest_unstarted("questLTTQuestByWire"))
 	{
-		set_property("_tt_login_lttQuestStartedToday", true);		//temporary? workaround until mafia tracks ltt better.
 		int target = get_property("tt_login_startQuestLTTDifficulty").to_int();
 		visit_url("place.php?whichplace=town_right&action=townright_ltt");
 		run_choice(target);
