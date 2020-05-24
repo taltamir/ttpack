@@ -244,7 +244,7 @@ boolean tt_doTasks()
 
 void main()
 {
-	if(!in_aftercore())
+	if(!inAftercore())
 	{
 		abort("Detected that king has not been liberated. This script should only be run in aftercore");
 	}

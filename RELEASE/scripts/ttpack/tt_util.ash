@@ -4,11 +4,6 @@
 import <autoscend.ash>
 import <ttpack/tt_depreciate.ash>
 
-boolean in_aftercore()
-{
-	return get_property("kingLiberated").to_boolean();
-}
-
 boolean quest_unstarted(string quest_name)
 {
 	//returns true if a quest is currently unstarted.

@@ -191,32 +191,6 @@ void startQuests()
 	}
 }
 
-//modified version of autoscend handling that does not return false on possession of giant pinky ring.
-boolean tt_L9_leafletQuest()
-{
-	if(my_level() < 9)
-	{
-		return false;
-	}
-	if (isActuallyEd() || in_koe())
-	{
-		return false;
-	}
-	if(auto_get_campground() contains $item[Frobozz Real-Estate Company Instant House (TM)])
-	{
-		return false;
-	}
-	if(item_amount($item[Frobozz Real-Estate Company Instant House (TM)]) > 0)
-	{
-		return false;
-	}
-	auto_log_info("Got a leaflet to do", "blue");
-	council();
-	cli_execute("leaflet");
-	use(1, $item[Frobozz Real-Estate Company Instant House (TM)]);
-	return true;
-}
-
 void setSnojo()
 {
 	if(!get_property("snojoAvailable").to_boolean())
@@ -442,7 +416,7 @@ void postStuff()
 void aftercore()
 {
 	//do some stuff in aftercore only. We do not want to do these in postronin or casual.
-	if(!in_aftercore())
+	if(!inAftercore())
 	{
 		return;
 	}
@@ -563,7 +537,7 @@ void main()
 	postStuff();							//do various things in aftercore/postronin/casual
 	aftercore();							//do aftercore only thing. we do not want this in casual/postronin
 	startQuests();							//start quests (no adv spent)
-	tt_L9_leafletQuest();					//do the level 9 leaflet quest if needed.
+	L9_leafletQuest();						//do the level 9 leaflet quest if needed.
 	setSnojo();								//set snojo control panel to match your class.
 	cli_execute("breakfast");				//run mafia's built in "breakfast" script. doesn't eat food, just performs tasks
 	milkOfMagnesium();						//uses milk of magnesium as appropriate.

@@ -18,7 +18,7 @@ void changeSettingsForAftercore()
 
 void main()
 {
-	if(!in_aftercore())
+	if(!inAftercore())
 	{
 		abort("This script should only be run after the king was liberated");
 	}
