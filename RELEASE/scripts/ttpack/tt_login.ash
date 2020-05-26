@@ -182,6 +182,7 @@ void startQuests()
 	}
 	
 	//start LT&T quest.
+	visit_url("place.php?whichplace=town_right");		//workaround for telegraphOfficeAvailable not updating when you break standard
 	if(get_property("tt_login_startQuestLTT").to_boolean() && get_property("telegraphOfficeAvailable").to_boolean() && quest_unstarted("questLTTQuestByWire") && !get_property("_tt_login_lttQuestStartedToday").to_boolean())
 	{
 		set_property("_tt_login_lttQuestStartedToday", true);		//temporary? workaround until mafia tracks ltt better.
