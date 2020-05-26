@@ -173,7 +173,7 @@ item accessItem()
 	}
 	
 	//That 70s Volcano. you get there via a dayticket
-	if($locations[The SMOOCH Army HQ, The Velvet \/ Gold Mine, LavaCo™ Lamp Factory, The Bubblin\' Caldera] contains goal)
+	if($locations[The SMOOCH Army HQ, The Velvet \/ Gold Mine, LavaCo&trade; Lamp Factory, The Bubblin\' Caldera] contains goal)
 	{
 		return $item[one-day ticket to That 70s Volcano];
 	}
@@ -476,12 +476,17 @@ void guzzlr_deliver(int adv_to_use)
 	
 	//primary loop
 	int adv_spent = 0;
-	while(adv_to_use > adv_spent && guzzlr_deliverLoop())
+	try
 	{
-		adv_spent = my_session_adv() - adv_initial;
+		while(adv_to_use > adv_spent && guzzlr_deliverLoop())
+		{
+			adv_spent = my_session_adv() - adv_initial;
+		}
 	}
-	
-	restoreAllSettings();
+	finally
+	{	
+		restoreAllSettings();
+	}
 }
 
 void guzzlr_aftercore(int adv_to_use)
@@ -533,14 +538,19 @@ void main(int adv_to_use)
 		inrun = false;
 	}
 	
-	if(inrun)
+	try
 	{
-		guzzlr_inrun(adv_to_use);
+		if(inrun)
+		{
+			guzzlr_inrun(adv_to_use);
+		}
+		else
+		{
+			guzzlr_aftercore(adv_to_use);
+		}
 	}
-	else
+	finally
 	{
-		guzzlr_aftercore(adv_to_use);
+		guzzlr_settings_print();
 	}
-	
-	guzzlr_settings_print();
 }
