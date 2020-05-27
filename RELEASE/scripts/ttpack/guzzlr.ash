@@ -475,7 +475,7 @@ void guzzlr_deliver(int adv_to_use)
 	int adv_spent = 0;
 	try
 	{
-		while(adv_to_use > adv_spent && guzzlr_deliverLoop())
+		while(adv_to_use > adv_spent && my_adventures() > 0 && guzzlr_deliverLoop())
 		{
 			adv_spent = my_session_adv() - adv_initial;
 		}
