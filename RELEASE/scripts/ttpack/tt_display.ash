@@ -1,7 +1,7 @@
 //This is a script for acquiring and displaying tiny plastic or die casted figurines.
 //mainly for the achievement, but also just to have.
 
-import <ttpack/util/tt_util.ash>
+import <scripts/ttpack/util/tt_util.ash>
 import <ttpack/display/tt_display_figurines.ash>
 import <ttpack/display/tt_display_hobopolis.ash>
 import <ttpack/display/tt_display_crimbo2019.ash>

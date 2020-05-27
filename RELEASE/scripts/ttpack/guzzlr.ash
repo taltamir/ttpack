@@ -1,6 +1,6 @@
 //do guzzlr quests
 
-import <ttpack/util/tt_util.ash>
+import <scripts/ttpack/util/tt_util.ash>
 
 //public prototype start
 void guzzlr_settings_print();

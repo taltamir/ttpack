@@ -1,6 +1,6 @@
 //this script should be run automatically after the king is liberated. which ends hardcore/ronin restrictions
 
-import <ttpack/util/tt_util.ash>
+import <scripts/ttpack/util/tt_util.ash>
 
 void changeSettingsForAftercore()
 {

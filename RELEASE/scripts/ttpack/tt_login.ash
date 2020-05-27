@@ -1,6 +1,6 @@
 //This script should be set to auto run on login
 
-import <ttpack/util/tt_util.ash>
+import <scripts/ttpack/util/tt_util.ash>
 
 void tt_login_settings_defaults()
 {
