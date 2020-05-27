@@ -21,6 +21,8 @@ svn delete ttpack
 
 ## getmu.ash
 
+script specific discussion thread: https://kolmafia.us/showthread.php?25051
+
 A script to farm Mu familiar from the Tall Grass Garden
 https://kol.coldfront.net/thekolwiki/index.php/Mu
 
