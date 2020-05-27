@@ -1,4 +1,5 @@
 # ttpack
+
 A collection of KoL scripts by taltamir
 
 discussion thread: https://kolmafia.us/showthread.php?25048
@@ -19,6 +20,7 @@ svn delete ttpack
 ```
 
 ## getmu.ash
+
 A script to farm Mu familiar from the Tall Grass Garden
 https://kol.coldfront.net/thekolwiki/index.php/Mu
 
@@ -35,6 +37,7 @@ Warning: it takes a while. If you are doing thousands of fertilizer then it will
 I managed to get 1 mu thus far for 1/3rd the mall price.
 
 ## dpills.ash
+
 Script specific discussion thread: https://kolmafia.us/showthread.php?24434
 
 A script to farm (equal amount of) Distention pill and synthetic Dog hair pill
@@ -52,6 +55,8 @@ Or you can click on it from the dropdown scripts menu to be asked how many fight
 Note: You are expected to have set an appropriate mood, ccs, and outfit ahead of time.
 
 ## blackpudding.ash
+
+Script specific discussion thread: https://kolmafia.us/showthread.php?23764
 
 Farm fights againt black pudding for Awwww, Yeah trophy.
 https://kol.coldfront.net/thekolwiki/index.php/Black_pudding_(monster)
