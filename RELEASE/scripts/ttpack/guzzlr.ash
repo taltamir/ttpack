@@ -343,7 +343,7 @@ boolean guzzlr_deliverLoop()
 	//return true when changes are made to restart the loop.
 	//return false to end the loop.
 	
-	acquireHP();
+	//acquireHP();
 	handleFamiliar("item");
 	
 	//disabled for now. set outfit and mood yourself.
@@ -456,7 +456,7 @@ boolean guzzlr_deliverLoop()
 		abort("Failed to acquire the booze [" + drink + "]");
 	}
 	
-	if(autoAdv(goal)) return true;
+	if(adv1(goal, -1, "")) return true;
 	abort("Failed to adventure in [" + goal + "]");
 	return false;
 }
@@ -464,33 +464,9 @@ boolean guzzlr_deliverLoop()
 void guzzlr_deliver(int adv_to_use)
 {
 	backupSetting("promptAboutCrafting", 0);
-	backupSetting("requireBoxServants", false);
 	backupSetting("breakableHandling", 4);
-	backupSetting("trackLightsOut", false);
-	backupSetting("autoSatisfyWithCloset", false);
-	backupSetting("autoSatisfyWithCoinmasters", true);
-	backupSetting("autoSatisfyWithNPCs", true);
-	backupSetting("removeMalignantEffects", false);
-	backupSetting("autoAntidote", 0);
 	backupSetting("dontStopForCounters", true);
-
-	//backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
-	//backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
-	
-	backupSetting("recoveryScript", "");
-	backupSetting("counterScript", "");
-
-	backupSetting("hpAutoRecovery", -0.05);
-	backupSetting("hpAutoRecoveryTarget", -0.05);
-	backupSetting("mpAutoRecovery", -0.05);
-	backupSetting("mpAutoRecoveryTarget", -0.05);
-	backupSetting("manaBurningTrigger", -0.05);
-	backupSetting("manaBurningThreshold", -0.05);
-	backupSetting("autoAbortThreshold", -0.05);
-
-	//backupSetting("currentMood", "apathetic");
-	backupSetting("battleAction", "custom combat script");
 	backupSetting("printStackOnAbort", true);
 	
 	int adv_initial = my_session_adv();
