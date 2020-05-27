@@ -1,6 +1,6 @@
 //hunt down a Mu in the tall grass
 
-import <ttpack/tt_util.ash>
+import <ttpack/util/tt_util.ash>
 
 boolean have_tall_grass()
 {

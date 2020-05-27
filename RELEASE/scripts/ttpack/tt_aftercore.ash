@@ -1,5 +1,4 @@
-import <ttpack/tt_util.ash>
-import <ttpack/tt_header.ash>
+import <ttpack/util/tt_util.ash>
 
 //public prototypes
 void tt_chooseFamiliar();

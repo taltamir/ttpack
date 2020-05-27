@@ -2,7 +2,8 @@
 //importing autoscend since I do a lot of dev there and want to reuse functions
 
 import <autoscend.ash>
-import <ttpack/tt_depreciate.ash>
+import <ttpack/util/tt_header.ash>
+import <ttpack/util/tt_depreciate.ash>
 
 boolean quest_unstarted(string quest_name)
 {
