@@ -74,3 +74,50 @@ X = black puddings to fight
 
 Or you can click on it from the dropdown scripts menu to be asked how many fights you want.
 The script will repeatedly attempt to eat puddings until the quantity you specified has been reached.
+
+## guzzlr.ash
+
+Script specific discussion thread: https://kolmafia.us/showthread.php?25050
+
+Automate guzzlr deliveries and potentially starting and then immediately dropping a platinum delivery for the purpose of getting a daily cocktail set
+https://kol.coldfront.net/thekolwiki/index.php/Guzzlr_cocktail_set
+
+Script is highly configurable. Example settings:
+```
+Current settings for guzzlr:
+guzzlr_deliverBronze = true
+guzzlr_maxMeatCostBronze = 5000
+guzzlr_deliverGold = true
+guzzlr_maxMeatCostGold = 10000
+guzzlr_deliverPlatinum = true
+^Platinum will not be taken if you already used your 1 per day abandon
+guzzlr_maxMeatCostPlatinum = 15000
+^The maximum allowed price for cold wad and if needed a dayticket or access items
+guzzlr_abandonTooExpensive = true
+^When true will automatically abandon deliveries that are too expensive. When false will abort instead
+guzzlr_deliverInrun = false
+^Set to false to disable doing deliveries during a run
+guzzlr_treatCasualAsAftercore = false
+guzzlr_treatPostroninAsAftercore = true
+guzzlr_abandonPlatinumForcedAftercore = false
+^Override all other settings for the purpose of starting the day by taking a platinum delivery and immediately aborting it
+guzzlr_abandonPlatinumForcedInrun = false
+^Override all other settings for the purpose of starting the day by taking a platinum delivery and immediately aborting it
+```
+
+Run from gCLI via:
+```
+guzzlr X
+```
+X = adv to spend
+
+To just show the current settings and explanation on what the settings do:
+```
+guzzlr 0
+```
+
+Or you can click on it from the dropdown scripts menu to be asked how many adv you want to spend.
+
+The script will then take guzzlr and perform guzzlr deliveries based on your configuration
+
+Note: You are expected to have set an appropriate mood, ccs, and outfit ahead of time.
