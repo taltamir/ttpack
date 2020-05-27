@@ -313,7 +313,7 @@ boolean abandonQuest()
 	}
 	
 	visit_url("inventory.php?tap=guzzlr", false);
-	run_choice(1);		//TODO find out which choice number is needed to abandon a quest
+	run_choice(1);
 	
 	if(quest_unstarted("questGuzzlr"))
 	{
