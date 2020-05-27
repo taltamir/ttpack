@@ -7,6 +7,14 @@ void guzzlr_settings_print();
 
 //public prototype end
 
+item GUZZLRBUCK = $item[Guzzlrbuck];
+item GUZZLR_TABLET = $item[Guzzlr tablet];
+item GUZZLR_COCKTAIL_SET = $item[Guzzlr cocktail set];
+item GUZZLR_SHOES = $item[Guzzlr shoes];
+item GUZZLR_PANTS = $item[Guzzlr pants];
+item GUZZLR_HAT = $item[Guzzlr hat];
+boolean [item] GUZZLR_COCKTAILS = $items[Steamboat, Ghiaccio Colada, Nog-on-the-Cob, Sourfinger, Buttery Boy];
+
 void guzzlr_settings_defaults()
 {
 	boolean new_setting_added = false;
@@ -107,7 +115,7 @@ void guzzlr_settings_print()
 
 int guzzlr_QuestTier()
 {
-	if(!quest_unstarted("questGuzzlr"))
+	if(quest_unstarted("questGuzzlr"))
 	{
 		return 0;
 	}
@@ -134,7 +142,7 @@ boolean guzzlr_QuestStart(int tier)
 		return tier == guzzlr_QuestTier();
 	}
 	
-	if(tier == 3 && get_property("_guzzlrPlatinumDeliveries").to_int() > 0 && get_property("_guzzlrQuestAbandoned").to_boolean())
+	if(tier == 3 && (get_property("_guzzlrPlatinumDeliveries").to_int() > 0 || get_property("_guzzlrQuestAbandoned").to_boolean()))
 	{
 		return false;		//already started max today or already abandoned a quest today.
 	}
@@ -143,8 +151,9 @@ boolean guzzlr_QuestStart(int tier)
 		return false;		//already started max today
 	}
 	
+	print("Taking a tier " + tier + " delivery", "blue");
 	//choices: 2 = bronze 3 = gold 4 = platinum 5 = change your mind and not take a quest
-	visit_url("inventory.php?tap=guzzlr");
+	visit_url("inventory.php?tap=guzzlr", false);
 	run_choice(tier+1);
 	
 	return tier == guzzlr_QuestTier();
@@ -303,7 +312,7 @@ boolean abandonQuest()
 		return true;
 	}
 	
-	visit_url("inventory.php?tap=guzzlr");
+	visit_url("inventory.php?tap=guzzlr", false);
 	run_choice(1);		//TODO find out which choice number is needed to abandon a quest
 	
 	if(quest_unstarted("questGuzzlr"))
@@ -335,6 +344,17 @@ boolean guzzlr_deliverLoop()
 	//return false to end the loop.
 	
 	acquireHP();
+	handleFamiliar("item");
+	
+	//disabled for now. set outfit and mood yourself.
+	/*
+	resetMaximize();
+	if(possessEquipment(GUZZLR_SHOES)) autoEquip(GUZZLR_SHOES);
+	if(possessEquipment(GUZZLR_PANTS)) autoEquip(GUZZLR_PANTS);
+	if(possessEquipment(GUZZLR_HAT)) autoEquip(GUZZLR_HAT);
+	//TODO add mafia thumb ring for easy turngen
+	providePlusCombat(25);
+	*/
 	
 	//start best quest
 	if(quest_unstarted("questGuzzlr") && get_property("guzzlr_deliverPlatinum").to_boolean())
@@ -454,9 +474,10 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("autoAntidote", 0);
 	backupSetting("dontStopForCounters", true);
 
-	backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+	//backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	//backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
-	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	
 	backupSetting("recoveryScript", "");
 	backupSetting("counterScript", "");
 
@@ -468,7 +489,7 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("manaBurningThreshold", -0.05);
 	backupSetting("autoAbortThreshold", -0.05);
 
-	backupSetting("currentMood", "apathetic");
+	//backupSetting("currentMood", "apathetic");
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("printStackOnAbort", true);
 	
