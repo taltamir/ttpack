@@ -25,6 +25,12 @@ void main(string goal)
 	{
 		abort("You do not own a display case");
 	}
+	goal = to_lower_case(goal);
+	if(goal == "help" || goal == "0")
+	{
+		help();
+		return;
+	}
 	if(!can_interact())
 	{
 		abort("You do not have unlimited mall access. liberate the king or break ronin");
@@ -33,8 +39,7 @@ void main(string goal)
 	tt_depreciate();	//adjust renamed settings. delete deleted settings.
 	
 	cli_execute("pull all");
-
-	goal = to_lower_case(goal);
+	
 	if(goal == "figurines")
 	{
 		manageFigurines();
