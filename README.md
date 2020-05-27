@@ -4,6 +4,8 @@ A collection of KoL scripts by taltamir
 
 discussion thread: https://kolmafia.us/showthread.php?25048
 
+If there is a file in the pack that you see that is lacking a description here. Then it is probably still in beta and not entirely ready for release to the public. Please do not run it unless you examined the code and know exactly what it does.
+
 ## Installation
 
 Run this command in the gCLI:
