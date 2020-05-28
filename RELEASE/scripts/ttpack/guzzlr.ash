@@ -313,7 +313,8 @@ boolean abandonQuest()
 	}
 	
 	visit_url("inventory.php?tap=guzzlr", false);
-	run_choice(1);
+	run_choice(1);	//abandon quest
+	run_choice(5);	//exit menu
 	
 	if(quest_unstarted("questGuzzlr"))
 	{
