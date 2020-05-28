@@ -34,11 +34,11 @@ boolean tt_acquire(item it)
 	if(closet_amount(it) > 0)
 	{
 		take_closet(1, it);
-		return true;
+		if((item_amount(it) + equipped_amount(it)) > 0) return true;
 	}
 	
-	//pull from hangk
-	if(canPull(it))
+	//pull from hangk if no mall access.
+	if(canPull(it) && !can_interact())
 	{
 		if(pullXWhenHaveY(it, 1, 0)) return true;
 	}
