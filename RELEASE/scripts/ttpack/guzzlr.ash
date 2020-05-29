@@ -53,7 +53,7 @@ void guzzlr_settings_defaults()
 	if(get_property("guzzlr_abandonTooExpensive") == "")
 	{
 		new_setting_added = true;
-		set_property("guzzlr_abandonTooExpensive", true);
+		set_property("guzzlr_abandonTooExpensive", false);
 	}
 	if(get_property("guzzlr_deliverInrun") == "")
 	{
