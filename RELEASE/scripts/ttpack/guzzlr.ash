@@ -199,12 +199,13 @@ item accessItem()
 		return $item[One-day ticket to The Glaciest];
 	}
 	
-	abort("Could not determine which access item matches the location [" + goal + "]");
+	abort("Could not determine which access item matches the location [" + goal + "]. Please report this so it can be added");
 	return $item[none];
 }
 
-boolean accessZoneViaItem()
+boolean platinumZoneAvailable()
 {
+	//Checks if you already have access to a t3 zone
 	if(guzzlr_QuestTier() != 3)
 	{
 		return false;
@@ -218,13 +219,7 @@ boolean accessZoneViaItem()
 		{
 			return true;
 		}
-		tt_acquire(access_item);
-		use(1, access_item);
-		if(have_effect($effect[Absinthe-Minded]) > 0)
-		{
-			return true;
-		}
-		abort("Failed to get [Absinthe-Minded] effect");
+		return false;
 	}
 	if(access_item == $item[one-day ticket to Spring Break Beach])
 	{
@@ -232,13 +227,7 @@ boolean accessZoneViaItem()
 		{
 			return true;
 		}
-		tt_acquire(access_item);
-		use(1, access_item);
-		if(get_property("sleazeAirportAlways").to_boolean() || get_property("_sleazeAirportToday").to_boolean())
-		{
-			return true;
-		}
-		abort("Failed to use the dayticket " + access_item + "]");
+		return false;
 	}
 	if(access_item == $item[one-day ticket to Dinseylandfill])
 	{
@@ -246,13 +235,7 @@ boolean accessZoneViaItem()
 		{
 			return true;
 		}
-		tt_acquire(access_item);
-		use(1, access_item);
-		if(get_property("stenchAirportAlways").to_boolean() || get_property("_stenchAirportToday").to_boolean())
-		{
-			return true;
-		}
-		abort("Failed to use the dayticket " + access_item + "]");
+		return false;
 	}
 	if(access_item == $item[one-day ticket to That 70s Volcano])
 	{
@@ -260,13 +243,7 @@ boolean accessZoneViaItem()
 		{
 			return true;
 		}
-		tt_acquire(access_item);
-		use(1, access_item);
-		if(get_property("hotAirportAlways").to_boolean() || get_property("_hotAirportToday").to_boolean())
-		{
-			return true;
-		}
-		abort("Failed to use the dayticket " + access_item + "]");
+		return false;
 	}
 	if(access_item == $item[one-day ticket to Conspiracy Island])
 	{
@@ -274,13 +251,7 @@ boolean accessZoneViaItem()
 		{
 			return true;
 		}
-		tt_acquire(access_item);
-		use(1, access_item);
-		if(get_property("spookyAirportAlways").to_boolean() || get_property("_spookyAirportToday").to_boolean())
-		{
-			return true;
-		}
-		abort("Failed to use the dayticket " + access_item + "]");
+		return false;
 	}
 	if(access_item == $item[One-day ticket to The Glaciest])
 	{
@@ -288,16 +259,30 @@ boolean accessZoneViaItem()
 		{
 			return true;
 		}
-		tt_acquire(access_item);
-		use(1, access_item);
-		if(get_property("coldAirportAlways").to_boolean() || get_property("_coldAirportToday").to_boolean())
-		{
-			return true;
-		}
-		abort("Failed to use the dayticket " + access_item + "]");
+		return false;
 	}
 	
+	abort("Could not determine whether the platinum zone that goes with  [" + access_item + "] is available or not. Please report this so it can be added");
 	return false;
+}
+
+boolean accessZoneViaItem()
+{
+	if(guzzlr_QuestTier() != 3)
+	{
+		return false;
+	}
+	if(platinumZoneAvailable())
+	{
+		return true;
+	}
+
+	item access_item = accessItem();
+	tt_acquire(access_item);
+	use(1, access_item);
+	if(platinumZoneAvailable()) return true;
+	abort("Failed to unlock zone using [" + access_item + "]");
+	return false;	//need a return false even after abort.
 }
 
 boolean abandonQuest()
@@ -409,7 +394,12 @@ boolean guzzlr_deliverLoop()
 	{
 		item access_item = accessItem();
 		int price_access_item = auto_mall_price(access_item);
-		int price_sum = drink_price + price_access_item;
+		int price_sum = drink_price;
+		if(!platinumZoneAvailable())
+		{
+			price_sum += price_access_item;
+		}
+		
 		if(access_item == $item[tiny bottle of absinthe] && max_cost_platinum < (drink_price + (3 * price_access_item)))
 		{
 			if(abandon_too_expensive)
