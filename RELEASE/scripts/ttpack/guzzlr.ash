@@ -398,18 +398,13 @@ boolean guzzlr_deliverLoop()
 		if(!platinumZoneAvailable())
 		{
 			price_sum += price_access_item;
+			if(access_item == $item[tiny bottle of absinthe])
+			{
+				price_sum += 2*price_access_item;		//guesstimate needing 3 tiny bottle of absinthe per delivery
+			}
 		}
 		
-		if(access_item == $item[tiny bottle of absinthe] && max_cost_platinum < (drink_price + (3 * price_access_item)))
-		{
-			if(abandon_too_expensive)
-			{
-				print("The access item [" + access_item + "] is too expensive. abandoning delivery", "blue");
-				if(abandonQuest()) return true;
-			}
-			abort("The access item [" + access_item + "] is too expensive");
-		}
-		if($items[one-day ticket to Spring Break Beach, one-day ticket to Dinseylandfill, one-day ticket to That 70s Volcano, one-day ticket to Conspiracy Island, One-day ticket to The Glaciest] contains access_item && max_cost_platinum < price_sum)
+		if(max_cost_platinum < price_sum)
 		{
 			if(abandon_too_expensive)
 			{
