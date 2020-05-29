@@ -301,6 +301,11 @@ boolean abandonQuest()
 	run_choice(1);	//abandon quest
 	run_choice(5);	//exit menu
 	
+	//workaround for mafia bug. while this workaround exists verification is broken and it assumes success.
+	//https://kolmafia.us/showthread.php?24954-Guzzlr-tablet-May-Item-of-the-month&p=157648&viewfull=1#post157648
+	set_property("questGuzzlr", "unstarted");
+	set_property("guzzlrQuestTier", "");
+	
 	if(quest_unstarted("questGuzzlr"))
 	{
 		return true;
