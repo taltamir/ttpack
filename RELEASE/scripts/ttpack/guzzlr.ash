@@ -80,6 +80,11 @@ void guzzlr_settings_defaults()
 		new_setting_added = true;
 		set_property("guzzlr_abandonPlatinumForcedInrun", false);
 	}
+	if(get_property("guzzlr_autoFamiliar") == "")
+	{
+		new_setting_added = true;
+		set_property("guzzlr_autoFamiliar", true);
+	}
 	
 	
 	if(new_setting_added)
@@ -106,6 +111,7 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_treatPostroninAsAftercore");
 	tt_printSetting("guzzlr_abandonPlatinumForcedAftercore", "Override all other settings for the purpose of starting the day by taking a platinum delivery and immediately aborting it");
 	tt_printSetting("guzzlr_abandonPlatinumForcedInrun", "Override all other settings for the purpose of starting the day by taking a platinum delivery and immediately aborting it");
+	tt_printSetting("guzzlr_autoFamiliar", "Automatically switch familiar using autoscend code to IOTM familiars that still have items to drop today and when out of that to +item drop familiars");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -335,7 +341,10 @@ boolean guzzlr_deliverLoop()
 	//return false to end the loop.
 	
 	//acquireHP();
-	handleFamiliar("item");
+	if(get_property("guzzlr_autoFamiliar").to_boolean())
+	{
+		handleFamiliar("item");
+	}
 	
 	//disabled for now. set outfit and mood yourself.
 	/*
