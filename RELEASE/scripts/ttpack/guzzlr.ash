@@ -85,7 +85,11 @@ void guzzlr_settings_defaults()
 		new_setting_added = true;
 		set_property("guzzlr_autoFamiliar", true);
 	}
-	
+	if(get_property("guzzlr_manualFamiliar") == "")
+	{
+		new_setting_added = true;
+		set_property("guzzlr_manualFamiliar", false);
+	}
 	
 	if(new_setting_added)
 	{
@@ -112,6 +116,8 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_abandonPlatinumForcedAftercore", "Override all other settings for the purpose of starting the day by taking a platinum delivery and immediately aborting it");
 	tt_printSetting("guzzlr_abandonPlatinumForcedInrun", "Override all other settings for the purpose of starting the day by taking a platinum delivery and immediately aborting it");
 	tt_printSetting("guzzlr_autoFamiliar", "Automatically switch familiar using autoscend code to IOTM familiars that still have items to drop today and when out of that to +item drop familiars");
+	tt_printSetting("guzzlr_manualFamiliar", "Automatically switch to a single manually specified familiar");
+	tt_printSetting("guzzlr_manualFamiliarChoice", "The name of the familiar you want to manually switch to");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -341,10 +347,22 @@ boolean guzzlr_deliverLoop()
 	//return false to end the loop.
 	
 	//acquireHP();
-	if(get_property("guzzlr_autoFamiliar").to_boolean())
+	
+	//familiar switching
+	if(get_property("guzzlr_autoFamiliar").to_boolean())			//want to use auto familiar chooice.
 	{
-		handleFamiliar("item");
+		handleFamiliar("item");		//autoscend familiar choosing. item dropping familiars then familiars that give +item drop
+		use_familiar(to_familiar(get_property("auto_familiarChoice")));		//actually change to the familiar
 	}
+	else if(get_property("guzzlr_manualFamiliar").to_boolean())		//want to use a manually specified familiar
+	{
+		familiar fam = to_familiar(get_property("guzzlr_manualFamiliarChoice"));
+		if(fam == $familiar[none])
+		{
+			abort("Tried to use a manually chosen familiar but failed to convert it from a name to a familiar");
+		}
+		use_familiar(fam);
+	}	
 	
 	//disabled for now. set outfit and mood yourself.
 	/*
