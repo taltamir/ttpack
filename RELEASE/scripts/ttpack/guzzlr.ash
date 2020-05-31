@@ -154,13 +154,16 @@ boolean guzzlr_QuestStart(int tier)
 		return tier == guzzlr_QuestTier();
 	}
 	
-	if(tier == 3 && (get_property("_guzzlrPlatinumDeliveries").to_int() > 0 || get_property("_guzzlrQuestAbandoned").to_boolean()))
+	if(tier == 3)		//platinum delivery
 	{
-		return false;		//already started max today or already abandoned a quest today.
+		if(get_property("_guzzlrPlatinumDeliveries").to_int() > 0) return false;	//already started platinum quest today
+		if(get_property("_guzzlrQuestAbandoned").to_boolean()) return false;		//already abandoned quest today
+		if(get_property("guzzlrGoldDeliveries").to_int() < 5) return false;			//not enough gold deliveries to unlock platinum
 	}
-	if(tier == 2 && get_property("_guzzlrGoldDeliveries").to_int() > 2)
+	if(tier == 2)
 	{
-		return false;		//already started max today
+		if(get_property("_guzzlrGoldDeliveries").to_int() > 2) return false;		//already did max gold deliveries today
+		if(get_property("guzzlrBronzeDeliveries").to_int() < 5) return false;		//not enough bronze deliveries to unlock gold
 	}
 	
 	print("Taking a tier " + tier + " delivery", "blue");
