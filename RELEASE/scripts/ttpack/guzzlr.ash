@@ -398,9 +398,17 @@ boolean guzzlr_deliverLoop()
 	{
 		guzzlr_QuestStart(2);		//gold
 	}
-	if(quest_unstarted("questGuzzlr") && get_property("guzzlr_deliverBronze").to_boolean())
+	if(quest_unstarted("questGuzzlr"))
 	{
-		guzzlr_QuestStart(1);		//bronze
+		if(get_property("guzzlr_deliverBronze").to_boolean())
+		{
+			guzzlr_QuestStart(1);		//bronze
+		}
+		else	//we failed to start plat and gold and do not want to deliver bronze. we are done.
+		{
+			print("All desired deliveries done. Finishing up for today", "blue");
+			return false;
+		}
 	}
 	if(guzzlr_QuestTier() == 0)
 	{
