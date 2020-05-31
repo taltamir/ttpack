@@ -181,6 +181,12 @@ item accessItem()
 		return $item[tiny bottle of absinthe];
 	}
 	
+	//A Transporter Booth. you get there via an item called [transporter transponder] which gives 30 turns of access.
+	if($locations[Domed City of Ronaldus, Domed City of Grimacia, Hamburglaris Shield Generator] contains goal)
+	{
+		return $item[transporter transponder];
+	}
+	
 	//Spring Break Beach. you get there via a dayticket
 	if($locations[The Fun-Guy Mansion, Sloppy Seconds Diner, The Sunken Party Yacht] contains goal)
 	{
@@ -233,6 +239,14 @@ boolean platinumZoneAvailable()
 		}
 		return false;
 	}
+	if(access_item == $item[transporter transponder])
+	{
+		if(have_effect($effect[Transpondent]) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
 	if(access_item == $item[one-day ticket to Spring Break Beach])
 	{
 		if(get_property("sleazeAirportAlways").to_boolean() || get_property("_sleazeAirportToday").to_boolean())
@@ -280,13 +294,14 @@ boolean platinumZoneAvailable()
 
 boolean accessZoneViaItem()
 {
+	//this function is used to unlock platinum delivery zones via an item. either a day ticket or a potion that gives an effect that gives temporary access
 	if(guzzlr_QuestTier() != 3)
 	{
-		return false;
+		return false;		//not doing a platinum quest
 	}
 	if(platinumZoneAvailable())
 	{
-		return true;
+		return true;		//already have access
 	}
 
 	item access_item = accessItem();
