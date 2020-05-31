@@ -377,6 +377,11 @@ void abandonPlatinum()
 	{
 		return;
 	}
+	if(get_property("guzzlrGoldDeliveries").to_int() < 5)
+	{
+		return;			//not enough gold deliveries to unlock platinum
+	}
+	
 	if(guzzlr_QuestStart(3))
 	{
 		if(!abandonQuest())		//try to abandon quest
