@@ -340,6 +340,34 @@ boolean abandonQuest()
 	return false;
 }
 
+int platinumDrinkIngredientPrice(item drink)
+{
+	if(drink == $item[Steamboat]) return auto_mall_price($item[miniature boiler]);
+	if(drink == $item[Ghiaccio Colada]) return auto_mall_price($item[cold wad]);
+	if(drink == $item[Nog-on-the-Cob]) return auto_mall_price($item[robin's egg]);
+	if(drink == $item[Sourfinger]) return auto_mall_price($item[mangled finger]);
+	if(drink == $item[Buttery Boy]) return auto_mall_price($item[Dish of Clarified Butter]);
+	abort("int platinumDrinkIngredientPrice(item drink) failed to recognize the drink [" + drink + "]");
+	return 0;
+}
+
+item cheapestPlatinumDrink()
+{
+	item drink = $item[Ghiaccio Colada];
+	int cheapest_price = platinumDrinkIngredientPrice(drink);
+	
+	foreach it in $items[Steamboat, Nog-on-the-Cob, Sourfinger, Buttery Boy]
+	{
+		if(platinumDrinkIngredientPrice(it) < cheapest_price)
+		{
+			drink = it;
+			cheapest_price = platinumDrinkIngredientPrice(it);
+		}
+	}
+	
+	return drink;
+}
+
 void abandonPlatinum()
 {
 	if(get_property("_guzzlrQuestAbandoned").to_boolean() || get_property("_guzzlrPlatinumDeliveries").to_int() > 0)
@@ -350,7 +378,7 @@ void abandonPlatinum()
 	{
 		if(!abandonQuest())		//try to abandon quest
 		{
-			abort("Failed to abandon platinum quest");
+			abort("Failed to abandon platinum guzzlr delivery");
 		}
 	}
 }
@@ -420,8 +448,8 @@ boolean guzzlr_deliverLoop()
 	int drink_price;
 	if(guzzlr_QuestTier() == 3)
 	{
-		drink = $item[Ghiaccio Colada];
-		drink_price = auto_mall_price($item[cold wad]);
+		drink = cheapestPlatinumDrink();
+		drink_price = platinumDrinkIngredientPrice(drink);
 	}
 	else
 	{
