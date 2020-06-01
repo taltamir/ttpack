@@ -108,7 +108,7 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_deliverGold");
 	tt_printSetting("guzzlr_maxMeatCostGold");
 	tt_printSetting("guzzlr_deliverPlatinum", "Platinum will not be taken if you already used your 1 per day abandon");
-	tt_printSetting("guzzlr_maxMeatCostPlatinum", "The maximum allowed price for cold wad and if needed a dayticket or access items");
+	tt_printSetting("guzzlr_maxMeatCostPlatinum", "The maximum allowed price for drink crafting ingredient and if needed a dayticket or access items");
 	tt_printSetting("guzzlr_abandonTooExpensive", "When true will automatically abandon deliveries that are too expensive. When false will abort instead");
 	tt_printSetting("guzzlr_deliverInrun", "Set to false to disable doing deliveries during a run");
 	tt_printSetting("guzzlr_treatCasualAsAftercore");
@@ -382,28 +382,28 @@ boolean abandonQuest()
 	return false;
 }
 
-int platinumDrinkIngredientPrice(item drink)
+item platinumDrinkIngredient(item drink)
 {
-	if(drink == $item[Steamboat]) return auto_mall_price($item[miniature boiler]);
-	if(drink == $item[Ghiaccio Colada]) return auto_mall_price($item[cold wad]);
-	if(drink == $item[Nog-on-the-Cob]) return auto_mall_price($item[robin's egg]);
-	if(drink == $item[Sourfinger]) return auto_mall_price($item[mangled finger]);
-	if(drink == $item[Buttery Boy]) return auto_mall_price($item[Dish of Clarified Butter]);
-	abort("int platinumDrinkIngredientPrice(item drink) failed to recognize the drink [" + drink + "]");
-	return 0;
+	if(drink == $item[Steamboat]) return $item[miniature boiler];
+	if(drink == $item[Ghiaccio Colada]) return $item[cold wad];
+	if(drink == $item[Nog-on-the-Cob]) return $item[robin's egg];
+	if(drink == $item[Sourfinger]) return $item[mangled finger];
+	if(drink == $item[Buttery Boy]) return $item[Dish of Clarified Butter];
+	abort("item platinumDrinkIngredient(item drink) failed to recognize the drink [" + drink + "]");
+	return $item[none];
 }
 
 item cheapestPlatinumDrink()
 {
 	item drink = $item[Ghiaccio Colada];
-	int cheapest_price = platinumDrinkIngredientPrice(drink);
+	int cheapest_price = auto_mall_price(platinumDrinkIngredient(drink));
 	
 	foreach it in $items[Steamboat, Nog-on-the-Cob, Sourfinger, Buttery Boy]
 	{
-		if(platinumDrinkIngredientPrice(it) < cheapest_price)
+		if(auto_mall_price(platinumDrinkIngredient(it)) < cheapest_price)
 		{
 			drink = it;
-			cheapest_price = platinumDrinkIngredientPrice(it);
+			cheapest_price = auto_mall_price(platinumDrinkIngredient(it));
 		}
 	}
 	
@@ -501,7 +501,7 @@ boolean guzzlr_deliverLoop()
 	if(guzzlr_QuestTier() == 3)
 	{
 		drink = cheapestPlatinumDrink();
-		drink_price = platinumDrinkIngredientPrice(drink);
+		drink_price = auto_mall_price(platinumDrinkIngredient(drink));
 	}
 	else
 	{
@@ -567,7 +567,7 @@ boolean guzzlr_deliverLoop()
 	{
 		if(guzzlr_QuestTier() == 3)
 		{
-			tt_acquire($item[cold wad]);
+			tt_acquire(platinumDrinkIngredient(drink));
 			create(drink);
 		}
 		else
