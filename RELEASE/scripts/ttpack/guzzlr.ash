@@ -180,7 +180,7 @@ boolean guzzlr_QuestStart(int tier)
 			int started_today = 1 + get_property("_guzzlrGoldDeliveriesStarted").to_int();
 			set_property("_guzzlrGoldDeliveriesStarted", started_today);
 		}
-		if(tier == 2)	//gold delivery
+		if(tier == 3)	//platinum delivery
 		{
 			int started_today = 1 + get_property("_guzzlrPlatinumDeliveriesStarted").to_int();
 			set_property("_guzzlrPlatinumDeliveriesStarted", started_today);
