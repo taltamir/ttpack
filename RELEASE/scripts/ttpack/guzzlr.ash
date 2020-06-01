@@ -331,6 +331,26 @@ boolean accessZoneViaItem()
 	return false;	//need a return false even after abort.
 }
 
+boolean LX_accessZoneViaAdv()
+{
+	//this function is used to unlock delivery zones for gold or bronze zones if desired and needed.
+	//unlocking is done via spending adventures.
+	//return true if we want to restart the main loop. aka we spend a turn somewhere
+	//return false if we want main loop to continue. aka have already unlocked the target zone.
+	
+	location goal = get_property("guzzlrQuestLocation").to_location();
+	
+	//[cobb's knob menagerie key] unlocks 3 locations in menagerie. no need to for setting here since it is very few adv.
+	if($locations[Menagerie Level 1, Menagerie Level 2, Menagerie Level 3] contains goal)
+	{
+		if(item_amount($item[Cobb\'s Knob Menagerie key]) > 0) return false;
+		if(adv1($location[cobb\'s knob laboratory], -1, "")) return true;
+		abort("Failed to adventure in [cobb\'s knob laboratory] to unlock Menagerie");
+	}
+	
+	return false;
+}
+
 boolean abandonQuest()
 {
 	//returns true if quest is successfully abandoned.
@@ -533,8 +553,11 @@ boolean guzzlr_deliverLoop()
 		}
 	}
 	
-	//acquire and use access item if needed.
+	//buy and use iotm access item for platinum delivery if needed
 	accessZoneViaItem();
+	
+	//adventure to unlock zones for gold or bronze deliveries if needed and desired.
+	if(LX_accessZoneViaAdv()) return true;
 	
 	//acquire drink
 	if(item_amount(drink) == 0)
