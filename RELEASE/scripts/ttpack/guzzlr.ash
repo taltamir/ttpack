@@ -166,7 +166,10 @@ boolean guzzlr_QuestStart(int tier)
 		if(get_property("guzzlrBronzeDeliveries").to_int() < 5) return false;		//not enough bronze deliveries to unlock gold
 	}
 	
-	print("Taking a tier " + tier + " delivery", "blue");
+	if(tier == 1) print("Taking a Bronze delivery", "blue");
+	if(tier == 2) print("Taking a Gold delivery", "blue");
+	if(tier == 3) print("Taking a Platinum delivery", "blue");
+	
 	//choices: 2 = bronze 3 = gold 4 = platinum 5 = change your mind and not take a quest
 	visit_url("inventory.php?tap=guzzlr", false);
 	run_choice(tier+1);
