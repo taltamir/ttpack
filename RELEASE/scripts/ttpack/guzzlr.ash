@@ -90,6 +90,11 @@ void guzzlr_settings_defaults()
 		new_setting_added = true;
 		set_property("guzzlr_manualFamiliar", false);
 	}
+	if(get_property("guzzlr_autoSpade") == "")
+	{
+		new_setting_added = true;
+		set_property("guzzlr_autoSpade", true);
+	}
 	
 	if(new_setting_added)
 	{
@@ -118,11 +123,54 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_autoFamiliar", "Automatically switch familiar using autoscend code to IOTM familiars that still have items to drop today and when out of that to +item drop familiars");
 	tt_printSetting("guzzlr_manualFamiliar", "Automatically switch to a single manually specified familiar");
 	tt_printSetting("guzzlr_manualFamiliarChoice", "The name of the familiar you want to manually switch to");
+	tt_printSetting("guzzlr_autoSpade", "automatically spade guzzlr into the file guzzlr_autospade.txt in the mafia root directory");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
 	print("set [setting_name] = [target]", "blue");
 	print();
+}
+
+string [string] parseGuzzlrTablet()
+{
+	string guzzle_raw_html = visit_url("desc_item.php?whichitem=413321705");
+	guzzle_raw_html = replace_string(guzzle_raw_html, "<br>", "#");
+	guzzle_raw_html = replace_string(guzzle_raw_html, "<font color=\"blue\">", "#");
+	guzzle_raw_html = replace_string(guzzle_raw_html, "</font>", "#");
+	string [int] split = split_string(guzzle_raw_html, "#");
+	string booze_string;
+	string mp_string;
+	string hp_string;
+	foreach i, str in split
+	{
+		if(str.contains_text("Booze Drops from Monsters"))
+		{
+			booze_string = str;
+			booze_string = replace_string(booze_string, "% Booze Drops from Monsters", "");
+			booze_string = replace_string(booze_string, "+", "");
+		}
+		if(str.contains_text("MP per Adventure"))
+		{
+			mp_string = str;
+			mp_string = replace_string(mp_string, "Regenerate ", "");
+			mp_string = replace_string(mp_string, " MP per Adventure", "");
+		}
+		if(str.contains_text("HP per Adventure"))
+		{
+			hp_string = str;
+			hp_string = replace_string(hp_string, "Regenerate ", "");
+			hp_string = replace_string(hp_string, " HP per Adventure", "");
+		}
+	}
+	string [int] mp_split_string = split_string(mp_string, "-");
+	string [int] hp_split_string = split_string(hp_string, "-");
+	string [string] retval;
+	retval["booze_drop"] = booze_string;
+	retval["mp_min"] = mp_split_string[0];
+	retval["mp_max"] = mp_split_string[1];
+	retval["hp_min"] = hp_split_string[0];
+	retval["hp_max"] = hp_split_string[1];
+	return retval;
 }
 
 int guzzlr_QuestTier()
@@ -435,6 +483,44 @@ void abandonPlatinum()
 	}
 }
 
+void guzzlr_autospade()
+{
+	if(!quest_unstarted("questGuzzlr"))
+	{
+		//to avoid spam only spade when quest is not started. indicating we just finished a quest or just ran script
+		return;
+	}
+	if(!get_property("guzzlr_autoSpade").to_boolean())
+	{
+		return;
+	}
+	
+	string autospade_string;
+	void autospade_string_tab_add(string add)
+	{
+		//adds a tab and then adds string add
+		autospade_string += "	" + add;
+	}
+	
+	autospade_string_tab_add(my_name());
+	autospade_string_tab_add(my_level());
+	autospade_string_tab_add(get_property("guzzlrBronzeDeliveries"));
+	autospade_string_tab_add(get_property("guzzlrGoldDeliveries"));
+	autospade_string_tab_add(get_property("guzzlrPlatinumDeliveries"));
+	
+	string [string] tablet_output = parseGuzzlrTablet();
+	autospade_string_tab_add(tablet_output["booze_drop"]);
+	autospade_string_tab_add(tablet_output["hp_min"]);
+	autospade_string_tab_add(tablet_output["hp_max"]);
+	autospade_string_tab_add(tablet_output["mp_min"]);
+	autospade_string_tab_add(tablet_output["mp_max"]);
+	
+	print("guzzlr_autospade. format is tab deliminated for easy copy pasting into spading google sheet." , "blue");
+	cli_execute("mirror guzzlr_autospade.txt");
+	print("player_name	my_level	bronze_completed	gold_completed	platinum_completed	tablet_booze_drop	HP_regen_min	HP_regen_max	MP_regen_min	MP_regen_max");
+	print(autospade_string);
+	cli_execute("mirror stop");
+}
 
 boolean guzzlr_deliverLoop()
 {
@@ -468,6 +554,9 @@ boolean guzzlr_deliverLoop()
 	//TODO add mafia thumb ring for easy turngen
 	providePlusCombat(25);
 	*/
+	
+	//auto spade
+	guzzlr_autospade();
 	
 	//start best quest
 	if(quest_unstarted("questGuzzlr") && get_property("guzzlr_deliverPlatinum").to_boolean())
