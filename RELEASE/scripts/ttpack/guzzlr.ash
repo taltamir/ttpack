@@ -456,41 +456,20 @@ void abandonPlatinum()
 
 void guzzlr_autospade()
 {
-	if(!quest_unstarted("questGuzzlr"))
-	{
-		//to avoid spam only spade when quest is not started. indicating we just finished a quest or just ran script
-		return;
-	}
 	if(!get_property("guzzlr_autoSpade").to_boolean())
 	{
-		return;
+		return;		//autospade disabled by user
 	}
 	
-	string autospade_string;
-	void autospade_string_tab_add(string add)
-	{
-		//adds a tab and then adds string add
-		autospade_string += "	" + add;
-	}
-	
-	autospade_string_tab_add(my_name());
-	autospade_string_tab_add(my_level());
-	autospade_string_tab_add(get_property("guzzlrBronzeDeliveries"));
-	autospade_string_tab_add(get_property("guzzlrGoldDeliveries"));
-	autospade_string_tab_add(get_property("guzzlrPlatinumDeliveries"));
-	
-	int [string] tablet_output = parseGuzzlrTablet();
-	autospade_string_tab_add(tablet_output["booze_drop"]);
-	autospade_string_tab_add(tablet_output["hp_regen_min"]);
-	autospade_string_tab_add(tablet_output["hp_regen_max"]);
-	autospade_string_tab_add(tablet_output["mp_regen_min"]);
-	autospade_string_tab_add(tablet_output["mp_regen_max"]);
-	
-	print("guzzlr_autospade. format is tab deliminated for easy copy pasting into spading google sheet." , "blue");
-	cli_execute("mirror guzzlr_autospade.txt");
-	print("player_name	my_level	bronze_completed	gold_completed	platinum_completed	tablet_booze_drop	HP_regen_min	HP_regen_max	MP_regen_min	MP_regen_max");
-	print(autospade_string);
-	cli_execute("mirror stop");
+    int[string, int, string, string, string, int, int, int, int]spadeInfo;
+    file_to_map("guzzlr_autospade.txt", spadeInfo);
+    int [string] tablet_output = parseGuzzlrTablet();
+
+    spadeInfo[ my_name(), my_level(), get_property("guzzlrBronzeDeliveries"),
+    get_property("guzzlrGoldDeliveries"), get_property("guzzlrPlatinumDeliveries"), tablet_output["booze_drop"],
+    tablet_output["hp_regen_min"], tablet_output["hp_regen_max"], tablet_output["mp_regen_min"]] = tablet_output["mp_regen_max"];
+
+    map_to_file(spadeInfo, "guzzlr_autospade.txt");
 }
 
 boolean guzzlr_deliverLoop()
