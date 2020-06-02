@@ -344,7 +344,7 @@ boolean LX_accessZoneViaAdv()
 	location goal = get_property("guzzlrQuestLocation").to_location();
 	
 	//[cobb's knob menagerie key] unlocks 3 locations in menagerie. no need to for setting here since it is very few adv.
-	if($locations[Menagerie Level 1, Menagerie Level 2, Menagerie Level 3] contains goal)
+	if($locations[Cobb's Knob Menagerie\, Level 1, Cobb's Knob Menagerie\, Level 2, Cobb's Knob Menagerie\, Level 3] contains goal)
 	{
 		if(item_amount($item[Cobb\'s Knob Menagerie key]) > 0) return false;
 		if(adv1($location[cobb\'s knob laboratory], -1, "")) return true;
