@@ -459,7 +459,7 @@ void guzzlr_autospade()
 	if(!quest_unstarted("questGuzzlr"))
 	{
 		//to avoid spam only spade when quest is not started. indicating we just finished a quest or just ran script
-		//return;
+		return;
 	}
 	if(!get_property("guzzlr_autoSpade").to_boolean())
 	{
