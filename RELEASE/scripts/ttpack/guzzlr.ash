@@ -123,7 +123,7 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_autoFamiliar", "Automatically switch familiar using autoscend code to IOTM familiars that still have items to drop today and when out of that to +item drop familiars");
 	tt_printSetting("guzzlr_manualFamiliar", "Automatically switch to a single manually specified familiar");
 	tt_printSetting("guzzlr_manualFamiliarChoice", "The name of the familiar you want to manually switch to");
-	tt_printSetting("guzzlr_autoSpade", "automatically spade guzzlr into the file guzzlr_autospade.txt in the mafia root directory");
+	tt_printSetting("guzzlr_autoSpade", "automatically spade guzzlr into the file /data/guzzlr_autospade.txt");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
