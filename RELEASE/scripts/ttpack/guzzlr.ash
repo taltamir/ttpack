@@ -204,13 +204,13 @@ boolean guzzlr_QuestStart(int tier)
 	
 	if(tier == 3)		//platinum delivery
 	{
-		if(get_property("_guzzlrPlatinumDeliveriesStarted").to_int() > 0) return false;	//already started platinum quest today
+		if(get_property("_guzzlrPlatinumDeliveries").to_int() > 0) return false;	//already started platinum quest today
 		if(get_property("_guzzlrQuestAbandoned").to_boolean()) return false;		//already abandoned quest today
 		if(get_property("guzzlrGoldDeliveries").to_int() < 5) return false;			//not enough gold deliveries to unlock platinum
 	}
 	if(tier == 2)
 	{
-		if(get_property("_guzzlrGoldDeliveriesStarted").to_int() > 2) return false;		//already did max gold deliveries today
+		if(get_property("_guzzlrGoldDeliveries").to_int() > 2) return false;		//already did max gold deliveries today
 		if(get_property("guzzlrBronzeDeliveries").to_int() < 5) return false;		//not enough bronze deliveries to unlock gold
 	}
 	
@@ -222,20 +222,8 @@ boolean guzzlr_QuestStart(int tier)
 	visit_url("inventory.php?tap=guzzlr", false);
 	run_choice(tier+1);
 	
-	//verify success or failure. also workaround mafia issue by doing internal tracking
-	// https://kolmafia.us/showthread.php?24954-Guzzlr-tablet-May-Item-of-the-month&p=157675&viewfull=1#post157675
 	if(tier == guzzlr_QuestTier())
 	{
-		if(tier == 2)	//gold delivery
-		{
-			int started_today = 1 + get_property("_guzzlrGoldDeliveriesStarted").to_int();
-			set_property("_guzzlrGoldDeliveriesStarted", started_today);
-		}
-		if(tier == 3)	//platinum delivery
-		{
-			int started_today = 1 + get_property("_guzzlrPlatinumDeliveriesStarted").to_int();
-			set_property("_guzzlrPlatinumDeliveriesStarted", started_today);
-		}
 		return true;
 	}
 	return false;
@@ -418,11 +406,6 @@ boolean abandonQuest()
 	run_choice(1);	//abandon quest
 	run_choice(5);	//exit menu
 	
-	//workaround for mafia bug. while this workaround exists verification is broken and it assumes success.
-	//https://kolmafia.us/showthread.php?24954-Guzzlr-tablet-May-Item-of-the-month&p=157648&viewfull=1#post157648
-	set_property("questGuzzlr", "unstarted");
-	set_property("guzzlrQuestTier", "");
-	
 	if(quest_unstarted("questGuzzlr"))
 	{
 		return true;
@@ -465,7 +448,7 @@ void abandonPlatinum()
 		return;		//can only abandon 1 delivery a day
 	}
 	//using internal tracking below because mafia is tracking deliveries finished not deliveries started
-	if(get_property("_guzzlrPlatinumDeliveriesStarted").to_int() > 0)
+	if(get_property("_guzzlrPlatinumDeliveries").to_int() > 0)
 	{
 		return;		//can only start 1 delivery a day
 	}
