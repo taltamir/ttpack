@@ -466,7 +466,7 @@ void guzzlr_autospade()
     file_to_map("guzzlr_autospade.txt", spadeInfo);
     int [string] tablet_output = parseGuzzlrTablet();
 
-    spadeInfo[ my_name(), my_level(), get_property("guzzlrBronzeDeliveries"), get_property("guzzlrGoldDeliveries"),  get_property("guzzlrPlatinumDeliveries"), tablet_output["booze_drop"], tablet_output["hp_regen_min"], tablet_output["hp_regen_max"], tablet_output["mp_regen_min"], tablet_output["mp_regen_max"]] = "";
+    spadeInfo[ my_name(), my_level(), get_property("guzzlrBronzeDeliveries"), get_property("guzzlrGoldDeliveries"),  get_property("guzzlrPlatinumDeliveries"), tablet_output["booze_drop"], tablet_output["hp_regen_min"], tablet_output["hp_regen_max"], tablet_output["mp_regen_min"], tablet_output["mp_regen_max"]] = "autospaded";
 
     map_to_file(spadeInfo, "guzzlr_autospade.txt");
 }
