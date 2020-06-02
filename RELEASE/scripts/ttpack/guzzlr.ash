@@ -495,13 +495,15 @@ void guzzlr_autospade()
 		return;
 	}
 	
-	string autospade_string = my_name();
+	string autospade_string;
 	void autospade_string_tab_add(string add)
 	{
 		//adds a tab and then adds string add
 		autospade_string += "	" + add;
 	}
 	
+	autospade_string_tab_add(my_name());
+	autospade_string_tab_add(my_level());
 	autospade_string_tab_add(get_property("guzzlrBronzeDeliveries"));
 	autospade_string_tab_add(get_property("guzzlrGoldDeliveries"));
 	autospade_string_tab_add(get_property("guzzlrPlatinumDeliveries"));
@@ -513,9 +515,9 @@ void guzzlr_autospade()
 	autospade_string_tab_add(tablet_output["mp_min"]);
 	autospade_string_tab_add(tablet_output["mp_max"]);
 	
-	print("guzzlr_autospade. format is tab deliminated for easy copy pasting into spading google sheet" , "blue");
-	print("player_name, bronze_completed, gold_completed, platinum_completed, tablet_booze_drop, HP_regen_min, HP_regen_max, MP_regen_min, MP_regen_max" , "blue");
+	print("guzzlr_autospade. format is tab deliminated for easy copy pasting into spading google sheet." , "blue");
 	cli_execute("mirror guzzlr_autospade.txt");
+	print("player_name	my_level	bronze_completed	gold_completed	platinum_completed	tablet_booze_drop	HP_regen_min	HP_regen_max	MP_regen_min	MP_regen_max");
 	print(autospade_string);
 	cli_execute("mirror stop");
 }
