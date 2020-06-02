@@ -131,46 +131,34 @@ void guzzlr_settings_print()
 	print();
 }
 
-string [string] parseGuzzlrTablet()
+int [string] parseGuzzlrTablet()
 {
-	string guzzle_raw_html = visit_url("desc_item.php?whichitem=413321705");
-	guzzle_raw_html = replace_string(guzzle_raw_html, "<br>", "#");
-	guzzle_raw_html = replace_string(guzzle_raw_html, "<font color=\"blue\">", "#");
-	guzzle_raw_html = replace_string(guzzle_raw_html, "</font>", "#");
-	string [int] split = split_string(guzzle_raw_html, "#");
-	string booze_string;
-	string mp_string;
-	string hp_string;
-	foreach i, str in split
-	{
-		if(str.contains_text("Booze Drops from Monsters"))
-		{
-			booze_string = str;
-			booze_string = replace_string(booze_string, "% Booze Drops from Monsters", "");
-			booze_string = replace_string(booze_string, "+", "");
-		}
-		if(str.contains_text("MP per Adventure"))
-		{
-			mp_string = str;
-			mp_string = replace_string(mp_string, "Regenerate ", "");
-			mp_string = replace_string(mp_string, " MP per Adventure", "");
-		}
-		if(str.contains_text("HP per Adventure"))
-		{
-			hp_string = str;
-			hp_string = replace_string(hp_string, "Regenerate ", "");
-			hp_string = replace_string(hp_string, " HP per Adventure", "");
-		}
-	}
-	string [int] mp_split_string = split_string(mp_string, "-");
-	string [int] hp_split_string = split_string(hp_string, "-");
-	string [string] retval;
-	retval["booze_drop"] = booze_string;
-	retval["mp_min"] = mp_split_string[0];
-	retval["mp_max"] = mp_split_string[1];
-	retval["hp_min"] = hp_split_string[0];
-	retval["hp_max"] = hp_split_string[1];
-	return retval;
+    string desc = visit_url(`desc_item.php?whichitem={GUZZLR_TABLET.descid}`);
+
+    matcher boozeDrop = "\\+(\\d+)% Booze Drops from Monsters".create_matcher( desc );
+    matcher mpRegen = "Regenerate (\\d+)-(\\d+) MP per Adventure".create_matcher( desc );
+    matcher hpRegen = "Regenerate (\\d+)-(\\d+) HP per Adventure".create_matcher( desc );
+
+    int [string] results;
+
+    if ( boozeDrop.find() )
+    {
+        results["booze_drop"] = boozeDrop.group(1).to_int();
+    }
+    
+    if ( mpRegen.find() )
+    {
+        results["mp_regen_min"] = mpRegen.group(1).to_int();
+        results["mp_regen_max"] = mpRegen.group(2).to_int();
+    }
+
+    if ( hpRegen.find() )
+    {
+        results["hp_regen_min"] = hpRegen.group(1).to_int();
+        results["hp_regen_max"] = hpRegen.group(2).to_int();
+    }
+
+    return results;
 }
 
 int guzzlr_QuestTier()
@@ -491,12 +479,12 @@ void guzzlr_autospade()
 	autospade_string_tab_add(get_property("guzzlrGoldDeliveries"));
 	autospade_string_tab_add(get_property("guzzlrPlatinumDeliveries"));
 	
-	string [string] tablet_output = parseGuzzlrTablet();
+	int [string] tablet_output = parseGuzzlrTablet();
 	autospade_string_tab_add(tablet_output["booze_drop"]);
-	autospade_string_tab_add(tablet_output["hp_min"]);
-	autospade_string_tab_add(tablet_output["hp_max"]);
-	autospade_string_tab_add(tablet_output["mp_min"]);
-	autospade_string_tab_add(tablet_output["mp_max"]);
+	autospade_string_tab_add(tablet_output["hp_regen_min"]);
+	autospade_string_tab_add(tablet_output["hp_regen_max"]);
+	autospade_string_tab_add(tablet_output["mp_regen_min"]);
+	autospade_string_tab_add(tablet_output["mp_regen_max"]);
 	
 	print("guzzlr_autospade. format is tab deliminated for easy copy pasting into spading google sheet." , "blue");
 	cli_execute("mirror guzzlr_autospade.txt");
