@@ -361,7 +361,7 @@ boolean accessZoneViaItem()
 boolean LX_accessZoneViaAdv()
 {
 	//this function is used to unlock delivery zones for gold or bronze zones if desired and needed.
-	//unlocking is done via spending adventures.
+	//unlocking might have to spend adventures. If zone with a high adv req is added then a setting will be added.
 	//return true if we want to restart the main loop. aka we spend a turn somewhere
 	//return false if we want main loop to continue. aka have already unlocked the target zone.
 	
@@ -373,6 +373,12 @@ boolean LX_accessZoneViaAdv()
 		if(item_amount($item[Cobb\'s Knob Menagerie key]) > 0) return false;
 		if(adv1($location[cobb\'s knob laboratory], -1, "")) return true;
 		abort("Failed to adventure in [cobb\'s knob laboratory] to unlock Menagerie");
+	}
+	
+	//[The Old Landfill] is unlocked by starting a subquest. costs nothing.
+	if($location[The Old Landfill] == goal)
+	{
+		startHippyBoatmanSubQuest();
 	}
 	
 	return false;
