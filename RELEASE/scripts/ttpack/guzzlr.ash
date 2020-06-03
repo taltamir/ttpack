@@ -389,10 +389,13 @@ boolean LX_accessZoneViaAdv()
 		abort("Failed to adventure in [cobb\'s knob laboratory] to unlock Menagerie");
 	}
 	
-	//[The Old Landfill] is unlocked by starting a subquest. costs nothing.
-	if($location[The Old Landfill] == goal)
+	//These zones are unlocked by starting a subquest. costs nothing.
+	switch(goal)
 	{
-		startHippyBoatmanSubQuest();
+		case $location[The Old Landfill]:		startHippyBoatmanSubQuest();	break;
+		case $location[Madness Bakery]:			startArmorySubQuest();			break;
+		case $location[The Skeleton Store]:		startMeatsmithSubQuest();		break;
+		case $location[The Overgrown Lot]:		startGalaktikSubQuest();		break;
 	}
 	
 	return false;
