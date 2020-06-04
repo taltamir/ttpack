@@ -380,6 +380,7 @@ boolean LX_accessZoneViaAdv()
 	//return false if we want main loop to continue. aka have already unlocked the target zone.
 	
 	location goal = get_property("guzzlrQuestLocation").to_location();
+	if(can_adv(goal)) return false;		//location already unlocked.
 	
 	//[cobb's knob menagerie key] unlocks 3 locations in menagerie. no need to for setting here since it is very few adv.
 	if($locations[Cobb's Knob Menagerie\, Level 1, Cobb's Knob Menagerie\, Level 2, Cobb's Knob Menagerie\, Level 3] contains goal)
@@ -387,6 +388,11 @@ boolean LX_accessZoneViaAdv()
 		if(item_amount($item[Cobb\'s Knob Menagerie key]) > 0) return false;
 		if(adv1($location[cobb\'s knob laboratory], -1, "")) return true;
 		abort("Failed to adventure in [cobb\'s knob laboratory] to unlock Menagerie");
+	}
+	//locations that are unlocked as part of the nemesis quest.
+	if($location[The Fungal Nethers] == goal)
+	{
+		if(LX_NemesisQuest()) return true;		//currently only partially unlocks fungal neathers. you need to finish it manually.
 	}
 	
 	//These zones are unlocked by starting a subquest. costs nothing.
