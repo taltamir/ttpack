@@ -508,7 +508,6 @@ void guzzlr_autospade()
 	{
 		return;		//autospade disabled by user
 	}
-	print("Automatically spading to /data/guzzlr_autospade.txt", "blue");
 	
 	record spadeinfo
 	{
@@ -615,12 +614,12 @@ boolean guzzlr_deliverLoop()
 	}
 	location goal = get_property("guzzlrQuestLocation").to_location();
 	
-	//abandon or abort if quest is too expensive
 	int max_cost_bronze = get_property("guzzlr_maxMeatCostBronze").to_int();
 	int max_cost_gold = get_property("guzzlr_maxMeatCostGold").to_int();
 	int max_cost_platinum = get_property("guzzlr_maxMeatCostPlatinum").to_int();
 	boolean abandon_too_expensive = get_property("guzzlr_abandonTooExpensive").to_boolean();
 	
+	//abandon or abort if quest is too expensive	
 	if((guzzlr_QuestTier() == 1 && drink_price > max_cost_bronze) || (guzzlr_QuestTier() == 2 && drink_price > max_cost_gold))
 	{
 		if(abandon_too_expensive)
