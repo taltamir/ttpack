@@ -489,8 +489,7 @@ void guzzlr_autospade()
 	{
 		return;		//autospade disabled by user
 	}
-	print("Automatically spading to /data/guzzlr_autospade.txt", "blue");
-	
+		
     string [string, int, string, string, string, int, int, int, int, int] spadeInfo;
     file_to_map("guzzlr_autospade.txt", spadeInfo);
     int [string] tablet_output = parseGuzzlrTablet();
@@ -569,6 +568,12 @@ boolean guzzlr_deliverLoop()
 	//auto spade
 	guzzlr_autospade();
 	
+	//try to fix two platinum deliveries in a row not crafting drink for the second one. r20148
+	if(quest_unstarted("questGuzzlr"))
+	{
+		cli_execute("refresh inventory");
+	}
+	
 	//start best quest
 	if(quest_unstarted("questGuzzlr") && get_property("guzzlr_deliverPlatinum").to_boolean())
 	{
@@ -595,7 +600,7 @@ boolean guzzlr_deliverLoop()
 		abort("Failed to start guzzlr quest for some reason");
 	}
 	
-	//get some data
+	//find out costs and targets
 	item drink;
 	int drink_price;
 	if(guzzlr_QuestTier() == 3)
