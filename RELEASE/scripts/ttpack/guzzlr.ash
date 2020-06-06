@@ -233,10 +233,10 @@ item accessItem()
 		return $item[transporter transponder];
 	}
 	
-	//The Rabbit Hole. you get there via an item called [\"DRINK ME\" potion] which gives 20 turns of access.
+	//The Rabbit Hole. you get there via an item called [&quot;DRINK ME&quot; potion] which gives 20 turns of access.
 	if($locations[The Red Queen\'s Garden] contains goal)
 	{
-		return $item[\"DRINK ME\" potion];
+		return $item[&quot;DRINK ME&quot; potion];
 	}
 	
 	//Spring Break Beach. you get there via a dayticket
@@ -299,7 +299,7 @@ boolean platinumZoneAvailable()
 		}
 		return false;
 	}
-	if(access_item == $item[\"DRINK ME\" potion])
+	if(access_item == $item[&quot;DRINK ME&quot; potion])
 	{
 		if(have_effect($effect[Down the Rabbit Hole]) > 0)
 		{
