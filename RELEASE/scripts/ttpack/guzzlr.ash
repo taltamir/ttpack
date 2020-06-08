@@ -777,5 +777,7 @@ void main(int adv_to_use)
 	finally
 	{
 		guzzlr_settings_print();
+		print("There is currently a mafia error with tracking abandoning a delivery. if you did so and now it won't run then fix it with:");
+		print("set questGuzzlr = unstarted");
 	}
 }
