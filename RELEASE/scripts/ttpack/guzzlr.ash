@@ -390,7 +390,7 @@ boolean LX_accessZoneViaAdv()
 		abort("Failed to adventure in [cobb\'s knob laboratory] to unlock Menagerie");
 	}
 	//locations that are unlocked as part of the nemesis quest.
-	if($location[The Fungal Nethers] == goal)
+	if($locations[The Fungal Nethers, The \"Fun\" House] contains goal)
 	{
 		if(LX_NemesisQuest()) return true;		//currently only partially unlocks fungal neathers. you need to finish it manually.
 	}
