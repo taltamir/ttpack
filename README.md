@@ -6,6 +6,17 @@ discussion thread: https://kolmafia.us/showthread.php?25048
 
 If there is a file in the pack that you see that is lacking a description here. Then it is probably still in beta and not entirely ready for release to the public. Please do not run it unless you examined the code and know exactly what it does.
 
+## Dependencies
+When installed it will also install the following dependencies:
+```
+https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/beta/RELEASE/
+https://github.com/Ezandora/Briefcase/branches/Release/
+https://github.com/Ezandora/Voting-Booth/trunk/Release/
+https://github.com/Ezandora/Comb-Beach/trunk/Release/
+https://github.com/Ezandora/Bastille/branches/Release/
+https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/
+```
+
 ## Installation
 
 Run this command in the gCLI:
