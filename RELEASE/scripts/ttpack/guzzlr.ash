@@ -90,11 +90,6 @@ void guzzlr_settings_defaults()
 		new_setting_added = true;
 		set_property("guzzlr_manualFamiliar", false);
 	}
-	if(get_property("guzzlr_autoSpade") == "")
-	{
-		new_setting_added = true;
-		set_property("guzzlr_autoSpade", true);
-	}
 	
 	if(new_setting_added)
 	{
@@ -123,7 +118,6 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_autoFamiliar", "Automatically switch familiar using autoscend code to IOTM familiars that still have items to drop today and when out of that to +item drop familiars");
 	tt_printSetting("guzzlr_manualFamiliar", "Automatically switch to a single manually specified familiar");
 	tt_printSetting("guzzlr_manualFamiliarChoice", "The name of the familiar you want to manually switch to");
-	tt_printSetting("guzzlr_autoSpade", "automatically spade guzzlr into the file /data/guzzlr_autospade.txt");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -483,54 +477,6 @@ void abandonPlatinum()
 	}
 }
 
-void guzzlr_autospade()
-{
-	if(!get_property("guzzlr_autoSpade").to_boolean())
-	{
-		return;		//autospade disabled by user
-	}
-		
-    string [string, int, string, string, string, int, int, int, int, int] spadeInfo;
-    file_to_map("guzzlr_autospade.txt", spadeInfo);
-    int [string] tablet_output = parseGuzzlrTablet();
-
-    spadeInfo[ my_name(), my_level(), get_property("guzzlrBronzeDeliveries"), get_property("guzzlrGoldDeliveries"),  get_property("guzzlrPlatinumDeliveries"), tablet_output["booze_drop"], tablet_output["hp_regen_min"], tablet_output["hp_regen_max"], tablet_output["mp_regen_min"], tablet_output["mp_regen_max"]] = "guzzlr autospade 1.0";
-
-    map_to_file(spadeInfo, "guzzlr_autospade.txt");
-}
-
-//the above version uses the keys as data. version below uses a key and stores the data as data. this would matter for data lookups, but we are only storing data to be transferred over to a spreadsheet. and by using the data as the keys the above version does not need to include a key line. which makes it cleaner to copy paste into a spreadsheet.
-
-/*
-void guzzlr_autospade()
-{
-	if(!get_property("guzzlr_autoSpade").to_boolean())
-	{
-		return;		//autospade disabled by user
-	}
-	
-	record spadeinfo
-	{
-		string name;
-		int level;
-		int Bronze;
-		int Gold;
-		int Platinum;
-		int booze;
-		int hp_regen_min;
-		int hp_regen_max;
-		int mp_regen_min;
-		int mp_regen_max;
-	}
-	
-	spadeinfo [int] GuzzlrData;
-	file_to_map("guzzlr_autospade.txt",GuzzlrData);
-	int [string] tablet_output = parseGuzzlrTablet();
-	GuzzlrData[Guzzlrdata.count()] = new Spadeinfo(my_name(),my_level(),get_property("guzzlrBronzeDeliveries").to_int(), 		get_property("guzzlrGoldDeliveries").to_int(), get_property("guzzlrPlatinumDeliveries").to_int(), tablet_output["booze_drop"], 		tablet_output["hp_regen_min"], tablet_output["hp_regen_max"], tablet_output["mp_regen_min"], tablet_output["mp_regen_max"]);
-	map_to_file(GuzzlrData,"guzzlr_autospade.txt");
-}
-*/
-
 boolean guzzlr_deliverLoop()
 {
 	//return true when changes are made to restart the loop.
@@ -563,9 +509,6 @@ boolean guzzlr_deliverLoop()
 	//TODO add mafia thumb ring for easy turngen
 	providePlusCombat(25);
 	*/
-	
-	//auto spade
-	guzzlr_autospade();
 	
 	//try to fix two platinum deliveries in a row not crafting drink for the second one. r20148
 	if(quest_unstarted("questGuzzlr"))
