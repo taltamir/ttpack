@@ -435,9 +435,12 @@ boolean LX_accessZoneViaAdv()
 	return false;
 }
 
-boolean guzzlrEquip()
+void guzzlrEquip()
 {
 	//modify maximizer string with some specific equipment.
+	//acc1 is locked for shoes
+	//acc2 is for mafia thumb ring (at the moment)
+	//acc3 is for zone specific required equipment
 	
 	if(possessEquipment(GUZZLR_SHOES)) autoForceEquip($slot[acc1], GUZZLR_SHOES);
 	if(possessEquipment(GUZZLR_PANTS)) autoForceEquip(GUZZLR_PANTS);
@@ -448,7 +451,7 @@ boolean guzzlrEquip()
 	//mafia thumb ring has 4% chance to generate extra adventures
 	if(get_property("guzzlr_useMafiaThumbRing").to_boolean())
 	{
-		return autoEquip($slot[acc2], $item[Mafia Thumb Ring]);
+		autoEquip($slot[acc2], $item[Mafia Thumb Ring]);
 	}
 
 	//some zones require you to be wearing a certain piece of equip to access them even after they were unlocked.
@@ -458,15 +461,22 @@ boolean guzzlrEquip()
 	{
 		if(possessEquipment($item[pirate fledges]))
 		{
-			return autoEquip($slot[acc3], $item[pirate fledges]);
+			autoEquip($slot[acc3], $item[pirate fledges]);
 		}
 		else if(possessOutfit("Swashbuckling Getup", true))
 		{
-			return autoOutfit("Swashbuckling Getup");
+			autoOutfit("Swashbuckling Getup");
 		}
 	}
 	
-	return true;
+	if($location[The Secret Government Laboratory] == goal)
+	{
+		if(possessEquipment($item[Personal Ventilation Unit]))
+		{
+			autoEquip($slot[acc3], $item[Personal Ventilation Unit]);
+		}
+	}
+
 }
 
 boolean abandonQuest()
