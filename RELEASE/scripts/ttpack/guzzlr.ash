@@ -90,6 +90,16 @@ void guzzlr_settings_defaults()
 		new_setting_added = true;
 		set_property("guzzlr_manualFamiliar", false);
 	}
+	if(get_property("guzzlr_allowPirateQuest") == "")
+	{
+		new_setting_added = true;
+		set_property("guzzlr_allowPirateQuest", false);
+	}
+	if(get_property("guzzlr_useMafiaThumbRing") == "")
+	{
+		new_setting_added = true;
+		set_property("guzzlr_useMafiaThumbRing", true);
+	}
 	
 	if(new_setting_added)
 	{
@@ -118,6 +128,8 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_autoFamiliar", "Automatically switch familiar using autoscend code to IOTM familiars that still have items to drop today and when out of that to +item drop familiars");
 	tt_printSetting("guzzlr_manualFamiliar", "Automatically switch to a single manually specified familiar");
 	tt_printSetting("guzzlr_manualFamiliarChoice", "The name of the familiar you want to manually switch to");
+	tt_printSetting("guzzlr_allowPirateQuest", "Do the pirate quest if needed to reach a gold delivery target");
+	tt_printSetting("guzzlr_useMafiaThumbRing", "Use mafia thumb ring to generate extra adventures");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -366,6 +378,18 @@ boolean accessZoneViaItem()
 	return false;	//need a return false even after abort.
 }
 
+boolean guzzlrAdv(location goal)
+{
+	location place = my_location();
+	set_property("auto_priorLocation", place);
+	
+	equipMaximizedGear();
+	cli_execute("checkpoint clear");
+	executeFlavour();
+	
+	return adv1(goal, -1, "");
+}
+
 boolean LX_accessZoneViaAdv()
 {
 	//this function is used to unlock delivery zones for gold or bronze zones if desired and needed.
@@ -380,7 +404,7 @@ boolean LX_accessZoneViaAdv()
 	if($locations[Cobb's Knob Menagerie\, Level 1, Cobb's Knob Menagerie\, Level 2, Cobb's Knob Menagerie\, Level 3] contains goal)
 	{
 		if(item_amount($item[Cobb\'s Knob Menagerie key]) > 0) return false;
-		if(adv1($location[cobb\'s knob laboratory], -1, "")) return true;
+		if(guzzlrAdv($location[cobb\'s knob laboratory])) return true;
 		abort("Failed to adventure in [cobb\'s knob laboratory] to unlock Menagerie");
 	}
 	//locations that are unlocked as part of the nemesis quest.
@@ -398,7 +422,51 @@ boolean LX_accessZoneViaAdv()
 		case $location[The Overgrown Lot]:		startGalaktikSubQuest();		break;
 	}
 	
+	//These pirate zones require you to actually progress the pirate quest instead of merely wearing a disguise.
+	if($locations[Barrrney\'s Barrr, The F\'c\'le, The Poop Deck, Belowdecks] contains goal)
+	{
+		if(!get_property("guzzlr_allowPirateQuest").to_boolean())
+		{
+			abort("We would need to do the pirate quest to unlock location [" + goal + "]. but are not permitted to do so");
+		}
+		if(LX_pirateQuest()) return true;
+	}
+	
 	return false;
+}
+
+boolean guzzlrEquip()
+{
+	//modify maximizer string with some specific equipment.
+	
+	if(possessEquipment(GUZZLR_SHOES)) autoForceEquip($slot[acc1], GUZZLR_SHOES);
+	if(possessEquipment(GUZZLR_PANTS)) autoForceEquip(GUZZLR_PANTS);
+	
+	//TODO only wear the hat if you are going to finish the delivery now.
+	//if(possessEquipment(GUZZLR_HAT)) autoEquip(GUZZLR_HAT);
+	
+	//mafia thumb ring has 4% chance to generate extra adventures
+	if(get_property("guzzlr_useMafiaThumbRing").to_boolean())
+	{
+		return autoEquip($slot[acc2], $item[Mafia Thumb Ring]);
+	}
+
+	//some zones require you to be wearing a certain piece of equip to access them even after they were unlocked.
+	location goal = get_property("guzzlrQuestLocation").to_location();
+	
+	if($locations[Barrrney\'s Barrr, The F\'c\'le, The Poop Deck, Belowdecks] contains goal)
+	{
+		if(possessEquipment($item[pirate fledges]))
+		{
+			return autoEquip($slot[acc3], $item[pirate fledges]);
+		}
+		else if(possessOutfit("Swashbuckling Getup", true))
+		{
+			return autoOutfit("Swashbuckling Getup");
+		}
+	}
+	
+	return true;
 }
 
 boolean abandonQuest()
@@ -482,8 +550,6 @@ boolean guzzlr_deliverLoop()
 	//return true when changes are made to restart the loop.
 	//return false to end the loop.
 	
-	//acquireHP();
-	
 	//familiar switching
 	if(get_property("guzzlr_autoFamiliar").to_boolean())			//want to use auto familiar chooice.
 	{
@@ -500,15 +566,7 @@ boolean guzzlr_deliverLoop()
 		use_familiar(fam);
 	}	
 	
-	//disabled for now. set outfit and mood yourself.
-	/*
 	resetMaximize();
-	if(possessEquipment(GUZZLR_SHOES)) autoEquip(GUZZLR_SHOES);
-	if(possessEquipment(GUZZLR_PANTS)) autoEquip(GUZZLR_PANTS);
-	if(possessEquipment(GUZZLR_HAT)) autoEquip(GUZZLR_HAT);
-	//TODO add mafia thumb ring for easy turngen
-	providePlusCombat(25);
-	*/
 	
 	//try to fix two platinum deliveries in a row not crafting drink for the second one. r20148
 	if(quest_unstarted("questGuzzlr"))
@@ -627,18 +685,25 @@ boolean guzzlr_deliverLoop()
 		abort("Failed to acquire the booze [" + drink + "]");
 	}
 	
-	if(adv1(goal, -1, "")) return true;
+	//wear some equipment.
+	guzzlrEquip();
+	
+	providePlusCombat(25);
+	
+	if(guzzlrAdv(goal)) return true;
 	abort("Failed to adventure in [" + goal + "]");
 	return false;
 }
 
 void guzzlr_deliver(int adv_to_use)
 {
+	backupSetting("printStackOnAbort", true);
 	backupSetting("promptAboutCrafting", 0);
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
-	backupSetting("printStackOnAbort", true);
+	backupSetting("currentMood", "apathetic");
+	backupSetting("battleAction", "custom combat script");
 	
 	int adv_initial = my_session_adv();
 	
