@@ -383,6 +383,30 @@ boolean guzzlrAdv(location goal)
 	location place = my_location();
 	set_property("auto_priorLocation", place);
 	
+	//familiar switching
+	if(get_property("guzzlr_autoFamiliar").to_boolean())			//want to use auto familiar chooice.
+	{
+		handleFamiliar("drop");		//autoscend familiar choosing. choose a familiar that drops items
+		if(!get_property("_auto_thisLoopHandleFamiliar").to_boolean())	//if could not find a drop familiar
+		{
+			handleFamiliar("item");
+		}
+		if(!get_property("_auto_thisLoopHandleFamiliar").to_boolean())	//if could not find an item familiar
+		{
+			handleFamiliar("meat");
+		}
+		use_familiar(get_property("auto_familiarChoice").to_familiar());
+	}
+	else if(get_property("guzzlr_manualFamiliar").to_boolean())		//want to use a user specified familiar
+	{
+		familiar fam = to_familiar(get_property("guzzlr_manualFamiliarChoice"));
+		if(fam == $familiar[none])
+		{
+			abort("Tried to use a manually chosen familiar but failed to convert it from a string to a familiar");
+		}
+		use_familiar(fam);
+	}
+	
 	equipMaximizedGear();
 	cli_execute("checkpoint clear");
 	executeFlavour();
@@ -560,22 +584,7 @@ boolean guzzlr_deliverLoop()
 	//return true when changes are made to restart the loop.
 	//return false to end the loop.
 	
-	//familiar switching
-	if(get_property("guzzlr_autoFamiliar").to_boolean())			//want to use auto familiar chooice.
-	{
-		handleFamiliar("item");		//autoscend familiar choosing. item dropping familiars then familiars that give +item drop
-		use_familiar(to_familiar(get_property("auto_familiarChoice")));		//actually change to the familiar
-	}
-	else if(get_property("guzzlr_manualFamiliar").to_boolean())		//want to use a manually specified familiar
-	{
-		familiar fam = to_familiar(get_property("guzzlr_manualFamiliarChoice"));
-		if(fam == $familiar[none])
-		{
-			abort("Tried to use a manually chosen familiar but failed to convert it from a name to a familiar");
-		}
-		use_familiar(fam);
-	}	
-	
+	resetThisLoop();
 	resetMaximize();
 	
 	//try to fix two platinum deliveries in a row not crafting drink for the second one. r20148
