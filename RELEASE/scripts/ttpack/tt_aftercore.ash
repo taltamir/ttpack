@@ -1,13 +1,63 @@
 import <scripts/ttpack/util/tt_util.ash>
 
 //public prototypes
+void tt_login_settings_print();
 void tt_chooseFamiliar();
-boolean tt_iceHouse();
+boolean tt_iceHouseAMC();
 boolean tt_getFamiliarFromItem(item hatchling, familiar adult);
 void tt_acquireFamiliars();
 boolean tt_dailyDungeon();
 boolean tt_fatLootToken();
 boolean tt_meatFarm();
+
+void tt_login_settings_defaults()
+{
+	boolean new_setting_added = false;
+	
+	//set defaults
+	if(get_property("tt_aftercore_fatLootToken") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_fatLootToken", true);
+	}
+	if(get_property("tt_aftercore_iceHouseAMC") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_iceHouseAMC", true);
+	}
+	if(get_property("tt_aftercore_guildUnlock") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_guildUnlock", false);
+	}
+	if(get_property("tt_aftercore_meatFarm") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_meatFarm", false);
+	}
+	
+	if(new_setting_added)
+	{
+		tt_login_settings_print();
+		abort("Settings have been configured to default. Please verify they are correct before running me again");
+	}
+}
+
+void tt_login_settings_print()
+{
+	//print current settings status
+	print();
+	print("Current settings for tt_aftercore:", "blue");
+	tt_printSetting("tt_aftercore_fatLootToken", "Farm fat loot tokens if you still need more to buy the skills and familiars");
+	tt_printSetting("tt_aftercore_iceHouseAMC", "Automatically capture AMC gremlin in the ice house");
+	tt_printSetting("tt_aftercore_guildUnlock", "Unlock your guild");
+	tt_printSetting("tt_aftercore_meatFarm", "Farm some meat. Currently terrible at it.");
+	
+	print();
+	print("You can make changes to these settings by typing:", "blue");
+	print("set [setting_name] = [target]", "blue");
+	print();
+}
 
 void tt_chooseFamiliar()
 {
@@ -19,8 +69,13 @@ void tt_chooseFamiliar()
 	}
 }
 
-boolean tt_iceHouse()
+boolean tt_iceHouseAMC()
 {
+	if(!get_property("tt_aftercore_iceHouseAMC").to_boolean())
+	{
+		return false;
+	}
+	
 	//2020-05-17 refresh icehouse status. mafia often thinks it is empty when it is not. maybe because it is out of standard?
 	//http://127.0.0.1:60083/museum.php?action=icehouse
 	return false;
@@ -181,6 +236,11 @@ boolean tt_dailyDungeon()
 
 boolean tt_fatLootToken()
 {
+	if(!get_property("tt_aftercore_fatLootToken").to_boolean())
+	{
+		return false;
+	}
+
 	tt_acquireFamiliars();			//in case we can buy cubeling
 	
 	int tokens_needed = 72;
@@ -210,8 +270,23 @@ boolean tt_fatLootToken()
 	return false;
 }
 
+boolean tt_guild()
+{
+	if(!get_property("tt_aftercore_guildUnlock").to_boolean())
+	{
+		return false;
+	}
+	
+	return LX_guildUnlock();	//autoscend function
+}
+
 boolean tt_meatFarm()
 {
+	if(!get_property("tt_aftercore_meatFarm").to_boolean())
+	{
+		return false;
+	}
+
 	//castle in the sky NCs
 	set_property("choiceAdventure675", 1);
 	set_property("choiceAdventure676", 4);
@@ -235,28 +310,33 @@ boolean tt_doTasks()
 	
 	tt_chooseFamiliar();
 	
-	if(tt_iceHouse()) return true;
+	if(tt_iceHouseAMC()) return true;
 	if(tt_fatLootToken()) return true;
+	if(tt_guild()) return true;
 	if(tt_meatFarm()) return true;
 	return false;
 }
 
 void main()
-{
+{	
 	if(!inAftercore())
 	{
 		abort("Detected that king has not been liberated. This script should only be run in aftercore");
 	}
 	
+	tt_login_settings_defaults();
+	print("Welcome to tt_aftercore. ");
+	
 	try
 	{
 		backupSetting("dontStopForCounters", true);
 		
-		//main loop is doTasks which is run as part of the while.
+		//main loop is tt_doTasks which is run as part of the while.
 		while(auto_unreservedAdvRemaining() && tt_doTasks());
 	}
 	finally
 	{
 		restoreAllSettings();
+		tt_login_settings_print();
 	}
 }
