@@ -6,7 +6,7 @@ That trophy requires you to defeat 240 black puddings (the monster). You do this
 There is a trick with the dark gyffte path. If a vampyre tries to eat a pudding there is a 35% chance of them fighting the monster, and a 65% chance of them harmlessly being told vampyres only eat blood. So if you have 240 adventures, you can do this trophy in one day by just repeatedly attempting to eat it as a vampyre.
 
 You can either run this script from gCLI by using
-pudding X
+blackpudding X
 to fight X puddings
 
 Or you can click on it from the dropdown scripts menu to be asked how many fights you want.
