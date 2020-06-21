@@ -466,7 +466,8 @@ void guzzlrEquip()
 	//acc2 is for mafia thumb ring (at the moment)
 	//acc3 is for zone specific required equipment
 	
-	if(possessEquipment(GUZZLR_SHOES)) autoForceEquip($slot[acc1], GUZZLR_SHOES);
+	//can't force equip accessories due to how mafia handles slots. namely -acc1 will prevent mafia from equipping any accessory.
+	if(possessEquipment(GUZZLR_SHOES)) autoEquip($slot[acc1], GUZZLR_SHOES);
 	if(possessEquipment(GUZZLR_PANTS)) autoForceEquip(GUZZLR_PANTS);
 	
 	//TODO only wear the hat if you are going to finish the delivery now.
