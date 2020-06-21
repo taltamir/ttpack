@@ -707,8 +707,16 @@ boolean guzzlr_deliverLoop()
 	//wear some equipment.
 	guzzlrEquip();
 	
-	providePlusCombat(25);
+	//get some +combat
+	shrugAT($effect[Carlweather\'s Cantata Of Confrontation]);		//remove an AT buff so we have room for Cantata Of Confrontation
+	foreach eff in $effects[Musk of the Moose, Carlweather\'s Cantata of Confrontation]
+	{
+		buffMaintain(eff, 0, 1, 1);
+	}
+	getHorse("crazy");	//black horse gives -5 combat chance
+	asdonBuff($effect[Driving Obnoxiously]);	//+10 combat chance
 	
+	//finally adventure
 	if(guzzlrAdv(goal)) return true;
 	abort("Failed to adventure in [" + goal + "]");
 	return false;
