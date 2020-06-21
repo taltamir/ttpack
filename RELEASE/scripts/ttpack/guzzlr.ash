@@ -723,6 +723,7 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
 	backupSetting("currentMood", "apathetic");
 	backupSetting("battleAction", "custom combat script");
+	backupSetting("maximizerCombinationLimit", "10000");
 	
 	int adv_initial = my_session_adv();
 	
