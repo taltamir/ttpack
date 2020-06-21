@@ -1,7 +1,7 @@
 import <scripts/ttpack/util/tt_util.ash>
 
 //public prototypes
-void tt_login_settings_print();
+void tt_settings_print();
 void tt_chooseFamiliar();
 boolean tt_iceHouseAMC();
 boolean tt_getFamiliarFromItem(item hatchling, familiar adult);
@@ -9,8 +9,9 @@ void tt_acquireFamiliars();
 boolean tt_dailyDungeon();
 boolean tt_fatLootToken();
 boolean tt_meatFarm();
+void tt_help();
 
-void tt_login_settings_defaults()
+void tt_settings_defaults()
 {
 	boolean new_setting_added = false;
 	
@@ -38,12 +39,13 @@ void tt_login_settings_defaults()
 	
 	if(new_setting_added)
 	{
-		tt_login_settings_print();
+		tt_help();
+		tt_settings_print();
 		abort("Settings have been configured to default. Please verify they are correct before running me again");
 	}
 }
 
-void tt_login_settings_print()
+void tt_settings_print()
 {
 	//print current settings status
 	print();
@@ -306,7 +308,13 @@ boolean tt_meatFarm()
 
 boolean tt_doTasks()
 {
-	//main loop of tt_aftercore. returning true resets the loop. returning false exists the loop
+	//main loop of tt_aftercore. returning true resets the loop. returning false exits the loop
+	
+	if(!auto_unreservedAdvRemaining())
+	{
+		print("Not enough reserved adventures. Done for today", "red");
+		return false;
+	}
 	
 	tt_chooseFamiliar();
 	
@@ -317,26 +325,102 @@ boolean tt_doTasks()
 	return false;
 }
 
-void main()
+boolean tt_doSingleTask(string command)
+{
+	//this is a primary loop. returning true resets the loop. returning false exits the loop
+	
+	if(!auto_unreservedAdvRemaining())
+	{
+		print("Not enough reserved adventures. Done for today", "red");
+		return false;
+	}
+	
+	tt_chooseFamiliar();
+	
+	if(command == "amc")
+	{
+		return tt_iceHouseAMC();
+	}
+	if(command == "token")
+	{
+		if(get_property("dailyDungeonDone").to_boolean())
+		{
+			print("You already did daily dungeon today and it is currently the only supported source of tokens", "red");
+			return false;
+		}
+		return tt_dailyDungeon();
+		
+		//TODO add other sources of token
+	}
+	if(command == "guild")
+	{
+		return tt_guild();
+	}
+	if(command == "meat")
+	{
+		return tt_meatFarm();
+	}
+	
+	return false;
+}
+
+void tt_help()
+{
+	print("Welcome to tt_aftercore");
+	print("To use type in gCLI:");
+	print("tt_aftercore [goal]");
+	print("Currently supported options for [goal]:");
+	print("help = display available commands");
+	print("config = display configuration");
+	print("auto = automatically does all the things based on your configuration");
+	print("guild = unlock your guild");
+	print("token = gets a single fat loot token if possible");
+	print("amc = traps an AMC gremlin in the ice house. currently unimplemented");
+	print("meat = meatfarms. currently terrible at it");
+}
+
+void main(string command)
 {	
 	if(!inAftercore())
 	{
 		abort("Detected that king has not been liberated. This script should only be run in aftercore");
 	}
+	command = to_lower_case(command);
 	
-	tt_login_settings_defaults();
-	print("Welcome to tt_aftercore. ");
+	tt_settings_defaults();
 	
-	try
+	if(command == "help" || command == "" || command == "0");
 	{
-		backupSetting("dontStopForCounters", true);
-		
-		//main loop is tt_doTasks which is run as part of the while.
-		while(auto_unreservedAdvRemaining() && tt_doTasks());
+		tt_help();
 	}
-	finally
+	if(command == "config")
 	{
-		restoreAllSettings();
-		tt_login_settings_print();
+		tt_settings_print();
+	}
+	if(command == "auto")
+	{
+		try
+		{
+			backupSetting("dontStopForCounters", true);
+			while(tt_doTasks());
+		}
+		finally
+		{
+			restoreAllSettings();
+			tt_settings_print();
+		}
+	}
+	if($strings[guild, token, amc, meat] contains command)
+	{
+		try
+		{
+			backupSetting("dontStopForCounters", true);
+			while(tt_doSingleTask(command));
+		}
+		finally
+		{
+			restoreAllSettings();
+			tt_settings_print();
+		}
 	}
 }
