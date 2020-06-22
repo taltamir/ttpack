@@ -100,6 +100,11 @@ void guzzlr_settings_defaults()
 		new_setting_added = true;
 		set_property("guzzlr_useMafiaThumbRing", true);
 	}
+	if(get_property("guzzlr_mood") == "")
+	{
+		new_setting_added = true;
+		set_property("guzzlr_mood", "guzzlr");
+	}
 	
 	if(new_setting_added)
 	{
@@ -130,6 +135,7 @@ void guzzlr_settings_print()
 	tt_printSetting("guzzlr_manualFamiliarChoice", "The name of the familiar you want to manually switch to");
 	tt_printSetting("guzzlr_allowPirateQuest", "Do the pirate quest if needed to reach a gold delivery target");
 	tt_printSetting("guzzlr_useMafiaThumbRing", "Use mafia thumb ring to generate extra adventures");
+	tt_printSetting("guzzlr_mood", "The name of the mood you want to use with guzzlr. use [apathetic] to disable moods");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -730,7 +736,7 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
-	backupSetting("currentMood", "apathetic");
+	backupSetting("currentMood", get_property("guzzlr_mood"));
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
 	
