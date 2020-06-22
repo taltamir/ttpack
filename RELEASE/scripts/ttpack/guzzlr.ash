@@ -420,7 +420,37 @@ boolean guzzlrAdv(location goal)
 	return adv1(goal, -1, "");
 }
 
-boolean LX_accessZoneViaAdv()
+boolean tt_accessPirates()
+{
+	//this function is used to unlock pirate delivery zones for gold or bronze zones if desired and needed.
+	//since this zone has unusual handling it is done first.
+	
+	location goal = get_property("guzzlrQuestLocation").to_location();
+	if($locations[Barrrney\'s Barrr, The F\'c\'le, The Poop Deck, Belowdecks] contains goal)
+	{
+		if(!get_property("guzzlr_allowPirateQuest").to_boolean())
+		{
+			abort("We would need to do the pirate quest to unlock location [" + goal + "]. but are not permitted to do so");
+		}
+	}
+	else
+	{
+		return false; 	//we are not in a pirate zone
+	}
+	//we always want the fledges for pirates. because the disguise pants conflict with guzzlr pants
+	if(possessEquipment($item[pirate fledges]) && can_adv(goal))
+	{
+		return false; 	//we got all we need
+	}
+	
+	//use autoscend pre and post adv scripts while unlocking pirates
+	set_property("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+	set_property("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+
+	return LX_pirateQuest();	//do pirates quest
+}
+
+boolean tt_accessZoneViaAdv()
 {
 	//this function is used to unlock delivery zones for gold or bronze zones if desired and needed.
 	//unlocking might have to spend adventures. If zone with a high adv req is added then a setting will be added.
@@ -451,17 +481,7 @@ boolean LX_accessZoneViaAdv()
 		case $location[The Skeleton Store]:		startMeatsmithSubQuest();		break;
 		case $location[The Overgrown Lot]:		startGalaktikSubQuest();		break;
 	}
-	
-	//These pirate zones require you to actually progress the pirate quest instead of merely wearing a disguise.
-	if($locations[Barrrney\'s Barrr, The F\'c\'le, The Poop Deck, Belowdecks] contains goal)
-	{
-		if(!get_property("guzzlr_allowPirateQuest").to_boolean())
-		{
-			abort("We would need to do the pirate quest to unlock location [" + goal + "]. but are not permitted to do so");
-		}
-		if(LX_pirateQuest()) return true;
-	}
-	
+
 	return false;
 }
 
@@ -490,14 +510,7 @@ void guzzlrEquip()
 	
 	if($locations[Barrrney\'s Barrr, The F\'c\'le, The Poop Deck, Belowdecks] contains goal)
 	{
-		if(possessEquipment($item[pirate fledges]))
-		{
-			autoEquip($slot[acc3], $item[pirate fledges]);
-		}
-		else if(possessOutfit("Swashbuckling Getup", true))
-		{
-			autoOutfit("Swashbuckling Getup");
-		}
+		autoEquip($slot[acc3], $item[pirate fledges]);
 	}
 	
 	if($location[The Secret Government Laboratory] == goal)
@@ -691,7 +704,11 @@ boolean guzzlr_deliverLoop()
 	accessZoneViaItem();
 	
 	//adventure to unlock zones for gold or bronze deliveries if needed and desired.
-	if(LX_accessZoneViaAdv()) return true;
+	if(tt_accessPirates()) return true;
+	if(tt_accessZoneViaAdv()) return true;
+	//now that we are done with autoscend stuff. make sure we are back to not using pre and post adventure scripts
+	set_property("afterAdventureScript", "");
+	set_property("betweenBattleScript", "");
 	
 	//acquire drink
 	if(item_amount(drink) == 0)
@@ -735,6 +752,8 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("promptAboutCrafting", 0);
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
+	backupSetting("afterAdventureScript", "");
+	backupSetting("betweenBattleScript", "");
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
 	backupSetting("currentMood", get_property("guzzlr_mood"));
 	backupSetting("battleAction", "custom combat script");
