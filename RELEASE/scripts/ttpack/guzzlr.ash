@@ -470,6 +470,8 @@ boolean tt_accessZoneViaAdv()
 	//locations that are unlocked as part of the nemesis quest.
 	if($locations[The Fungal Nethers, The \"Fun\" House] contains goal)
 	{
+		set_property("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+		set_property("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 		if(LX_NemesisQuest()) return true;		//currently only partially unlocks fungal neathers. you need to finish it manually.
 	}
 	
