@@ -36,6 +36,11 @@ void tt_settings_defaults()
 		new_setting_added = true;
 		set_property("tt_aftercore_meatFarm", false);
 	}
+	if(get_property("tt_aftercore_useAstralLeftovers") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_useAstralLeftovers", true);
+	}
 	
 	if(new_setting_added)
 	{
@@ -54,6 +59,7 @@ void tt_settings_print()
 	tt_printSetting("tt_aftercore_iceHouseAMC", "Automatically capture AMC gremlin in the ice house");
 	tt_printSetting("tt_aftercore_guildUnlock", "Unlock your guild");
 	tt_printSetting("tt_aftercore_meatFarm", "Farm some meat. Currently terrible at it.");
+	tt_printSetting("tt_aftercore_useAstralLeftovers", "Use leftover astral drink/food");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -68,6 +74,26 @@ void tt_chooseFamiliar()
 	if(have_familiar($familiar[Lil\' Barrel Mimic]));
 	{
 		use_familiar($familiar[Lil\' Barrel Mimic]);
+	}
+}
+
+void tt_useAstralLeftovers()
+{
+	if(!get_property("tt_aftercore_useAstralLeftovers").to_boolean())
+	{
+		return;
+	}
+	
+	int drink_amt = min(inebriety_left(),item_amount($item[astral pilsner]));
+	if(drink_amt > 0)
+	{
+		autoDrink(drink_amt, $item[astral pilsner]);
+	}
+	
+	int food_amt = min(fullness_left(),item_amount($item[astral hot dog]));
+	if(food_amt > 0)
+	{
+		autoEat(food_amt, $item[astral hot dog]);
 	}
 }
 
@@ -388,6 +414,8 @@ void main(string command)
 	command = to_lower_case(command);
 	
 	tt_settings_defaults();
+	
+	tt_useAstralLeftovers();
 	
 	if(command == "help" || command == "" || command == "0");
 	{
