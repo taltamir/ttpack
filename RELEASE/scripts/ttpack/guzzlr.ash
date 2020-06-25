@@ -706,8 +706,13 @@ boolean guzzlr_deliverLoop()
 	accessZoneViaItem();
 	
 	//adventure to unlock zones for gold or bronze deliveries if needed and desired.
+	//check it twice in case something transient causes an errant false to be returned.
+	if(tt_accessPirates()) return true;
 	if(tt_accessPirates()) return true;
 	if(tt_accessZoneViaAdv()) return true;
+	if(tt_accessZoneViaAdv()) return true;
+	if(!can_adv(goal)) abort("failed to unlock the zone [" + goal + "]");
+	
 	//now that we are done with autoscend stuff. make sure we are back to not using pre and post adventure scripts
 	set_property("afterAdventureScript", "");
 	set_property("betweenBattleScript", "");
