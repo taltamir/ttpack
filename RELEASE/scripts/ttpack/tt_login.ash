@@ -84,7 +84,7 @@ void boxingDaycare()
 	}
 
 	//checks to see if you scavenged exactly 0 times today. Meaning the scavenging is free. If so, then perform 1 scavenge
-	if (get_property("_daycareGymScavenges").to_int() == 0)
+	if(get_property("_daycareGymScavenges").to_int() == 0)
 	{
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
 		run_choice(3);
@@ -92,7 +92,7 @@ void boxingDaycare()
 	}
 	
 	//checks to see if you recruited exactly 0 times today. Meaning it costs 100 meat. If so, then perform 1 recruit toddlers
-	if (get_property("_daycareRecruits").to_int() == 0 && my_meat() > 10000)
+	if(get_property("_daycareRecruits").to_int() == 0 && my_meat() > 10000)
 	{
 		visit_url("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare");
 		run_choice(3);
@@ -247,13 +247,19 @@ void milkOfMagnesium()
 void glitchmon()
 {
 	//automatically fight glitch monster
-	
-	//variable _glitchMonsterFights counts how many glitch monsters you fought today. can you fight more than 1?
-	if (get_property("_glitchMonsterFights").to_int() == 0)
+	// https://kol.coldfront.net/thekolwiki/index.php/Glitch_season_reward_name
+	if(item_amount($item[\[glitch season reward name\]]) == 0)
 	{
-		visit_url("inv_eat.php?&pwd&which=3&whichitem=10207"); 		//start fight with %monster%
-		run_combat();												//finish combat using ccs
+		return;		//do not have item
 	}
+	if(get_property("_glitchMonsterFights").to_int() > 0)
+	{
+		return;		//only 1 fight per day allowed
+	}
+	
+	//_glitchMonsterFights counts how many glitch monsters you fought today. can only fight 1/day.
+	visit_url("inv_eat.php?&pwd&which=3&whichitem=10207"); 		//start fight with %monster%
+	run_combat();												//finish combat using ccs
 }
 
 void requestSandwich()
