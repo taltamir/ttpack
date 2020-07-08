@@ -606,8 +606,7 @@ boolean guzzlr_deliverLoop()
 	//return true when changes are made to restart the loop.
 	//return false to end the loop.
 	
-	resetThisLoop();
-	resetMaximize();
+	resetState();
 	
 	//try to fix two platinum deliveries in a row not crafting drink for the second one. r20148
 	if(quest_unstarted("questGuzzlr"))
