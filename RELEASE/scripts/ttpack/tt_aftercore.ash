@@ -4,7 +4,7 @@ import <scripts/ttpack/util/tt_util.ash>
 void tt_settings_print();
 void tt_chooseFamiliar();
 boolean tt_iceHouseAMC();
-boolean tt_getFamiliarFromItem(item hatchling, familiar adult);
+boolean tt_convert_hatchling_into_familiar(item hatchling, familiar adult);
 void tt_acquireFamiliars();
 boolean tt_dailyDungeon();
 boolean tt_fatLootToken();
@@ -41,6 +41,11 @@ void tt_settings_defaults()
 		new_setting_added = true;
 		set_property("tt_aftercore_useAstralLeftovers", true);
 	}
+	if(get_property("tt_aftercore_buyStuff") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_buyStuff", true);
+	}
 	
 	if(new_setting_added)
 	{
@@ -60,6 +65,7 @@ void tt_settings_print()
 	tt_printSetting("tt_aftercore_guildUnlock", "Unlock your guild");
 	tt_printSetting("tt_aftercore_meatFarm", "Farm some meat. Currently terrible at it.");
 	tt_printSetting("tt_aftercore_useAstralLeftovers", "Use leftover astral drink/food");
+	tt_printSetting("tt_aftercore_buyStuff", "Allow buying some useful things");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -97,6 +103,16 @@ void tt_useAstralLeftovers()
 	}
 }
 
+void tt_buyStuff()
+{
+	if(!get_property("tt_aftercore_buyStuff").to_boolean())
+	{
+		return;
+	}
+	
+	tt_acquire($item[mafia pinky ring]);
+}
+
 boolean tt_iceHouseAMC()
 {
 	if(!get_property("tt_aftercore_iceHouseAMC").to_boolean())
@@ -109,7 +125,7 @@ boolean tt_iceHouseAMC()
 	return false;
 }
 
-boolean tt_getFamiliarFromItem(item hatchling, familiar adult)
+boolean tt_convert_hatchling_into_familiar(item hatchling, familiar adult)
 {
 	//This functions converts an item named hatchling into a familiar named adult.
 	
@@ -145,7 +161,7 @@ void tt_acquireFamiliars()
 	{
 		tt_acquire($item[tiny barrel]);
 	}
-	tt_getFamiliarFromItem($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
+	tt_convert_hatchling_into_familiar($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
 
 	//Gelatinous Cubeling familiar costs 27 fat loot tokens and significantly improves doing daily dungeon in run.
 	//we only want to buy it from vending machine. do not spend meat on it in mall
@@ -153,79 +169,87 @@ void tt_acquireFamiliars()
 	{
 		buy($coinmaster[Vending Machine], 1, $item[dried gelatinous cube]);
 	}
-	tt_getFamiliarFromItem($item[dried gelatinous cube], $familiar[Gelatinous Cubeling]);
+	tt_convert_hatchling_into_familiar($item[dried gelatinous cube], $familiar[Gelatinous Cubeling]);
+	
+	//Levitating Potato blocks enemy attacks and is very cheap.
+	//no point in mallbuying it despite the low price. since early on you are limited in meat availability.
+	if(!have_familiar($familiar[Levitating Potato]) && item_amount($item[potato sprout]) < 1 && item_amount($item[fat loot token]) > 0)
+	{
+		buy($coinmaster[Vending Machine], 1, $item[potato sprout]);
+	}
+	tt_convert_hatchling_into_familiar($item[potato sprout], $familiar[Levitating Potato]);
 	
 	//If you don't already have leprechaun you are a new account so poor that it is worth spending ~2 full to save ~18k meat
 	while(!have_familiar($familiar[Leprechaun]) && item_amount($item[leprechaun hatchling]) < 1 && fullness_left() > 0 && retrieve_item(1, $item[bowl of lucky charms]))
 	{
 		eat(1, $item[bowl of lucky charms]);
 	}
-	tt_getFamiliarFromItem($item[leprechaun hatchling], $familiar[Leprechaun]);
+	tt_convert_hatchling_into_familiar($item[leprechaun hatchling], $familiar[Leprechaun]);
 	
 	//attack familiar that is very easy to get.
 	if(!have_familiar($familiar[Ragamuffin Imp]) && !get_property("demonSummoned").to_boolean() && item_amount($item[pile of smoking rags]) < 1 && display_amount($item[pile of smoking rags]) < 1)
 	{
 		cli_execute("summon Tatter");
 	}
-	tt_getFamiliarFromItem($item[pile of smoking rags], $familiar[Ragamuffin Imp]);
+	tt_convert_hatchling_into_familiar($item[pile of smoking rags], $familiar[Ragamuffin Imp]);
 	
 	//easy attack familiar
 	if(!have_familiar($familiar[Howling Balloon Monkey]))
 	{
 		retrieve_item(1, $item[balloon monkey]);
 	}
-	tt_getFamiliarFromItem($item[balloon monkey], $familiar[Howling Balloon Monkey]);
+	tt_convert_hatchling_into_familiar($item[balloon monkey], $familiar[Howling Balloon Monkey]);
 	
 	//delevel enemy cheaply
 	if(!have_familiar($familiar[barrrnacle]))
 	{
 		retrieve_item(1, $item[Barrrnacle]);
 	}
-	tt_getFamiliarFromItem($item[barrrnacle], $familiar[Barrrnacle]);
+	tt_convert_hatchling_into_familiar($item[barrrnacle], $familiar[Barrrnacle]);
 	
 	//stat gains cheaply
 	if(!have_familiar($familiar[Blood-Faced Volleyball]))
 	{
 		retrieve_item(1, $item[blood-faced volleyball]);
 	}
-	tt_getFamiliarFromItem($item[blood-faced volleyball], $familiar[Blood-Faced Volleyball]);
+	tt_convert_hatchling_into_familiar($item[blood-faced volleyball], $familiar[Blood-Faced Volleyball]);
 	
 	//meat, MP/HP, confuse, or attack cheaply
 	if(!have_familiar($familiar[Cocoabo]))
 	{
 		retrieve_item(1, $item[cocoa egg]);
 	}
-	tt_getFamiliarFromItem($item[cocoa egg], $familiar[Cocoabo]);
+	tt_convert_hatchling_into_familiar($item[cocoa egg], $familiar[Cocoabo]);
 	
 	//initiative and hot damage
 	if(!have_familiar($familiar[Cute Meteor]))
 	{
 		retrieve_item(1, $item[cute meteoroid]);
 	}
-	tt_getFamiliarFromItem($item[cute meteoroid], $familiar[Cute Meteor]);
+	tt_convert_hatchling_into_familiar($item[cute meteoroid], $familiar[Cute Meteor]);
 	
 	//initiative for in standard runs
 	if(!have_familiar($familiar[Oily Woim]))
 	{
 		tt_acquire($item[woim]);
 	}
-	tt_getFamiliarFromItem($item[woim], $familiar[Oily Woim]);
+	tt_convert_hatchling_into_familiar($item[woim], $familiar[Oily Woim]);
 	
 	//get an egg every ascension. if you didn't eat it then get the familiar.
-	tt_getFamiliarFromItem($item[grue egg], $familiar[Grue]);
+	tt_convert_hatchling_into_familiar($item[grue egg], $familiar[Grue]);
 	
 	//nemesis quest familiars
-	tt_getFamiliarFromItem($item[adorable seal larva], $familiar[Adorable Seal Larva]);		//seal clubber
-	tt_getFamiliarFromItem($item[untamable turtle], $familiar[Untamed Turtle]);				//turtle tamer
-	tt_getFamiliarFromItem($item[macaroni duck], $familiar[Animated Macaroni Duck]);		//pastamancer
-	tt_getFamiliarFromItem($item[friendly cheez blob], $familiar[Pet Cheezling]);			//sauceror
-	tt_getFamiliarFromItem($item[unusual disco ball], $familiar[Autonomous Disco Ball]);	//disco bandit
-	tt_getFamiliarFromItem($item[stray chihuahua], $familiar[Mariachi Chihuahua]);			//accordion thief
+	tt_convert_hatchling_into_familiar($item[adorable seal larva], $familiar[Adorable Seal Larva]);		//seal clubber
+	tt_convert_hatchling_into_familiar($item[untamable turtle], $familiar[Untamed Turtle]);				//turtle tamer
+	tt_convert_hatchling_into_familiar($item[macaroni duck], $familiar[Animated Macaroni Duck]);		//pastamancer
+	tt_convert_hatchling_into_familiar($item[friendly cheez blob], $familiar[Pet Cheezling]);			//sauceror
+	tt_convert_hatchling_into_familiar($item[unusual disco ball], $familiar[Autonomous Disco Ball]);	//disco bandit
+	tt_convert_hatchling_into_familiar($item[stray chihuahua], $familiar[Mariachi Chihuahua]);			//accordion thief
 	
 	//quest items that are familiar hatchlings
-	tt_getFamiliarFromItem($item[reassembled blackbird], $familiar[Reassembled Blackbird]);	//every ascension
-	tt_getFamiliarFromItem($item[mosquito larva], $familiar[Mosquito]);						//every ascension
-	tt_getFamiliarFromItem($item[black kitten], $familiar[Black Cat]);						//bad moon
+	tt_convert_hatchling_into_familiar($item[reassembled blackbird], $familiar[Reassembled Blackbird]);	//every ascension
+	tt_convert_hatchling_into_familiar($item[mosquito larva], $familiar[Mosquito]);						//every ascension
+	tt_convert_hatchling_into_familiar($item[black kitten], $familiar[Black Cat]);						//bad moon
 }
 
 boolean tt_dailyDungeon()
@@ -271,10 +295,14 @@ boolean tt_fatLootToken()
 
 	tt_acquireFamiliars();			//in case we can buy cubeling
 	
-	int tokens_needed = 72;
+	int tokens_needed = 73;
 	if(have_familiar($familiar[Gelatinous Cubeling]))
 	{
 		tokens_needed -= 27;
+	}
+	if(have_familiar($familiar[Levitating Potato]))
+	{
+		tokens_needed -= 1;
 	}
 	if(have_skill($skill[Singer\'s Faithful Ocelot]) || item_amount($item[Spellbook: Singer\'s Faithful Ocelot]) > 0)
 	{
@@ -288,7 +316,7 @@ boolean tt_fatLootToken()
 	{
 		tokens_needed -= 15;
 	}
-	if(tokens_needed == 0)
+	if(tokens_needed >= item_amount($item[Fat Loot Token]))
 	{
 		return false;
 	}
