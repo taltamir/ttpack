@@ -137,13 +137,15 @@ void tt_eatSurpriseEggs()
 	{
 		retrieve_item(lucky_amt, $item[lucky surprise egg]);
 		retrieve_item(lucky_amt, $item[lucky surprise egg]);		//sometimes you need to give the command twice for it to work
-		autoEat(food_amt, $item[lucky surprise egg]);
+		lucky_amt = min(item_amount($item[lucky surprise egg]), lucky_amt);
+		eat(lucky_amt, $item[lucky surprise egg]);
 	}
 	if(spooky_amt > 0)
 	{
 		retrieve_item(spooky_amt, $item[spooky surprise egg]);
 		retrieve_item(spooky_amt, $item[spooky surprise egg]);		//sometimes you need to give the command twice for it to work
-		autoEat(food_amt, $item[spooky surprise egg]);
+		spooky_amt = min(item_amount($item[spooky surprise egg]), spooky_amt);
+		eat(spooky_amt, $item[spooky surprise egg]);
 	}
 }
 
