@@ -157,18 +157,7 @@ void tt_buyStuff()
 	}
 	
 	tt_acquire($item[mafia pinky ring]);
-}
-
-boolean tt_iceHouseAMC()
-{
-	if(!get_property("tt_aftercore_iceHouseAMC").to_boolean())
-	{
-		return false;
-	}
-	
-	//2020-05-17 refresh icehouse status. mafia often thinks it is empty when it is not. maybe because it is out of standard?
-	//http://127.0.0.1:60083/museum.php?action=icehouse
-	return false;
+	tt_acquire($item[mafia thumb ring]);
 }
 
 boolean tt_convert_hatchling_into_familiar(item hatchling, familiar adult)
@@ -308,63 +297,51 @@ boolean tt_dailyDungeon()
 	//try to acquire the 3 important items for daily dungeon.
 	if(!tt_acquire($item[eleven-foot pole]) || !tt_acquire($item[Pick-O-Matic lockpicks]) || !tt_acquire($item[ring of Detect Boring Doors]))
 	{
-		return false;		//if we failed to acquire all 3 we want to return false so we can go meatfarming instead.
+		return false;		//do not even try to do the daily dungeon without the 3 tools
 	}
 	
-	set_property("choiceAdventure689",1);		//get fat loot token at room 15
-	set_property("choiceAdventure690",2);		//using boring door to skip from 5th to 8th room
-	set_property("choiceAdventure691",2);		//using boring door to skip from 10th to 13th room
-	set_property("choiceAdventure692",11);		//use lockpicks
-	set_property("choiceAdventure693",2);		//avoid trap with eleven-foot pole
-	
-	string maximizer_string = "-combat";
-	if(get_property("_lastDailyDungeonRoom").to_int() == 4 || get_property("_lastDailyDungeonRoom").to_int() == 9)
-	{
-		maximizer_string += ",equip ring of Detect Boring Doors";
-	}
-	if(my_class() != $class[sauceror] && my_class() != $class[pastamancer])
-	{
-		maximizer_string += ",effective";
-	}
-	print("Maximizing: " + maximizer_string, "blue");
-	maximize(maximizer_string, false);
-	
-	return adv1($location[The Daily Dungeon], -1, "");
+	set_property("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	boolean retval = LX_dailyDungeonToken();
+	set_property("betweenBattleScript", "");
+	return retval;
 }
 
-boolean tt_fatLootToken()
+boolean tt_fatLootToken(boolean override)
 {
-	if(!get_property("tt_aftercore_fatLootToken").to_boolean())
+	if(!get_property("tt_aftercore_fatLootToken").to_boolean() && !override)
 	{
 		return false;
 	}
 
 	tt_acquireFamiliars();			//in case we can buy cubeling
 	
-	int tokens_needed = 73;
-	if(have_familiar($familiar[Gelatinous Cubeling]))
+	if(!override)
 	{
-		tokens_needed -= 27;
-	}
-	if(have_familiar($familiar[Levitating Potato]))
-	{
-		tokens_needed -= 1;
-	}
-	if(have_skill($skill[Singer\'s Faithful Ocelot]) || item_amount($item[Spellbook: Singer\'s Faithful Ocelot]) > 0)
-	{
-		tokens_needed -= 15;
-	}
-	if(have_skill($skill[Drescher\'s Annoying Noise]) || item_amount($item[Spellbook: Drescher\'s Annoying Noise]) > 0)
-	{
-		tokens_needed -= 15;
-	}
-	if(have_skill($skill[Walberg\'s Dim Bulb]) || item_amount($item[Spellbook: Walberg\'s Dim Bulb]) > 0)
-	{
-		tokens_needed -= 15;
-	}
-	if(tokens_needed >= item_amount($item[Fat Loot Token]))
-	{
-		return false;
+		int tokens_needed = 73;
+		if(have_familiar($familiar[Gelatinous Cubeling]))
+		{
+			tokens_needed -= 27;
+		}
+		if(have_familiar($familiar[Levitating Potato]))
+		{
+			tokens_needed -= 1;
+		}
+		if(have_skill($skill[Singer\'s Faithful Ocelot]) || item_amount($item[Spellbook: Singer\'s Faithful Ocelot]) > 0)
+		{
+			tokens_needed -= 15;
+		}
+		if(have_skill($skill[Drescher\'s Annoying Noise]) || item_amount($item[Spellbook: Drescher\'s Annoying Noise]) > 0)
+		{
+			tokens_needed -= 15;
+		}
+		if(have_skill($skill[Walberg\'s Dim Bulb]) || item_amount($item[Spellbook: Walberg\'s Dim Bulb]) > 0)
+		{
+			tokens_needed -= 15;
+		}
+		if(tokens_needed >= item_amount($item[Fat Loot Token]))
+		{
+			return false;
+		}
 	}
 	
 	if(tt_dailyDungeon()) return true;
@@ -372,9 +349,21 @@ boolean tt_fatLootToken()
 	return false;
 }
 
-boolean tt_guild()
+boolean tt_iceHouseAMC(boolean override)
 {
-	if(!get_property("tt_aftercore_guildUnlock").to_boolean())
+	if(!get_property("tt_aftercore_iceHouseAMC").to_boolean() && !override)
+	{
+		return false;
+	}
+	
+	//2020-05-17 refresh icehouse status. mafia often thinks it is empty when it is not. maybe because it is out of standard?
+	//http://127.0.0.1:60083/museum.php?action=icehouse
+	return false;
+}
+
+boolean tt_guild(boolean override)
+{
+	if(!get_property("tt_aftercore_guildUnlock").to_boolean() && !override)
 	{
 		return false;
 	}
@@ -382,9 +371,32 @@ boolean tt_guild()
 	return LX_guildUnlock();	//autoscend function
 }
 
-boolean tt_meatFarm()
+void tt_meatItemBuff(effect eff, item it, float duration, float bonus)
 {
-	if(!get_property("tt_aftercore_meatFarm").to_boolean())
+	if(have_effect(eff) > 0)
+	{
+		return;
+	}
+	
+	//average combat base meat is 112.5 meat. does not account for queue manipulation like -combat and sniff
+	float bonus_meat = 112.5 * bonus / 100;
+	float price_per_adv = mall_price(it) / duration;
+	float profit = bonus_meat - price_per_adv;
+	
+	//line below is for debugging. only enable temporarily while testing.
+	//print("[" + it + "] bonus_meat = " + bonus_meat + ". price_per_adv = " + price_per_adv + ". profit = " + profit + ".");
+	
+	if(profit < 0) return;
+	
+	if(retrieve_item(1, it))
+	{
+		use(1, it);
+	}
+}
+
+boolean tt_meatFarm(boolean override)
+{
+	if(!get_property("tt_aftercore_meatFarm").to_boolean() && !override)
 	{
 		return false;
 	}
@@ -394,10 +406,22 @@ boolean tt_meatFarm()
 	set_property("choiceAdventure676", 4);
 	set_property("choiceAdventure677", 4);
 	set_property("choiceAdventure678", 2);
-	set_property("currentMood", "meat");
+	
+	//get some +meat buffs
+	shrugAT($effect[Polka of Plenty]);
+	buffMaintain($effect[Polka of Plenty], 0, 1, 1);		//+50% meat drop song
+	buffMaintain($effect[Disco Leer], 0, 1, 1);				//+10% meat drop facial expression
+	
+	float sauce_potion_duration = 5;
+	if(my_class() == $class[Sauceror]) sauce_potion_duration +=5;
+	if(have_skill($skill[Impetuous Sauciness])) sauce_potion_duration +=5;
+
+	tt_meatItemBuff($effect[Cranberry Cordiality], $item[Meat-inflating powder], sauce_potion_duration, 10);
+	tt_meatItemBuff($effect[Big Meat Big Prizes], $item[Meat-inflating powder], 20, 50);
+	tt_meatItemBuff($effect[Fortunate Resolve], $item[resolution: be luckier], 20, 10);
 
 	string maximizer_string = "meat,effective";
-	if(tt_acquire($item[mafia thumb ring]))
+	if(possessEquipment($item[mafia thumb ring]))
 	{
 		maximizer_string += ",+equip mafia thumb ring";
 	}
@@ -418,10 +442,10 @@ boolean tt_doTasks()
 	
 	tt_chooseFamiliar();
 	
-	if(tt_iceHouseAMC()) return true;
-	if(tt_fatLootToken()) return true;
-	if(tt_guild()) return true;
-	if(tt_meatFarm()) return true;
+	if(tt_iceHouseAMC(false)) return true;
+	if(tt_fatLootToken(false)) return true;
+	if(tt_guild(false)) return true;
+	if(tt_meatFarm(false)) return true;
 	return false;
 }
 
@@ -439,7 +463,7 @@ boolean tt_doSingleTask(string command)
 	
 	if(command == "amc")
 	{
-		return tt_iceHouseAMC();
+		return tt_iceHouseAMC(true);
 	}
 	if(command == "token")
 	{
@@ -448,17 +472,17 @@ boolean tt_doSingleTask(string command)
 			print("You already did daily dungeon today and it is currently the only supported source of tokens", "red");
 			return false;
 		}
-		return tt_dailyDungeon();
+		return tt_fatLootToken(true);
 		
 		//TODO add other sources of token
 	}
 	if(command == "guild")
 	{
-		return tt_guild();
+		return tt_guild(true);
 	}
 	if(command == "meat")
 	{
-		return tt_meatFarm();
+		return tt_meatFarm(true);
 	}
 	
 	return false;
