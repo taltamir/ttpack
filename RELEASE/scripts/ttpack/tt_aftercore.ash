@@ -46,6 +46,11 @@ void tt_settings_defaults()
 		new_setting_added = true;
 		set_property("tt_aftercore_buyStuff", true);
 	}
+	if(get_property("tt_aftercore_eatSurpriseEggs") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_eatSurpriseEggs", false);
+	}
 	
 	if(new_setting_added)
 	{
@@ -66,6 +71,7 @@ void tt_settings_print()
 	tt_printSetting("tt_aftercore_meatFarm", "Farm some meat. Currently terrible at it.");
 	tt_printSetting("tt_aftercore_useAstralLeftovers", "Use leftover astral drink/food");
 	tt_printSetting("tt_aftercore_buyStuff", "Allow buying some useful things");
+	tt_printSetting("tt_aftercore_eatSurpriseEggs", "Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -100,6 +106,44 @@ void tt_useAstralLeftovers()
 	if(food_amt > 0)
 	{
 		autoEat(food_amt, $item[astral hot dog]);
+	}
+}
+
+void tt_eatSurpriseEggs()
+{
+	if(!get_property("tt_aftercore_eatSurpriseEggs").to_boolean())
+	{
+		return;
+	}
+	
+	int food_amt = fullness_left();
+	int spooky_amt = 0;
+	int lucky_amt = 0;
+	while(food_amt > 0)
+	{
+		if(lucky_amt < spooky_amt)
+		{
+			lucky_amt++;
+			food_amt--;
+		}
+		else
+		{
+			spooky_amt++;
+			food_amt--;
+		}
+	}
+	
+	if(lucky_amt > 0)
+	{
+		retrieve_item(lucky_amt, $item[lucky surprise egg]);
+		retrieve_item(lucky_amt, $item[lucky surprise egg]);		//sometimes you need to give the command twice for it to work
+		autoEat(food_amt, $item[lucky surprise egg]);
+	}
+	if(spooky_amt > 0)
+	{
+		retrieve_item(spooky_amt, $item[spooky surprise egg]);
+		retrieve_item(spooky_amt, $item[spooky surprise egg]);		//sometimes you need to give the command twice for it to work
+		autoEat(food_amt, $item[spooky surprise egg]);
 	}
 }
 
@@ -444,6 +488,7 @@ void main(string command)
 	tt_settings_defaults();
 	
 	tt_useAstralLeftovers();
+	tt_eatSurpriseEggs();
 	
 	if(command == "help" || command == "" || command == "0");
 	{
