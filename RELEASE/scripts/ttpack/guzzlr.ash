@@ -440,14 +440,35 @@ boolean tt_accessPirates()
 	//we always want the fledges for pirates. because the disguise pants conflict with guzzlr pants
 	if(possessEquipment($item[pirate fledges]) && can_adv(goal))
 	{
-		return false; 	//we got all we need
+		return false; 	//if we have fledges we are done with this function and should use the normal guzzlr adventuring function instead.
 	}
 	
 	//use autoscend pre and post adv scripts while unlocking pirates
 	backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
 	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 
-	return LX_pirateQuest();	//do pirates quest
+	if(LX_islandAccess()) return true;
+	if(LX_pirateOutfit()) return true;
+	
+	if (internalQuestStatus("questM12Pirate") < 5)
+	{
+		if($location[Barrrney\'s Barrr] == goal)
+		{
+			if(possessEquipment(GUZZLR_SHOES)) autoEquip($slot[acc1], GUZZLR_SHOES);
+		}
+		if(LX_joinPirateCrew()) return true;
+	}
+	if (internalQuestStatus("questM12Pirate") == 5)
+	{
+		if($location[The F\'c\'le] == goal)
+		{
+			if(possessEquipment(GUZZLR_SHOES)) autoEquip($slot[acc1], GUZZLR_SHOES);
+		}
+		if(LX_fledglingPirateIsYou()) return true;
+	}
+	if(LX_unlockBelowdecks()) return true;
+	
+	return false;
 }
 
 boolean tt_accessZoneViaAdv()
@@ -702,21 +723,6 @@ boolean guzzlr_deliverLoop()
 		}
 	}
 	
-	//buy and use iotm access item for platinum delivery if needed
-	accessZoneViaItem();
-	
-	//adventure to unlock zones for gold or bronze deliveries if needed and desired.
-	//check it twice in case something transient causes an errant false to be returned.
-	if(tt_accessPirates()) return true;
-	if(tt_accessPirates()) return true;
-	if(tt_accessZoneViaAdv()) return true;
-	if(tt_accessZoneViaAdv()) return true;
-	if(!can_adv(goal)) abort("failed to unlock the zone [" + goal + "]");
-	
-	//now that we are done with autoscend stuff. make sure we are back to not using pre and post adventure scripts
-	restoreSetting("afterAdventureScript");
-	restoreSetting("betweenBattleScript");
-	
 	//acquire drink
 	if(item_amount(drink) == 0)
 	{
@@ -734,6 +740,21 @@ boolean guzzlr_deliverLoop()
 	{
 		abort("Failed to acquire the booze [" + drink + "]");
 	}
+	
+	//buy and use iotm access item for platinum delivery if needed
+	accessZoneViaItem();
+	
+	//adventure to unlock zones for gold or bronze deliveries if needed and desired.
+	//check it twice in case something transient causes an errant false to be returned.
+	if(tt_accessPirates()) return true;
+	if(tt_accessPirates()) return true;
+	if(tt_accessZoneViaAdv()) return true;
+	if(tt_accessZoneViaAdv()) return true;
+	if(!can_adv(goal)) abort("failed to unlock the zone [" + goal + "]");
+	
+	//now that we are done with autoscend stuff. make sure we are back to not using pre and post adventure scripts
+	restoreSetting("afterAdventureScript");
+	restoreSetting("betweenBattleScript");
 	
 	//wear some equipment.
 	guzzlrEquip();
