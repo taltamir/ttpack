@@ -1,7 +1,7 @@
 script "guzzlr_choice_adv.ash";
 import <autoscend/auto_choice_adv.ash>
 
-void guzzlr_run_choice(int choice, string page)
+boolean guzzlr_run_choice(int choice, string page)
 {
 	print("Running guzzlr_choice_adv.ash");
 	
@@ -10,9 +10,11 @@ void guzzlr_run_choice(int choice, string page)
 			run_choice(4);
 			break;
 		default:
-			auto_run_choice(choice, page);
+			return auto_run_choice(choice, page);
 			break;
 	}
+	
+	return true;
 }
 
 void main(int choice, string page)
