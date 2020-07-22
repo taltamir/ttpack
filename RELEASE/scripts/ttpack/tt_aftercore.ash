@@ -300,9 +300,9 @@ boolean tt_dailyDungeon()
 		return false;		//do not even try to do the daily dungeon without the 3 tools
 	}
 	
-	set_property("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 	boolean retval = LX_dailyDungeonToken();
-	set_property("betweenBattleScript", "");
+	restoreSetting("betweenBattleScript");
 	return retval;
 }
 
@@ -315,34 +315,33 @@ boolean tt_fatLootToken(boolean override)
 
 	tt_acquireFamiliars();			//in case we can buy cubeling
 	
-	if(!override)
+	int tokens_needed = 73;
+	if(have_familiar($familiar[Gelatinous Cubeling]))
 	{
-		int tokens_needed = 73;
-		if(have_familiar($familiar[Gelatinous Cubeling]))
-		{
-			tokens_needed -= 27;
-		}
-		if(have_familiar($familiar[Levitating Potato]))
-		{
-			tokens_needed -= 1;
-		}
-		if(have_skill($skill[Singer\'s Faithful Ocelot]) || item_amount($item[Spellbook: Singer\'s Faithful Ocelot]) > 0)
-		{
-			tokens_needed -= 15;
-		}
-		if(have_skill($skill[Drescher\'s Annoying Noise]) || item_amount($item[Spellbook: Drescher\'s Annoying Noise]) > 0)
-		{
-			tokens_needed -= 15;
-		}
-		if(have_skill($skill[Walberg\'s Dim Bulb]) || item_amount($item[Spellbook: Walberg\'s Dim Bulb]) > 0)
-		{
-			tokens_needed -= 15;
-		}
-		if(tokens_needed >= item_amount($item[Fat Loot Token]))
-		{
-			return false;
-		}
+		tokens_needed -= 27;
 	}
+	if(have_familiar($familiar[Levitating Potato]))
+	{
+		tokens_needed -= 1;
+	}
+	if(have_skill($skill[Singer\'s Faithful Ocelot]) || item_amount($item[Spellbook: Singer\'s Faithful Ocelot]) > 0)
+	{
+		tokens_needed -= 15;
+	}
+	if(have_skill($skill[Drescher\'s Annoying Noise]) || item_amount($item[Spellbook: Drescher\'s Annoying Noise]) > 0)
+	{
+		tokens_needed -= 15;
+	}
+	if(have_skill($skill[Walberg\'s Dim Bulb]) || item_amount($item[Spellbook: Walberg\'s Dim Bulb]) > 0)
+	{
+		tokens_needed -= 15;
+	}
+	if(!override && item_amount($item[Fat Loot Token]) >= tokens_needed)
+	{
+		return false;
+	}
+	
+	print("tokens needed = " + tokens_needed + ". Tokens available = " + item_amount($item[Fat Loot Token]));
 	
 	if(tt_dailyDungeon()) return true;
 	
