@@ -408,10 +408,10 @@ void postStuff()
 	}
 	
 	//If you have not done so yet, buy your daily print screen button. can be sold for good profit
-	if(get_property("_internetPrintScreenButtonBought") == "false")
-	{
-		buy($coinmaster[Internet Meme Shop],1,$item[print screen button]);
-	}
+	//if(get_property("_internetPrintScreenButtonBought") == "false" && item_amount($item[bacon]) >= 111)
+	//{
+	//	buy($coinmaster[Internet Meme Shop],1,$item[print screen button]);
+	//}
 
 	//execute the OCD inventory script
 	if(have_shop())
