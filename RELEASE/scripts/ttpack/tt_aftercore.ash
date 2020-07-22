@@ -439,6 +439,7 @@ boolean tt_doTasks()
 		return false;
 	}
 	
+	auto_interruptCheck();
 	tt_chooseFamiliar();
 	
 	if(tt_iceHouseAMC(false)) return true;
@@ -458,6 +459,7 @@ boolean tt_doSingleTask(string command)
 		return false;
 	}
 	
+	auto_interruptCheck();	
 	tt_chooseFamiliar();
 	
 	if(command == "amc")
