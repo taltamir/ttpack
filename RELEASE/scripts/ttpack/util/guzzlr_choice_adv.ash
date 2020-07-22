@@ -10,7 +10,7 @@ void guzzlr_run_choice(int choice, string page)
 			run_choice(4);
 			break;
 		default:
-			auto_run_choice(choice, page)
+			auto_run_choice(choice, page);
 			break;
 	}
 }
