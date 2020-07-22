@@ -760,7 +760,7 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("dontStopForCounters", true);
 	backupSetting("afterAdventureScript", "");
 	backupSetting("betweenBattleScript", "");
-	backupSetting("choiceAdventureScript", "scripts/autoscend/guzzlr_choice_adv.ash");
+	backupSetting("choiceAdventureScript", "scripts/ttpack/util/guzzlr_choice_adv.ash");
 	backupSetting("currentMood", get_property("guzzlr_mood"));
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
