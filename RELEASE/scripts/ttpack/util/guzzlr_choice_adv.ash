@@ -7,8 +7,11 @@ boolean guzzlr_run_choice(int choice, string page)
 	
 	switch (choice) {
 		case 670: // You Don't Mess Around with Gym
-			run_choice(4);
+			run_choice(4);	//skip NC and save an adv
 			break;
+		case 1341: // A Pound of Cure
+			run_choice(1);	//cure patient
+			break;	
 		default:
 			return auto_run_choice(choice, page);
 			break;
