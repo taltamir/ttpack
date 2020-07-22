@@ -444,8 +444,8 @@ boolean tt_accessPirates()
 	}
 	
 	//use autoscend pre and post adv scripts while unlocking pirates
-	set_property("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
-	set_property("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 
 	return LX_pirateQuest();	//do pirates quest
 }
@@ -470,8 +470,8 @@ boolean tt_accessZoneViaAdv()
 	//locations that are unlocked as part of the nemesis quest.
 	if($locations[The Fungal Nethers, The \"Fun\" House] contains goal)
 	{
-		set_property("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
-		set_property("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+		backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+		backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 		if(LX_NemesisQuest()) return true;		//currently only partially unlocks fungal neathers. you need to finish it manually.
 	}
 	
@@ -713,8 +713,8 @@ boolean guzzlr_deliverLoop()
 	if(!can_adv(goal)) abort("failed to unlock the zone [" + goal + "]");
 	
 	//now that we are done with autoscend stuff. make sure we are back to not using pre and post adventure scripts
-	set_property("afterAdventureScript", "");
-	set_property("betweenBattleScript", "");
+	restoreSetting("afterAdventureScript");
+	restoreSetting("betweenBattleScript");
 	
 	//acquire drink
 	if(item_amount(drink) == 0)
