@@ -60,22 +60,6 @@ void pvpEnable()
 	}
 }
 
-void fortuneReply()
-{
-	//replies to all zatara fortune teller requests with whatever you configured as mafia's default
-
-	buffer page = visit_url("clan_viplounge.php?preaction=lovetester");
-	string [int][int] request_array = page.group_string("(clan_viplounge.php\\?preaction=testlove&testlove=\\d*)\">(.*?)</a>");
-
-	foreach i in request_array
-	{
-		string response_url = request_array[i][1].replace_string("preaction\=testlove","preaction\=dotestlove") + "&pwd&option=1&q1=" + get_property("clanFortuneReply1") + "&q2=" + get_property("clanFortuneReply2") + "&q3=" + get_property("clanFortuneReply3");
-		
-		visit_url(response_url);
-		print("Response sent to " + request_array[i][2] + ".", "green");
-	}
-}
-
 void boxingDaycare()
 {
 	if(get_property("daycareOpen") == "false")
@@ -530,8 +514,7 @@ void main()
 	tt_login_settings_defaults();			//set default settings if needed.
 	pvpEnable();							//breaks the hippy stone to enable PVP fighting
 	songboomSetting(2);						//set boombox to food if available.
-	fortuneReply();							//replies to all zatara fortune requests with mafia configured responses
-	cli_execute("tt_fortuneask.ash");		//calls on external script called fortuneask, to ask 3 daily fortunes from clanmates.
+	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	boxingDaycare();						//perform free scavenge and 100 meat worth of recruit toddlers
 	KGB();									//daily collections from kremlin greatest briefcase
 	bittycar();								//activate your bittycar meatcar if available.

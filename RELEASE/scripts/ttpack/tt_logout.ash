@@ -1,8 +1,11 @@
-//reply to fortune teller requests
-cli_execute("call fortunereply.ash");
+//This script should be set to auto run on logout
 
-//closet your expensive pvpable items
-cli_execute("call pvprotect.ash");
+import <scripts/ttpack/util/tt_util.ash>
 
-//Run breakfast in case you forgot
-cli_execute("breakfast");
+void main()
+{
+	cli_execute("breakfast");				//Run mafia built in breakfast script to do many daily tasks
+	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
+	cli_execute("pvprotect.ash");			//closet your expensive pvpable items
+	
+}

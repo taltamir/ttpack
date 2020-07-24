@@ -8,6 +8,21 @@ boolean compatible = true;			//true to get compatible rewards from zatara, false
 
 //CONFIG ENDS
 
+void fortuneReply()
+{
+	//replies to all zatara fortune teller requests with whatever you configured as mafia's default
+	buffer page = visit_url("clan_viplounge.php?preaction=lovetester");
+
+	string [int][int] request_array = page.group_string("(clan_viplounge.php\\?preaction=testlove&testlove=\\d*)\">(.*?)</a>");
+
+	foreach i in request_array 
+	{
+		string response_url = request_array[i][1].replace_string("preaction\=testlove","preaction\=dotestlove") + "&pwd&option=1&q1=" + get_property("clanFortuneReply1") + "&q2=" + get_property("clanFortuneReply2") + "&q3=" + get_property("clanFortuneReply3");
+		visit_url(response_url);
+		print("Response sent to " + request_array[i][2] + ".", "green");
+	}
+}
+
 //the function below takes in a name and performs a fortune request after testing for some contingencies
 void doFortune(string name)
 {
@@ -29,7 +44,9 @@ void main()
 		return;
 	}
 	
-	//
+	//replies to all zatara fortune teller requests with whatever you configured as mafia's default
+	fortuneReply();
+	
 	if(get_clan_name() != "Ferengi Commerce Authority")
 	{
 		return;		//at the moment only one clan is supported. will refactor this for general use later.

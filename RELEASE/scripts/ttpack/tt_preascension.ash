@@ -2,21 +2,6 @@
 
 import <scripts/ttpack/util/tt_util.ash>
 
-//replies to all zatara fortune teller requests with whatever you configured as mafia's default
-void fortuneReply()
-{
-	buffer page = visit_url("clan_viplounge.php?preaction=lovetester");
-
-	string [int][int] request_array = page.group_string("(clan_viplounge.php\\?preaction=testlove&testlove=\\d*)\">(.*?)</a>");
-
-	foreach i in request_array 
-	{
-		string response_url = request_array[i][1].replace_string("preaction\=testlove","preaction\=dotestlove") + "&pwd&option=1&q1=" + get_property("clanFortuneReply1") + "&q2=" + get_property("clanFortuneReply2") + "&q3=" + get_property("clanFortuneReply3");
-		visit_url(response_url);
-		print("Response sent to " + request_array[i][2] + ".", "green");
-	}
-}
-
 void displayTake()
 {
 	if(!have_display()) return;
@@ -62,7 +47,7 @@ void main()
 		abort("Accidentally tried to run pre-ascension script without being in aftercore");
 	}
 	
-	fortuneReply();							//replies to all zatara fortune consult with mafia default (configurable via mafia)
+	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	if(pvp_attacks_left() > 0)				//if you accidentally entered valhalla without using all your pvp
 		{
 		cli_execute("outfit pvp");			//wear pvp outfit
