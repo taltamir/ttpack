@@ -30,7 +30,7 @@ void main()
 	cli_execute("pull all");				//pull all hangk items
 	
 	cli_execute("tt_login.ash");			//run login script
-	cli_execute("fortune.ash");				//reply and ask for zatara fortunes.
+	cli_execute("tt_fortune.ash");			//reply and ask for zatara fortunes.
 	cli_execute("pvprotect.ash");			//closet pvp stealable items
 	cli_execute("cc_snapshot.ash");			//display your greenboxes
 
