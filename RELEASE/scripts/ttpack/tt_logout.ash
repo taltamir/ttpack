@@ -21,6 +21,11 @@ void whenDrunk()
 			cli_execute("make " + clipart_left + " borrowed time");
 		}
 	}
+	
+	if(auto_have_skill($skill[Incredible Self-Esteem]) && !get_property("_incredibleSelfEsteemCast").to_int().to_boolean())
+	{
+		use_skill(1, $skill[Incredible Self-Esteem]);
+	}
 }
 
 void main()
