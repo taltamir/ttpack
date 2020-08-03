@@ -22,7 +22,7 @@ void whenDrunk()
 		}
 	}
 	
-	if(auto_have_skill($skill[Incredible Self-Esteem]) && !get_property("_incredibleSelfEsteemCast").to_int().to_boolean())
+	if(auto_have_skill($skill[Incredible Self-Esteem]) && !get_property("_incredibleSelfEsteemCast").to_boolean())
 	{
 		use_skill(1, $skill[Incredible Self-Esteem]);
 	}
