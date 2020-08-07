@@ -441,6 +441,10 @@ void eatChocolate()
 	{
 		return;
 	}
+	if(in_gnoob())
+	{
+		return;	//gelatinous noob cannot use chocolate
+	}
 	
 	int maxPricePerAdv = get_property("tt_login_chocolateMaxPricePerAdv").to_int();
 	if(maxPricePerAdv > 20000)
