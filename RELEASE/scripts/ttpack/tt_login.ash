@@ -212,6 +212,10 @@ void milkOfMagnesium()
 	{
 		return;		//already used today
 	}
+	if(!can_eat())
+	{
+		return;
+	}
 	if(my_fullness() > fullness_limit())
 	{
 		return;		//if you exceed the fullness limit then you cannot benefit from milk today. consuming it will be a waste
