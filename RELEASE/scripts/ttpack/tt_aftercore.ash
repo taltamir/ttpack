@@ -433,9 +433,9 @@ boolean tt_doTasks()
 {
 	//main loop of tt_aftercore. returning true resets the loop. returning false exits the loop
 	
-	if(!auto_unreservedAdvRemaining())
+	if(my_adventures() == 0)
 	{
-		print("Not enough reserved adventures. Done for today", "red");
+		print("Out of adventures", "red");
 		return false;
 	}
 	
