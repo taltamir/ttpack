@@ -270,6 +270,13 @@ void tt_acquireFamiliars()
 	}
 	tt_convert_hatchling_into_familiar($item[woim], $familiar[Oily Woim]);
 	
+	//+1 liver while equipped allowing better rollover drinking
+	if(!have_familiar($familiar[Stooper]))
+	{
+		tt_acquire($item[Stooper]);
+	}
+	tt_convert_hatchling_into_familiar($item[Stooper], $familiar[Stooper]);
+	
 	//get an egg every ascension. if you didn't eat it then get the familiar.
 	tt_convert_hatchling_into_familiar($item[grue egg], $familiar[Grue]);
 	
