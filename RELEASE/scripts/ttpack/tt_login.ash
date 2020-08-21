@@ -458,18 +458,37 @@ void eatChocolate()
 	if(class_chocolate_consumed < 3)
 	{
 		item chocolate_item;
-		if(my_class() == $class[seal clubber])			chocolate_item = $item[chocolate seal-clubbing club];
-		if(my_class() == $class[turtle tamer])			chocolate_item = $item[chocolate turtle totem];
-		if(my_class() == $class[pastamancer])			chocolate_item = $item[chocolate pasta spoon];
-		if(my_class() == $class[sauceror])				chocolate_item = $item[chocolate saucepan];
-		if(my_class() == $class[disco bandit])			chocolate_item = $item[chocolate disco ball];
-		if(my_class() == $class[accordion thief])		chocolate_item = $item[chocolate stolen accordion];
-		
-		int chocolate_value = mall_price(chocolate_item);
 		int qty_goal = 0;
-		if(maxPricePerAdv > (chocolate_value / 3))		qty_goal++;		//first chocolate gives 3 adv
-		if(maxPricePerAdv > (chocolate_value / 2))		qty_goal++;		//second chocolate gives 2 adv
-		if(maxPricePerAdv > chocolate_value)			qty_goal++;		//third chocolate gives 1 adv
+		if(isGuildClass())
+		{
+			if(my_class() == $class[seal clubber])			chocolate_item = $item[chocolate seal-clubbing club];
+			if(my_class() == $class[turtle tamer])			chocolate_item = $item[chocolate turtle totem];
+			if(my_class() == $class[pastamancer])			chocolate_item = $item[chocolate pasta spoon];
+			if(my_class() == $class[sauceror])				chocolate_item = $item[chocolate saucepan];
+			if(my_class() == $class[disco bandit])			chocolate_item = $item[chocolate disco ball];
+			if(my_class() == $class[accordion thief])		chocolate_item = $item[chocolate stolen accordion];
+			
+			int chocolate_value = mall_price(chocolate_item);
+			if(maxPricePerAdv > (chocolate_value / 3))		qty_goal++;		//first chocolate gives 3 adv
+			if(maxPricePerAdv > (chocolate_value / 2))		qty_goal++;		//second chocolate gives 2 adv
+			if(maxPricePerAdv > chocolate_value)			qty_goal++;		//third chocolate gives 1 adv
+		}
+		else	//non guild classes should find the cheapest of the 6 chocolates
+		{
+			chocolate_item = $item[chocolate seal-clubbing club];
+			int chocolate_value = mall_price(chocolate_item);
+			foreach it in $items[chocolate turtle totem, chocolate pasta spoon, chocolate saucepan, chocolate disco ball, chocolate stolen accordion]
+			{
+				if(mall_price(it) < mall_price(chocolate_item))
+				{
+					chocolate_item = it;
+					chocolate_value = mall_price(it);
+				}
+			}
+			
+			if(maxPricePerAdv > (chocolate_value / 2))		qty_goal++;		//first chocolate gives 2 adv
+			if(maxPricePerAdv > chocolate_value)			qty_goal++;		//second chocolate gives 1 adv
+		}
 		
 		int will_eat = qty_goal - class_chocolate_consumed;
 		if(will_eat > 0)
