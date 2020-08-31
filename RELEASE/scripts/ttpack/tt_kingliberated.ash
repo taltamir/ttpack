@@ -34,7 +34,7 @@ void main()
 	cli_execute("pvprotect.ash");			//closet pvp stealable items
 	cli_execute("cc_snapshot.ash");			//display your greenboxes
 
-	if(item_amount($item[Bitchin\' Meatcar]) == 0)
+	if(get_property("lastDesertUnlock").to_int() != my_ascensions())	//do not have desert access
 	{
 		print("acquire bitchin\' meatcar", "blue");
 		retrieve_item(1, $item[Bitchin\' Meatcar]);
