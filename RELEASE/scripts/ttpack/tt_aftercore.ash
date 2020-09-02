@@ -51,6 +51,11 @@ void tt_settings_defaults()
 		new_setting_added = true;
 		set_property("tt_aftercore_eatSurpriseEggs", false);
 	}
+	if(get_property("tt_aftercore_consumeAll") == "")
+	{
+		new_setting_added = true;
+		set_property("tt_aftercore_consumeAll", false);
+	}
 	
 	if(new_setting_added)
 	{
@@ -72,6 +77,7 @@ void tt_settings_print()
 	tt_printSetting("tt_aftercore_useAstralLeftovers", "Use leftover astral drink/food");
 	tt_printSetting("tt_aftercore_buyStuff", "Allow buying some useful things");
 	tt_printSetting("tt_aftercore_eatSurpriseEggs", "Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]");
+	tt_printSetting("tt_aftercore_consumeAll", "Run soolar CONSUME script with ALL command after all other eating is done");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -149,6 +155,16 @@ void tt_eatSurpriseEggs()
 		spooky_amt = min(item_amount($item[spooky surprise egg]), spooky_amt);
 		eat(spooky_amt, $item[spooky surprise egg]);
 	}
+}
+
+void tt_consumeAll()
+{
+	if(!get_property("tt_aftercore_consumeAll").to_boolean())
+	{
+		return;
+	}
+	
+	cli_execute("CONSUME ALL");
 }
 
 void tt_buyStuff()
