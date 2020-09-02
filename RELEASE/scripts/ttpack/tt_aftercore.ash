@@ -548,6 +548,7 @@ void main(string command)
 	
 	tt_useAstralLeftovers();
 	tt_eatSurpriseEggs();
+	tt_consumeAll();
 	
 	if(command == "help" || command == "" || command == "0");
 	{
