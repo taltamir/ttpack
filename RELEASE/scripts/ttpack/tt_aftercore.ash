@@ -83,10 +83,12 @@ void tt_chooseFamiliar()
 {
 	tt_acquireFamiliars();	//get familiars.
 	
-	if(have_familiar($familiar[Lil\' Barrel Mimic]));
+	handleFamiliar("drop");		//autoscend familiar choosing. choose a familiar that drops items
+	if(!get_property("_auto_thisLoopHandleFamiliar").to_boolean())	//if could not find a drop familiar
 	{
-		use_familiar($familiar[Lil\' Barrel Mimic]);
+		handleFamiliar("meat");
 	}
+	use_familiar(get_property("auto_familiarChoice").to_familiar());
 }
 
 void tt_useAstralLeftovers()
@@ -446,6 +448,7 @@ boolean tt_doTasks()
 		return false;
 	}
 	
+	resetState();
 	auto_interruptCheck();
 	tt_chooseFamiliar();
 	
@@ -466,6 +469,7 @@ boolean tt_doSingleTask(string command)
 		return false;
 	}
 	
+	resetState();
 	auto_interruptCheck();	
 	tt_chooseFamiliar();
 	
