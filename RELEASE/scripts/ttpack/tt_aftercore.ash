@@ -409,11 +409,16 @@ boolean tt_meatFarm(boolean override)
 		return false;
 	}
 
-	//castle in the sky NCs
+	//castle in the sky top floor NCs
 	set_property("choiceAdventure675", 1);
 	set_property("choiceAdventure676", 4);
 	set_property("choiceAdventure677", 4);
 	set_property("choiceAdventure678", 2);
+	
+	//castle in the sky basement NCs
+	set_property("choiceAdventure184", 0);
+	set_property("choiceAdventure670", 4);
+	set_property("choiceAdventure671", 1);
 	
 	//get some +meat buffs
 	shrugAT($effect[Polka of Plenty]);
@@ -435,7 +440,7 @@ boolean tt_meatFarm(boolean override)
 	}
 	maximize(maximizer_string, false);
 
-	return adv1($location[The Castle in the Clouds in the Sky (Top Floor)], -1, "");
+	return adv1($location[The Castle in the Clouds in the Sky (Basement)], -1, "");
 }
 
 boolean tt_doTasks()
