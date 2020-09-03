@@ -17,6 +17,16 @@ void greygoo_settings_defaults()
 		new_setting_added = true;
 		set_property("greygoo_guildUnlock", false);
 	}
+	if(get_property("greygoo_bakeryHardcoreUnlock") == "")
+	{
+		new_setting_added = true;
+		set_property("greygoo_bakeryHardcoreUnlock", true);
+	}
+	if(get_property("greygoo_bakerySoftcoreUnlock") == "")
+	{
+		new_setting_added = true;
+		set_property("greygoo_bakerySoftcoreUnlock", true);
+	}
 	
 	if(new_setting_added)
 	{
@@ -31,6 +41,8 @@ void greygoo_settings_print()
 	print();
 	print("Current settings for greygoo:", "blue");
 	tt_printSetting("greygoo_guildUnlock", "unlock your class guild");
+	tt_printSetting("greygoo_bakeryHardcoreUnlock", "unlock madness bakery if in hardcore");
+	tt_printSetting("greygoo_bakerySoftcoreUnlock", "unlock madness bakery if not in hardcore");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
@@ -38,9 +50,27 @@ void greygoo_settings_print()
 	print();
 }
 
-boolean greygoo_guild(boolean override)
+boolean greygoo_bakery()
 {
-	if(!get_property("greygoo_guildUnlock").to_boolean() && !override)
+	if(in_hardcore())
+	{
+		if(!get_property("greygoo_bakeryHardcoreUnlock").to_boolean())
+		{
+			return false;
+		}
+	}
+	else if(!get_property("greygoo_bakerySoftcoreUnlock").to_boolean())
+	{
+		return false;
+	}
+	
+	if(startArmorySubQuest()) return true;
+	//TODO rest of quest
+}
+
+boolean greygoo_guild()
+{
+	if(!get_property("greygoo_guildUnlock").to_boolean())
 	{
 		return false;
 	}
@@ -62,7 +92,8 @@ boolean greygoo_doTasks()
 		return false;
 	}
 	
-	if(greygoo_guild(false)) return true;
+	if(greygoo_guild()) return true;
+	if(greygoo_bakery()) return true;
 	
 	return false;
 }
