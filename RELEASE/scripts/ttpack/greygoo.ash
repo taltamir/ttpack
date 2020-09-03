@@ -65,7 +65,19 @@ boolean greygoo_bakery()
 	}
 	
 	if(startArmorySubQuest()) return true;
-	//TODO rest of quest
+	
+	if(internalQuestStatus("questM25Armorer") > -1 && internalQuestStatus("questM25Armorer") < 4)
+	{
+		set_property("choiceAdventure1061", 1);	//try to enter office
+		return adv1($location[Madness Bakery], -1, "");
+	}
+	
+	if(internalQuestStatus("questM25Armorer") == 4)		//got no-handed pie. need to turn it in.
+	{
+		print("finishing quest [Lending a Hand (and a Foot)]");
+		visit_url("shop.php?whichshop=armory");
+		run_choice(2);		//give no-handed pie to finish the quest
+	}
 	return false;
 }
 
