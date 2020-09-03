@@ -66,6 +66,7 @@ boolean greygoo_bakery()
 	
 	if(startArmorySubQuest()) return true;
 	//TODO rest of quest
+	return false;
 }
 
 boolean greygoo_guild()
