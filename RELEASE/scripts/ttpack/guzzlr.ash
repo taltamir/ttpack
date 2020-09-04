@@ -390,7 +390,13 @@ boolean guzzlrAdv(location goal)
 	set_property("auto_priorLocation", place);
 	
 	//familiar switching
-	if(get_property("guzzlr_autoFamiliar").to_boolean())			//want to use auto familiar chooice.
+	familiar familiar_target_100 = get_property("auto_100familiar").to_familiar();
+	if(familiar_target_100 != $familiar[none])		//do not break 100 familiar runs. yes, even in aftercore.
+	{
+		handleFamiliar(familiar_target_100);
+		use_familiar(familiar_target_100);
+	}
+	else if(get_property("guzzlr_autoFamiliar").to_boolean())			//want to use auto familiar chooice.
 	{
 		handleFamiliar("drop");		//autoscend familiar choosing. choose a familiar that drops items
 		if(!get_property("_auto_thisLoopHandleFamiliar").to_boolean())	//if could not find a drop familiar
