@@ -37,6 +37,11 @@ void greygoo_settings_defaults()
 		new_setting_added = true;
 		set_property("greygoo_fortuneSoftcore", true);
 	}
+	if(get_property("greygoo_fightGoo") == "")
+	{
+		new_setting_added = true;
+		set_property("greygoo_fightGoo", true);
+	}
 	
 	if(new_setting_added)
 	{
@@ -55,11 +60,54 @@ void greygoo_settings_print()
 	tt_printSetting("greygoo_bakerySoftcoreUnlock", "unlock madness bakery if not in hardcore");
 	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
 	tt_printSetting("greygoo_fortuneSoftcore", "consume fortune cookie and lucky lindy not in hardcore");
+	tt_printSetting("greygoo_fightGoo", "fight the goo monsters");
 	
 	print();
 	print("You can make changes to these settings by typing:", "blue");
 	print("set [setting_name] = [target]", "blue");
 	print();
+}
+
+boolean greygooAdv(location loc)
+{
+	if(!zone_isAvailable(loc, true)){
+		auto_log_warning("Can't get to " + loc + " right now.", "red");
+		return false;
+	}
+
+	set_property("nextAdventure", loc);
+	
+	equipMaximizedGear();
+	autoChooseFamiliar(loc);
+	preAdvUpdateFamiliar(loc);
+
+	// adv1 can erroneously return false for "choiceless" non-combats
+	// see https://kolmafia.us/showthread.php?25370-adv1-returns-false-for-quot-choiceless-quot-choice-adventures
+	// undo all this when (if?) that ever gets fixed
+	string previousEncounter = get_property("lastEncounter");
+	int turncount = my_turncount();
+	boolean advReturn = adv1(loc, -1, "");
+	if (!advReturn)
+	{
+		auto_log_debug("adv1 returned false for some reason. Did we actually adventure though?", "blue");
+		if (get_property("lastEncounter") != previousEncounter)
+		{
+			auto_log_debug(`Looks like we may have adventured, lastEncounter was {previousEncounter}, now {get_property("lastEncounter")}`, "blue");
+			advReturn = true;
+		}
+		if (my_turncount() > turncount)
+		{
+			auto_log_debug(`Looks like we may have adventured, turncount was {turncount}, now {my_turncount()}`, "blue");
+			advReturn = true;
+		}
+	}
+	
+	if(have_effect($effect[Beaten Up]) > 0)
+	{
+		abort("We got beaten up");
+	}
+	
+	return advReturn;
 }
 
 boolean greygoo_bakery()
@@ -81,7 +129,7 @@ boolean greygoo_bakery()
 	if(internalQuestStatus("questM25Armorer") > -1 && internalQuestStatus("questM25Armorer") < 4)
 	{
 		set_property("choiceAdventure1061", 1);	//try to enter office
-		return adv1($location[Madness Bakery], -1, "");
+		return greygooAdv($location[Madness Bakery]);
 	}
 	
 	if(internalQuestStatus("questM25Armorer") == 4)		//got no-handed pie. need to turn it in.
@@ -140,7 +188,7 @@ boolean greygoo_fortuneCollect()
 		}
 	}
 	
-	return adv1(goal, -1, "");
+	return greygooAdv(goal);
 }
 
 boolean greygoo_fortuneConsume()
@@ -196,6 +244,116 @@ boolean greygoo_fortuneConsume()
 	return false;
 }
 
+boolean greygoo_fightGoo()
+{
+	if(!get_property("greygoo_fightGoo").to_boolean())
+	{
+		return false;
+	}
+
+	boolean advResult = false;
+	
+	switch(get_property("_greygoo_zonesFinished").to_int())
+	{
+	case 0:
+		//fight 11 scaling monsters in [The Goo-Bedecked Beanstalk].
+		//scaling: Combat Initiative / 3
+		provideInitiative(1000,true);
+		
+		advResult = greygooAdv($location[The Goo-Bedecked Beanstalk]);
+		if(get_property("lastEncounter") == "You Don't Find Jack")
+		{
+			set_property("_greygoo_zonesFinished", "1");
+		}
+		break;
+	case 1:
+		//fight 11 scaling monsters in [The Goo-Coated Knob].
+		//scaling: 3 * (Sleaze Resistance) * (1 + (Food drop% / 100))
+		addToMaximize("30 sleaze res,10 food drop");
+		
+		advResult = greygooAdv($location[The Goo-Coated Knob]);
+		if(get_property("lastEncounter") == "Goo-Gone")
+		{
+			set_property("_greygoo_zonesFinished", "2");
+		}
+		break;
+	case 2:
+		//fight 11 scaling monsters in [The Goo-Spewing Bat Hole].
+		//scaling: 4 * (Stench Resistance) * (1 + (-Combat Chance%) / 100)
+		addToMaximize("40 stench res");
+		providePlusNonCombat(30);
+		
+		advResult = greygooAdv($location[The Goo-Spewing Bat Hole]);
+		if(get_property("lastEncounter") == "The Hole Is No Longer a Hole")
+		{
+			set_property("_greygoo_zonesFinished", "3");
+		}
+		break;
+	case 3:
+		//fight 11 scaling monsters in [The Goo-Girded Garves].
+		//scaling: 4 * (Spooky Resistance) * (1 + (+Combat Chance%) / 100)
+		addToMaximize("40 spooky res");
+		providePlusCombat(30);
+		
+		advResult = greygooAdv($location[The Goo-Girded Garves]);
+		if(get_property("lastEncounter") == "Un-Unquiet")
+		{
+			set_property("_greygoo_zonesFinished", "4");
+		}
+		break;
+	case 4:
+		//fight 11 scaling monsters in [The Goo-Shrouded Palindome].
+		//scaling: Monster Level
+		addToMaximize("10 ml");
+		
+		advResult = greygooAdv($location[The Goo-Shrouded Palindome]);
+		if(get_property("lastEncounter") == "No More Goo, Geromon")
+		{
+			set_property("_greygoo_zonesFinished", "5");
+		}
+		break;
+	case 5:
+		//fight 11 scaling monsters in [The Goo-Splattered Tower Ruins].
+		//scaling: sqrt(Maximum MP)
+		addToMaximize("10 mp");
+		
+		advResult = greygooAdv($location[The Goo-Splattered Tower Ruins]);
+		if(get_property("lastEncounter") == "Doubly Abandoned")
+		{
+			set_property("_greygoo_zonesFinished", "6");
+		}
+		break;
+	case 6:
+		//fight 11 scaling monsters in [The Goo-Choked Fun House].
+		//scaling: sqrt(Maximum HP)
+		addToMaximize("10 hp");
+		
+		advResult = greygooAdv($location[The Goo-Choked Fun House]);
+		if(get_property("lastEncounter") == "No More Fun")
+		{
+			set_property("_greygoo_zonesFinished", "7");
+		}
+		break;
+	case 7:
+		//fight 1 scaling monsters in [Prism of Goo].
+		//scaling: Prismatic Damage
+		addToMaximize("10 prismatic dmg");
+		
+		//advResult = greygooAdv($location[Prism of Goo]);
+		set_property("_greygoo_zonesFinished", "8");
+		abort("Please manually fight A Prism of Goo and then run me again");
+		break;
+	case 8:
+		//fight scaling monsters in [The Goo Fields].
+		//scaling: enemies defeated here
+		
+		advResult = greygooAdv($location[The Goo Fields]);
+		break;
+	}
+	
+	return advResult;
+}
+
 boolean greygoo_doTasks()
 {
 	greygoo_fortuneConsume();
@@ -207,9 +365,22 @@ boolean greygoo_doTasks()
 		return false;
 	}
 	
+	resetState();
+	
+	if(my_hp() < my_maxhp() * 0.8)
+	{
+		acquireHP();
+	}
+	int mp_target = min(my_maxmp() * 0.9, 200);		//0.9 multiplier to avoid wastage
+	if(my_mp() < mp_target)
+	{
+		acquireMP(mp_target);
+	}
+	
 	if(greygoo_fortuneCollect()) return true;
 	if(greygoo_guild()) return true;
 	if(greygoo_bakery()) return true;
+	if(greygoo_fightGoo()) return true;
 	
 	return false;
 }
@@ -229,6 +400,13 @@ void greygoo_start()
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
+	backupSetting("hpAutoRecovery", -0.05);
+	backupSetting("hpAutoRecoveryTarget", -0.05);
+	backupSetting("mpAutoRecovery", -0.05);
+	backupSetting("mpAutoRecoveryTarget", -0.05);
+	backupSetting("manaBurningTrigger", -0.05);
+	backupSetting("manaBurningThreshold", -0.05);
+	backupSetting("autoAbortThreshold", -0.05);
 	
 	//primary loop
 	try
