@@ -378,6 +378,7 @@ boolean greygoo_doTasks()
 	if(greygoo_fortuneCollect()) return true;
 	if(greygoo_guild()) return true;
 	if(greygoo_bakery()) return true;
+	if(LX_freeCombats(true)) return true;
 	if(greygoo_fightGoo()) return true;
 	
 	return false;
