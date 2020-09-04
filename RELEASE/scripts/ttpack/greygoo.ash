@@ -247,6 +247,8 @@ boolean greygoo_fightGoo()
 		return false;
 	}
 
+	buffMaintain($effect[blood bubble], 0, 1, 1);
+	
 	boolean advResult = false;
 	
 	switch(get_property("_greygoo_zonesFinished").to_int())
