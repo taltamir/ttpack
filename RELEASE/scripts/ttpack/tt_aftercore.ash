@@ -432,7 +432,7 @@ boolean tt_meatFarm(boolean override)
 	set_property("choiceAdventure678", 2);
 	
 	//castle in the sky basement NCs
-	set_property("choiceAdventure184", 0);
+	set_property("choiceAdventure669", 1);
 	set_property("choiceAdventure670", 4);
 	set_property("choiceAdventure671", 1);
 	
