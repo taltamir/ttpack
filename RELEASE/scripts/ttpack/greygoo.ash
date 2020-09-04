@@ -208,10 +208,6 @@ boolean greygoo_fortuneConsume()
 	{
 		return false;
 	}
-	if(!contains_text(get_counters("Semirare window begin", 0, 200), "Semirare window begin"))
-	{
-		return false;	//we missed the start of the SR range. do not use fortune cookie
-	}
 
 	// Try to consume a Lucky Lindy
 	if (inebriety_left() > 0 && canDrink($item[Lucky Lindy]) && my_meat() >= npc_price($item[Lucky Lindy]))
