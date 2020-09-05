@@ -254,17 +254,6 @@ boolean greygoo_fightGoo()
 	switch(get_property("_greygoo_zonesFinished").to_int())
 	{
 	case 0:
-		//fight 11 scaling monsters in [The Goo-Bedecked Beanstalk].
-		//scaling: Combat Initiative / 3
-		provideInitiative(1000,true);
-		
-		advResult = greygooAdv($location[The Goo-Bedecked Beanstalk]);
-		if(get_property("lastEncounter") == "You Don't Find Jack")
-		{
-			set_property("_greygoo_zonesFinished", "1");
-		}
-		break;
-	case 1:
 		//fight 11 scaling monsters in [The Goo-Coated Knob].
 		//scaling: 3 * (Sleaze Resistance) * (1 + (Food drop% / 100))
 		addToMaximize("30 sleaze res,10 food drop");
@@ -275,7 +264,7 @@ boolean greygoo_fightGoo()
 			set_property("_greygoo_zonesFinished", "2");
 		}
 		break;
-	case 2:
+	case 1:
 		//fight 11 scaling monsters in [The Goo-Spewing Bat Hole].
 		//scaling: 4 * (Stench Resistance) * (1 + (-Combat Chance%) / 100)
 		addToMaximize("40 stench res");
@@ -287,7 +276,7 @@ boolean greygoo_fightGoo()
 			set_property("_greygoo_zonesFinished", "3");
 		}
 		break;
-	case 3:
+	case 2:
 		//fight 11 scaling monsters in [The Goo-Girded Garves].
 		//scaling: 4 * (Spooky Resistance) * (1 + (+Combat Chance%) / 100)
 		addToMaximize("40 spooky res");
@@ -299,7 +288,7 @@ boolean greygoo_fightGoo()
 			set_property("_greygoo_zonesFinished", "4");
 		}
 		break;
-	case 4:
+	case 3:
 		//fight 11 scaling monsters in [The Goo-Shrouded Palindome].
 		//scaling: Monster Level
 		addToMaximize("10 ml");
@@ -310,7 +299,7 @@ boolean greygoo_fightGoo()
 			set_property("_greygoo_zonesFinished", "5");
 		}
 		break;
-	case 5:
+	case 4:
 		//fight 11 scaling monsters in [The Goo-Splattered Tower Ruins].
 		//scaling: sqrt(Maximum MP)
 		addToMaximize("10 mp");
@@ -321,7 +310,7 @@ boolean greygoo_fightGoo()
 			set_property("_greygoo_zonesFinished", "6");
 		}
 		break;
-	case 6:
+	case 5:
 		//fight 11 scaling monsters in [The Goo-Choked Fun House].
 		//scaling: sqrt(Maximum HP)
 		addToMaximize("10 hp");
@@ -330,6 +319,17 @@ boolean greygoo_fightGoo()
 		if(get_property("lastEncounter") == "No More Fun")
 		{
 			set_property("_greygoo_zonesFinished", "7");
+		}
+		break;
+	case 6:
+		//fight 11 scaling monsters in [The Goo-Bedecked Beanstalk].
+		//scaling: Combat Initiative / 3
+		provideInitiative(200,true);
+		
+		advResult = greygooAdv($location[The Goo-Bedecked Beanstalk]);
+		if(get_property("lastEncounter") == "You Don't Find Jack")
+		{
+			set_property("_greygoo_zonesFinished", "1");
 		}
 		break;
 	case 7:
