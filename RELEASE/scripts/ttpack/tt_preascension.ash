@@ -42,17 +42,25 @@ void KGB()
 
 void main()
 {
-	if(!inAftercore())
+	if(my_path() == "Grey Goo")		//greygoo does not break ronin but still allows you to enter gash on day3
+	{
+		if(my_daycount() < 3)
+		{
+			int remaining_days = 3-my_daycount();
+			abort("You need to wait " + remaining_days + " more days before you can ascend");
+		}
+	}
+	else if(!inAftercore())
 	{
 		abort("Accidentally tried to run pre-ascension script without being in aftercore");
 	}
 	
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	if(pvp_attacks_left() > 0)				//if you accidentally entered valhalla without using all your pvp
-		{
+	{
 		cli_execute("outfit pvp");			//wear pvp outfit
 		cli_execute("pvp flowers 0");		//burn remaining pvp fights. set for average season.
-		}
+	}
 	cli_execute("breakfast");				//run mafia's built in breakfast script to do many things.
 	KGB();									//Do some briefcase things before ascension.
 	combBeach();							//burn all remaining adventures on beach combing before ascension.
