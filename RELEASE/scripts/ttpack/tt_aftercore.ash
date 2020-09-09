@@ -298,6 +298,9 @@ void tt_acquireFamiliars()
 	//get an egg every ascension. if you didn't eat it then get the familiar.
 	tt_convert_hatchling_into_familiar($item[grue egg], $familiar[Grue]);
 	
+	//hatchling is a common drop
+	tt_convert_hatchling_into_familiar($item[sleeping wereturtle], $familiar[Wereturtle]);
+	
 	//nemesis quest familiars
 	tt_convert_hatchling_into_familiar($item[adorable seal larva], $familiar[Adorable Seal Larva]);		//seal clubber
 	tt_convert_hatchling_into_familiar($item[untamable turtle], $familiar[Untamed Turtle]);				//turtle tamer
