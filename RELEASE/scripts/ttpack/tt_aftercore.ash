@@ -89,12 +89,21 @@ void tt_chooseFamiliar()
 {
 	tt_acquireFamiliars();	//get familiars.
 	
-	handleFamiliar("drop");		//autoscend familiar choosing. choose a familiar that drops items
-	if(!get_property("_auto_thisLoopHandleFamiliar").to_boolean())	//if could not find a drop familiar
+	familiar familiar_target_100 = get_property("auto_100familiar").to_familiar();
+	if(familiar_target_100 != $familiar[none])		//do not break 100 familiar runs. yes, even in aftercore.
 	{
-		handleFamiliar("meat");
+		handleFamiliar(familiar_target_100);
+		use_familiar(familiar_target_100);
 	}
-	use_familiar(get_property("auto_familiarChoice").to_familiar());
+	else
+	{
+		handleFamiliar("drop");		//autoscend familiar choosing. choose a familiar that drops items
+		if(!get_property("_auto_thisLoopHandleFamiliar").to_boolean())	//if could not find a drop familiar
+		{
+			handleFamiliar("meat");
+		}
+		use_familiar(get_property("auto_familiarChoice").to_familiar());
+	}
 }
 
 void tt_useAstralLeftovers()
