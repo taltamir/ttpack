@@ -9,6 +9,7 @@ void greygoo_settings_print();
 
 void greygoo_settings_defaults()
 {
+	tt_depreciate();
 	boolean new_setting_added = false;
 	
 	//set defaults
@@ -17,15 +18,15 @@ void greygoo_settings_defaults()
 		new_setting_added = true;
 		set_property("greygoo_guildUnlock", false);
 	}
-	if(get_property("greygoo_bakeryHardcoreUnlock") == "")
+	if(get_property("greygoo_foodHardcoreUnlock") == "")
 	{
 		new_setting_added = true;
-		set_property("greygoo_bakeryHardcoreUnlock", true);
+		set_property("greygoo_foodHardcoreUnlock", true);
 	}
-	if(get_property("greygoo_bakerySoftcoreUnlock") == "")
+	if(get_property("greygoo_foodSoftcoreUnlock") == "")
 	{
 		new_setting_added = true;
-		set_property("greygoo_bakerySoftcoreUnlock", true);
+		set_property("greygoo_foodSoftcoreUnlock", true);
 	}
 	if(get_property("greygoo_fortuneHardcore") == "")
 	{
@@ -56,8 +57,8 @@ void greygoo_settings_print()
 	print();
 	print("Current settings for greygoo:", "blue");
 	tt_printSetting("greygoo_guildUnlock", "unlock your class guild");
-	tt_printSetting("greygoo_bakeryHardcoreUnlock", "unlock madness bakery if in hardcore");
-	tt_printSetting("greygoo_bakerySoftcoreUnlock", "unlock madness bakery if not in hardcore");
+	tt_printSetting("greygoo_foodHardcoreUnlock", "unlock food shops if in hardcore");
+	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food shops if not in hardcore");
 	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
 	tt_printSetting("greygoo_fortuneSoftcore", "consume fortune cookie and lucky lindy not in hardcore");
 	tt_printSetting("greygoo_fightGoo", "fight the goo monsters");
@@ -110,16 +111,16 @@ boolean greygooAdv(location loc)
 	return advReturn;
 }
 
-boolean greygoo_bakery()
+boolean greygoo_food()
 {
 	if(in_hardcore())
 	{
-		if(!get_property("greygoo_bakeryHardcoreUnlock").to_boolean())
+		if(!get_property("greygoo_foodHardcoreUnlock").to_boolean())
 		{
 			return false;
 		}
 	}
-	else if(!get_property("greygoo_bakerySoftcoreUnlock").to_boolean())
+	else if(!get_property("greygoo_foodSoftcoreUnlock").to_boolean())
 	{
 		return false;
 	}
@@ -138,6 +139,11 @@ boolean greygoo_bakery()
 		visit_url("shop.php?whichshop=armory");
 		run_choice(2);		//give no-handed pie to finish the quest
 	}
+	
+	if(LX_hippyBoatman()) return true;		//unlock island
+	if(L12_getOutfit()) return true;
+	if(L12_startWar()) return true;
+	
 	return false;
 }
 
@@ -356,6 +362,7 @@ boolean greygoo_doTasks()
 {
 	greygoo_fortuneConsume();
 	consumeStuff();
+	council();
 	
 	if(my_adventures() == 0)
 	{
@@ -377,7 +384,7 @@ boolean greygoo_doTasks()
 	
 	if(greygoo_fortuneCollect()) return true;
 	if(greygoo_guild()) return true;
-	if(greygoo_bakery()) return true;
+	if(greygoo_food()) return true;
 	if(LX_freeCombats(true)) return true;
 	if(greygoo_fightGoo()) return true;
 	
@@ -406,6 +413,8 @@ void greygoo_start()
 	backupSetting("manaBurningTrigger", -0.05);
 	backupSetting("manaBurningThreshold", -0.05);
 	backupSetting("autoAbortThreshold", -0.05);
+	
+	horseDark();
 	
 	//primary loop
 	try
