@@ -419,6 +419,7 @@ void greygoo_start()
 	backupSetting("autoAbortThreshold", -0.05);
 	
 	horseDark();
+	auto_voteSetup();
 	
 	//primary loop
 	try
