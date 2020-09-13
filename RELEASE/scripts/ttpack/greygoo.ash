@@ -362,7 +362,7 @@ boolean greygoo_doTasks()
 {
 	greygoo_fortuneConsume();
 	consumeStuff();
-	council();
+	councilMaintenance();
 	
 	if(my_adventures() == 0)
 	{
