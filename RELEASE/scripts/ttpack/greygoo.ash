@@ -56,7 +56,7 @@ void greygoo_settings_print()
 	//print current settings status
 	print();
 	print("Current settings for greygoo:", "blue");
-	tt_printSetting("greygoo_guildUnlock", "unlock your class guild");
+	tt_printSetting("greygoo_guildUnlock", "unlock your class guild. advised to be true for food and drink and restores");
 	tt_printSetting("greygoo_foodHardcoreUnlock", "unlock food shops if in hardcore");
 	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food shops if not in hardcore");
 	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
@@ -140,9 +140,13 @@ boolean greygoo_food()
 		run_choice(2);		//give no-handed pie to finish the quest
 	}
 	
+	//unlock and upgrade hippy store / organic orchard
+	set_property("auto_hippyInstead", true);		//frat gives better rewards from organic orchard, but this is much quicker
 	if(LX_hippyBoatman()) return true;		//unlock island
 	if(L12_getOutfit()) return true;
 	if(L12_startWar()) return true;
+	if(L12_filthworms()) return true;
+	if(L12_orchardFinalize()) return true;
 	
 	return false;
 }
@@ -401,8 +405,8 @@ void greygoo_start()
 	backupSetting("promptAboutCrafting", 0);
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
-	backupSetting("afterAdventureScript", "");
-	backupSetting("betweenBattleScript", "");
+	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
