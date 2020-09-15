@@ -355,6 +355,7 @@ boolean greygoo_fightGoo()
 		//fight scaling monsters in [The Goo Fields].
 		//scaling: enemies defeated here
 		
+		addToMaximize("effective");		//need a weapon that can deal damage for [grey goo torus]
 		advResult = greygooAdv($location[The Goo Fields]);
 		break;
 	}
