@@ -58,7 +58,7 @@ void main()
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	if(pvp_attacks_left() > 0)				//if you accidentally entered valhalla without using all your pvp
 	{
-		cli_execute("outfit pvp");			//wear pvp outfit
+		cli_execute("maximize food drop");	//prepare outfit
 		cli_execute("pvp flowers 0");		//burn remaining pvp fights. set for average season.
 	}
 	cli_execute("breakfast");				//run mafia's built in breakfast script to do many things.
