@@ -32,7 +32,7 @@ void main()
 	cli_execute("tt_login.ash");			//run login script
 	cli_execute("tt_fortune.ash");			//reply and ask for zatara fortunes.
 	cli_execute("pvprotect.ash");			//closet pvp stealable items
-	cli_execute("cc_snapshot.ash");			//display your greenboxes
+	tt_snapshot();							//run cc_snapshot if applicable to showoff your greenboxes
 
 	if(get_property("lastDesertUnlock").to_int() != my_ascensions())	//do not have desert access
 	{

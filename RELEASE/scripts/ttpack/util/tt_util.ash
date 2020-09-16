@@ -100,3 +100,18 @@ boolean tt_isRich()
 	if(my_meat() > 1000000) return true;
 	else return false;
 }
+
+void tt_snapshot()
+{
+	if(get_property("auto_snapshot").to_int() == my_ascensions())
+	{
+		return;		//only want to run this once per ascension.
+	}
+	
+	if(svn_info("ccascend-snapshot").last_changed_rev > 0)
+	{
+		cli_execute("cc_snapshot.ash");
+	}
+
+	set_property("auto_snapshot", my_ascensions());
+}

@@ -69,7 +69,7 @@ void main()
 		cli_execute("OCDInv.ash");			//run OCD inventory control script (must be installed seperately)
 	}
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
-	cli_execute("cc_snapshot.ash");			//runs the cc snapshot script (must be installed seperately)
+	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
 	set_property("recoveryScript", "");		//set recovery script to none before ascending
 	displayTake();							//take certain items from display so you could use them.
 }
