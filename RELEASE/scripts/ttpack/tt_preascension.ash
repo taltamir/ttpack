@@ -64,12 +64,12 @@ void main()
 	cli_execute("breakfast");				//run mafia's built in breakfast script to do many things.
 	KGB();									//Do some briefcase things before ascension.
 	combBeach();							//burn all remaining adventures on beach combing before ascension.
+	if(my_path() == "Grey Goo")	return;		//everything below this line errors in grey goo.
 	if(have_shop())
 	{
 		cli_execute("OCDInv.ash");			//run OCD inventory control script (must be installed seperately)
 	}
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
-	set_property("recoveryScript", "");		//set recovery script to none before ascending
 	displayTake();							//take certain items from display so you could use them.
 }
