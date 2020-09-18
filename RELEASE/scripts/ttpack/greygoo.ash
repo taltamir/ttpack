@@ -480,5 +480,14 @@ void main()
 	finally
 	{
 		greygoo_settings_print();
+		print();
+		if(my_daycount() < 3)
+		{
+			print("You are currently on day " +my_daycount()+ " out of 3 of this grey goo run","red");
+		}
+		else
+		{
+			print("You are done with this grey goo ascension. please enter the astral gash","green");
+		}
 	}
 }
