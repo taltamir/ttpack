@@ -18,6 +18,11 @@ void greygoo_settings_defaults()
 		new_setting_added = true;
 		set_property("greygoo_guildUnlock", false);
 	}
+	if(get_property("greygoo_galaktikQuest") == "")
+	{
+		new_setting_added = true;
+		set_property("greygoo_galaktikQuest", true);
+	}
 	if(get_property("greygoo_foodHardcoreUnlock") == "")
 	{
 		new_setting_added = true;
@@ -62,6 +67,7 @@ void greygoo_settings_print()
 	print();
 	print("Current settings for greygoo:", "blue");
 	tt_printSetting("greygoo_guildUnlock", "unlock your class guild. advised to be true for food and drink and restores");
+	tt_printSetting("greygoo_galaktikQuest", "do galaktik quest");
 	tt_printSetting("greygoo_foodHardcoreUnlock", "unlock food and booze NPC shops if in hardcore");
 	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food and booze NPC shops if not in hardcore");
 	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
@@ -402,6 +408,7 @@ boolean greygoo_fightGoo()
 
 boolean greygoo_doTasks()
 {
+	auto_interruptCheck();
 	greygoo_fortuneConsume();
 	consumeStuff();
 	councilMaintenance();
@@ -437,6 +444,7 @@ boolean greygoo_doTasks()
 	}
 	
 	if(greygoo_fortuneCollect()) return true;
+	if(LX_galaktikSubQuest()) return true;
 	if(greygoo_guild()) return true;
 	if(greygoo_food()) return true;
 	if(LX_freeCombats(true)) return true;
@@ -473,6 +481,11 @@ void greygoo_start()
 	
 	horseDark();
 	auto_voteSetup();
+	
+	if(get_property("greygoo_galaktikQuest").to_boolean())
+	{
+		set_property("auto_doGalaktik", true);
+	}
 	
 	//primary loop
 	try
