@@ -62,8 +62,8 @@ void greygoo_settings_print()
 	print();
 	print("Current settings for greygoo:", "blue");
 	tt_printSetting("greygoo_guildUnlock", "unlock your class guild. advised to be true for food and drink and restores");
-	tt_printSetting("greygoo_foodHardcoreUnlock", "unlock food shops if in hardcore");
-	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food shops if not in hardcore");
+	tt_printSetting("greygoo_foodHardcoreUnlock", "unlock food and booze NPC shops if in hardcore");
+	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food and booze NPC shops if not in hardcore");
 	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
 	tt_printSetting("greygoo_fortuneSoftcore", "consume fortune cookie and lucky lindy not in hardcore");
 	tt_printSetting("greygoo_oddJobs", "spend all your adventures on the odd jobs board for 100 meat per adv and some stats");
@@ -131,6 +131,14 @@ boolean greygoo_food()
 		return false;
 	}
 	
+	//unlock [typical tavern]
+	if(L2_mosquito()) return true;
+	if(internalQuestStatus("questL03Rat") == 0)		//tavern quest started by visiting council. but never talked to bart ender
+	{
+		visit_url("tavern.php?place=barkeep");		//talk to him once to unlock his booze selling.
+	}
+	
+	//unlock [madeline's baking supply]
 	if(startArmorySubQuest()) return true;
 	
 	if(internalQuestStatus("questM25Armorer") > -1 && internalQuestStatus("questM25Armorer") < 4)
@@ -138,7 +146,6 @@ boolean greygoo_food()
 		set_property("choiceAdventure1061", 1);	//try to enter office
 		return greygooAdv($location[Madness Bakery]);
 	}
-	
 	if(internalQuestStatus("questM25Armorer") == 4)		//got no-handed pie. need to turn it in.
 	{
 		print("finishing quest [Lending a Hand (and a Foot)]");
@@ -398,6 +405,7 @@ boolean greygoo_doTasks()
 	greygoo_fortuneConsume();
 	consumeStuff();
 	councilMaintenance();
+	cli_execute("refresh quests");		//greygoo has broken tracking verified for: questL02Larva && questM19Hippy
 	
 	if(my_adventures() == 0)
 	{
