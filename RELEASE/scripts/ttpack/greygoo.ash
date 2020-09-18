@@ -480,6 +480,7 @@ void main()
 	}
 	
 	greygoo_settings_defaults();
+	initializeSettings();		//initialize autoscend once per ascension.
 	
 	try
 	{
