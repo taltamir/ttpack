@@ -412,6 +412,17 @@ boolean greygoo_doTasks()
 		print("out of adventures");
 		return false;
 	}
+	if(my_familiar() == $familiar[Stooper])
+	{
+		auto_log_info("Avoiding stooper stupor...", "blue");
+		familiar fam = (is100FamRun() ? get_property("auto_100familiar").to_familiar() : $familiar[Mosquito]);
+		use_familiar(fam);
+	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		auto_log_warning("I am overdrunk", "red");
+		return false;
+	}
 	
 	resetState();
 	
@@ -440,6 +451,8 @@ void greygoo_start()
 	//This also should set our path too.
 	string page = visit_url("main.php");
 	page = visit_url("api.php?what=status&for=4", false);
+	
+	initializeSettings();		//initialize autoscend once per ascension.
 	
 	backupSetting("printStackOnAbort", true);
 	backupSetting("promptAboutCrafting", 0);
@@ -480,7 +493,6 @@ void main()
 	}
 	
 	greygoo_settings_defaults();
-	initializeSettings();		//initialize autoscend once per ascension.
 	
 	try
 	{
