@@ -487,6 +487,7 @@ void main()
 	}
 	finally
 	{
+		equipRollover();
 		greygoo_settings_print();
 		print();
 		if(my_daycount() < 3)
