@@ -38,6 +38,11 @@ void greygoo_settings_defaults()
 		new_setting_added = true;
 		set_property("greygoo_fortuneSoftcore", true);
 	}
+	if(get_property("greygoo_oddJobs") == "")
+	{
+		new_setting_added = true;
+		set_property("greygoo_oddJobs", false);
+	}
 	if(get_property("greygoo_fightGoo") == "")
 	{
 		new_setting_added = true;
@@ -61,6 +66,7 @@ void greygoo_settings_print()
 	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food shops if not in hardcore");
 	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
 	tt_printSetting("greygoo_fortuneSoftcore", "consume fortune cookie and lucky lindy not in hardcore");
+	tt_printSetting("greygoo_oddJobs", "spend all your adventures on the odd jobs board for 100 meat per adv and some stats");
 	tt_printSetting("greygoo_fightGoo", "fight the goo monsters");
 	
 	print();
@@ -250,12 +256,33 @@ boolean greygoo_fortuneConsume()
 	return false;
 }
 
-boolean greygoo_fightGoo()
+boolean greygoo_oddJobs()
 {
-	if(!get_property("greygoo_fightGoo").to_boolean())
+	//spend all your adventures on the odd jobs board for 100 meat per adv and some stats
+	if(!get_property("greygoo_oddJobs").to_boolean())
 	{
 		return false;
 	}
+	if(my_adventures() < 10 + auto_advToReserve())
+	{
+		return false;
+	}
+	
+	int start_adv = my_adventures();
+	visit_url("place.php?whichplace=town&action=town_oddjobs");
+	run_choice(3);	//always trades 10 adv for 1000 meat and stats.
+	
+	if(my_adventures() == start_adv - 10)
+	{
+		return true;
+	}
+	abort("greygoo_oddJobs() error detected. start_adv = " +start_adv+ " adventures = " +my_adventures());
+	return false;
+}
+
+boolean greygoo_fightGoo()
+{
+	
 
 	buffMaintain($effect[blood bubble], 0, 1, 1);
 	
@@ -391,6 +418,7 @@ boolean greygoo_doTasks()
 	if(greygoo_guild()) return true;
 	if(greygoo_food()) return true;
 	if(LX_freeCombats(true)) return true;
+	if(greygoo_oddJobs()) return true;
 	if(greygoo_fightGoo()) return true;
 	
 	return false;
