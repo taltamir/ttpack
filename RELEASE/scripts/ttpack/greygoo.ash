@@ -282,7 +282,10 @@ boolean greygoo_oddJobs()
 
 boolean greygoo_fightGoo()
 {
-	
+	if(!get_property("greygoo_fightGoo").to_boolean())
+	{
+		return false;
+	}
 
 	buffMaintain($effect[blood bubble], 0, 1, 1);
 	
