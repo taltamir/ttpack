@@ -292,6 +292,7 @@ boolean greygoo_oddJobs()
 	
 	if(my_adventures() == start_adv - 10)
 	{
+		cli_execute("auto_post_adv.ash");
 		return true;
 	}
 	abort("greygoo_oddJobs() error detected. start_adv = " +start_adv+ " adventures = " +my_adventures());
