@@ -276,7 +276,9 @@ boolean greygoo_oddJobs()
 	{
 		return false;
 	}
-	if(my_adventures() < 10 + auto_advToReserve())
+	while(auto_autoConsumeOne("drink", false));		//try to fill up on drink
+	while(auto_autoConsumeOne("eat", false));		//try to fill up on food
+	if(my_adventures() < 10)
 	{
 		return false;
 	}
