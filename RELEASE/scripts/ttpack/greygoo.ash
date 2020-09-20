@@ -276,11 +276,14 @@ boolean greygoo_oddJobs()
 	{
 		return false;
 	}
-	while(auto_autoConsumeOne("drink", false));		//try to fill up on drink
-	while(auto_autoConsumeOne("eat", false));		//try to fill up on food
 	if(my_adventures() < 10)
 	{
-		return false;
+		while(auto_autoConsumeOne("drink", false));		//try to fill up on drink
+		while(auto_autoConsumeOne("eat", false));		//try to fill up on food
+		if(my_adventures() < 10)
+		{
+			return false;
+		}
 	}
 	
 	int start_adv = my_adventures();
@@ -446,6 +449,10 @@ boolean greygoo_doTasks()
 	}
 	
 	if(greygoo_fortuneCollect()) return true;
+	if(my_level() < 3)	//do oddjobs early if level is very low
+	{
+		if(greygoo_oddJobs()) return true;
+	}
 	if(LX_galaktikSubQuest()) return true;
 	if(greygoo_guild()) return true;
 	if(greygoo_food()) return true;
