@@ -320,7 +320,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Coated Knob]);
 		if(get_property("lastEncounter") == "Goo-Gone")
 		{
-			set_property("_greygoo_zonesFinished", "2");
+			set_property("_greygoo_zonesFinished", "1");
 		}
 		break;
 	case 1:
@@ -332,7 +332,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Spewing Bat Hole]);
 		if(get_property("lastEncounter") == "The Hole Is No Longer a Hole")
 		{
-			set_property("_greygoo_zonesFinished", "3");
+			set_property("_greygoo_zonesFinished", "2");
 		}
 		break;
 	case 2:
@@ -344,7 +344,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Girded Garves]);
 		if(get_property("lastEncounter") == "Un-Unquiet")
 		{
-			set_property("_greygoo_zonesFinished", "4");
+			set_property("_greygoo_zonesFinished", "3");
 		}
 		break;
 	case 3:
@@ -355,7 +355,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Shrouded Palindome]);
 		if(get_property("lastEncounter") == "No More Goo, Geromon")
 		{
-			set_property("_greygoo_zonesFinished", "5");
+			set_property("_greygoo_zonesFinished", "4");
 		}
 		break;
 	case 4:
@@ -366,7 +366,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Splattered Tower Ruins]);
 		if(get_property("lastEncounter") == "Doubly Abandoned")
 		{
-			set_property("_greygoo_zonesFinished", "6");
+			set_property("_greygoo_zonesFinished", "5");
 		}
 		break;
 	case 5:
@@ -377,7 +377,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Choked Fun House]);
 		if(get_property("lastEncounter") == "No More Fun")
 		{
-			set_property("_greygoo_zonesFinished", "7");
+			set_property("_greygoo_zonesFinished", "6");
 		}
 		break;
 	case 6:
@@ -388,7 +388,7 @@ boolean greygoo_fightGoo()
 		advResult = greygooAdv($location[The Goo-Bedecked Beanstalk]);
 		if(get_property("lastEncounter") == "You Don't Find Jack")
 		{
-			set_property("_greygoo_zonesFinished", "1");
+			set_property("_greygoo_zonesFinished", "7");
 		}
 		break;
 	case 7:
@@ -396,9 +396,13 @@ boolean greygoo_fightGoo()
 		//scaling: Prismatic Damage
 		addToMaximize("10 prismatic dmg");
 		
-		//advResult = greygooAdv($location[Prism of Goo]);
-		set_property("_greygoo_zonesFinished", "8");
-		abort("Please manually fight A Prism of Goo and then run me again");
+		string page = visit_url("place.php?whichplace=greygoo&action=goo_prism");
+		if(contains_text(page, "<b>Combat"))
+		{
+			run_combat();
+			set_property("_greygoo_zonesFinished", "8");
+		}
+		else abort("Failed to start Prism of Goo fight. please do so manually");
 		break;
 	case 8:
 		//fight scaling monsters in [The Goo Fields].
