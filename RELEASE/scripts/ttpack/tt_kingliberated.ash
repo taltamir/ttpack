@@ -42,8 +42,8 @@ void main()
 
 	if(pvp_attacks_left() > 0)
 	{
-		print("Using up all PvP attacks", "blue");
-		cli_execute("outfit pvp; pvp flowers 0;");
+		cli_execute("maximize food drop");	//prepare outfit
+		cli_execute("pvp flowers 0");		//burn remaining pvp fights. set for average season.
 	}
 
 	print("tt_kingliberated script finished", "blue");
