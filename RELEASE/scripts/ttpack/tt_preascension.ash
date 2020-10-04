@@ -41,17 +41,6 @@ void useBorrowedTime()
 	use(1,$item[borrowed time]);
 }
 
-void pa_ode(int duration_needed)
-{
-	if(!have_skill($skill[The Ode to Booze]))
-	{
-		return;
-	}
-	
-	shrugAT($effect[Ode to Booze]);		//prepare for ode by shrugging off another effect.
-	while(acquireMP(mp_cost($skill[The Ode to Booze]), 0) && buffMaintain($effect[Ode to Booze], mp_cost($skill[The Ode to Booze]), 1, duration_needed));		//do nothing, the loop condition is doing the work
-}
-
 void pa_consume()
 {
 	//fill up liver and stomach before ascending
@@ -73,13 +62,18 @@ void pa_consume()
 	if(needExtraAdv())		//use remaining space to eat and drink things to gian adventures
 	{
 		//TODO use distension and diet pills.
-		int liver_left = inebriety_left();
-		pa_ode(liver_left + 10);
-		if(liver_left > 0)
+		int drink_amt = inebriety_left();
+		
+		if(!get_property("_mimeArmyShotglassUsed").to_boolean() && item_amount($item[mime army shotglass]) > 0)
 		{
-			use(liver_left, $item[elemental caipiroska]);
+			drink_amt++;
 		}
-		use(1, $item[bucket of wine]);
+		if(drink_amt > 0)
+		{
+			autoDrink(drink_amt, $item[elemental caipiroska]);
+		}
+		
+		autoDrink(1, $item[bucket of wine]);
 	}
 	
 	//switch back from stooper to 100% familiar if one has been set
