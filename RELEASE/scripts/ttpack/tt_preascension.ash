@@ -77,7 +77,7 @@ void pa_consume()
 		pa_ode(liver_left + 10);
 		if(liver_left > 0)
 		{
-			use(liver_left, $item[elemental caiproska]);
+			use(liver_left, $item[elemental caipiroska]);
 		}
 		use(1, $item[bucket of wine]);
 	}
