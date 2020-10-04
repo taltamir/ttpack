@@ -55,6 +55,10 @@ void pa_ode(int duration_needed)
 void pa_consume()
 {
 	//fill up liver and stomach before ascending
+	if(my_path() == "Grey Goo")
+	{
+		return;		//grey goo is problematic. do not try to consume before ascending in it.
+	}
 	
 	//use stooper to increase liver size by 1 temporarily
 	if(inebriety_left() == 0 && have_familiar($familiar[Stooper]))
