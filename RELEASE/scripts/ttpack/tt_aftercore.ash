@@ -13,6 +13,7 @@ void tt_help();
 
 void tt_settings_defaults()
 {
+	tt_depreciate();
 	boolean new_setting_added = false;
 	
 	//set defaults
@@ -123,46 +124,6 @@ void tt_useAstralLeftovers()
 	if(food_amt > 0)
 	{
 		autoEat(food_amt, $item[astral hot dog]);
-	}
-}
-
-void tt_eatSurpriseEggs()
-{
-	if(!get_property("tt_aftercore_eatSurpriseEggs").to_boolean())
-	{
-		return;
-	}
-	
-	int food_amt = fullness_left();
-	int spooky_amt = 0;
-	int lucky_amt = 0;
-	while(food_amt > 0)
-	{
-		if(lucky_amt < spooky_amt)
-		{
-			lucky_amt++;
-			food_amt--;
-		}
-		else
-		{
-			spooky_amt++;
-			food_amt--;
-		}
-	}
-	
-	if(lucky_amt > 0)
-	{
-		retrieve_item(lucky_amt, $item[disassembled clover]);		//to fix aborting due to failure to craft due to not having enough clovers
-		retrieve_item(lucky_amt, $item[lucky surprise egg]);
-		lucky_amt = min(item_amount($item[lucky surprise egg]), lucky_amt);
-		eat(lucky_amt, $item[lucky surprise egg]);
-	}
-	if(spooky_amt > 0)
-	{
-		retrieve_item(lucky_amt, $item[disassembled clover]);		//to fix aborting due to failure to craft due to not having enough clovers
-		retrieve_item(spooky_amt, $item[spooky surprise egg]);
-		spooky_amt = min(item_amount($item[spooky surprise egg]), spooky_amt);
-		eat(spooky_amt, $item[spooky surprise egg]);
 	}
 }
 

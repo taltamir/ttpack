@@ -17,6 +17,97 @@ void displayTake()
 	}
 }
 
+boolean needExtraAdv()
+{
+	//do we have a way to burn extra adv. such as combing the beach.
+	if(auto_beachCombAvailable())
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+void useBorrowedTime()
+{
+	if(get_property("_borrowedTimeUsed").to_boolean())
+	{
+		return;		//can only use once a day
+	}
+	if(!needExtraAdv())
+	{
+		return;
+	}
+	use(1,$item[borrowed time]);
+}
+
+void pa_ode(int duration_needed)
+{
+	if(!have_skill($skill[The Ode to Booze]))
+	{
+		return;
+	}
+	
+	shrugAT($effect[Ode to Booze]);		//prepare for ode by shrugging off another effect.
+	while(acquireMP(mp_cost($skill[The Ode to Booze]), 0) && buffMaintain($effect[Ode to Booze], mp_cost($skill[The Ode to Booze]), 1, duration_needed));		//do nothing, the loop condition is doing the work
+}
+
+void pa_consume()
+{
+	//fill up liver and stomach before ascending
+	
+	//use stooper to increase liver size by 1 temporarily
+	if(inebriety_left() == 0 && have_familiar($familiar[Stooper]))
+	{
+		use_familiar($familiar[Stooper]);
+	}
+	
+	//TODO eat and drink things to unlock trophies.
+	
+	tt_eatSurpriseEggs();	//fill up stomach with lucky and spooky surprise eggs. based on setting tt_aftercore_eatSurpriseEggs
+	
+	if(needExtraAdv())		//use remaining space to eat and drink things to gian adventures
+	{
+		//TODO use distension and diet pills.
+		int liver_left = inebriety_left();
+		pa_ode(liver_left + 10);
+		if(liver_left > 0)
+		{
+			use(liver_left, $item[elemental caiproska]);
+		}
+		use(1, $item[bucket of wine]);
+	}
+	
+	//switch back from stooper to 100% familiar if one has been set
+	familiar hundred_fam = to_familiar(get_property("auto_100familiar"));
+	if(hundred_fam != $familiar[none])
+	{
+		use_familiar(hundred_fam);
+	}
+}
+
+void pa_pvp()
+{
+	//if you accidentally entered valhalla without using all your pvp then use them now.
+	if(pvp_attacks_left() == 0)
+	{
+		return;
+	}
+
+	cli_execute("maximize food drop");		//prepare outfit
+	cli_execute("pvp flowers 0");			//burn remaining pvp fights. set for average season.
+}
+
+void KGB()
+{
+	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
+	{
+		return;
+	}
+	cli_execute("briefcase unlock");		//unlock the briefcase using ezandora script (must be installed seperately)
+	cli_execute("briefcase collect");		//collect 3x epic drinks using ezandora script (must be installed seperately)
+}
+
 void combBeach()
 {
 	if(!auto_beachCombAvailable())
@@ -28,16 +119,6 @@ void combBeach()
 		string command = "combbeach " + my_adventures();
 		cli_execute(command);				//burn all remaining adventures on beach combing before ascension.
 	}
-}
-
-void KGB()
-{
-	if(!possessEquipment($item[Kremlin\'s Greatest Briefcase]))
-	{
-		return;
-	}
-	cli_execute("briefcase unlock");		//unlock the briefcase using ezandora script (must be installed seperately)
-	cli_execute("briefcase collect");		//collect 3x epic drinks using ezandora script (must be installed seperately)
 }
 
 void main()
@@ -55,21 +136,23 @@ void main()
 		abort("Accidentally tried to run pre-ascension script without being in aftercore");
 	}
 	
+	tt_depreciate();
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
-	if(pvp_attacks_left() > 0)				//if you accidentally entered valhalla without using all your pvp
-	{
-		cli_execute("maximize food drop");	//prepare outfit
-		cli_execute("pvp flowers 0");		//burn remaining pvp fights. set for average season.
-	}
-	cli_execute("breakfast");				//run mafia's built in breakfast script to do many things.
+	pa_pvp();								//if you accidentally entered valhalla without using all your pvp then use them now.
+	cli_execute("tt_login");				//do various login things. such as mafia breakfast script
+	useBorrowedTime();						//use borrowed time. only if you need extra adventures
+	pa_consume();							//fill up liver and stomach before ascending
+	
 	KGB();									//Do some briefcase things before ascension.
 	combBeach();							//burn all remaining adventures on beach combing before ascension.
+	
 	if(my_path() == "Grey Goo")	return;		//everything below this line errors in grey goo.
+	
 	if(have_shop())
 	{
 		cli_execute("OCDInv.ash");			//run OCD inventory control script (must be installed seperately)
 	}
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
-	displayTake();							//take certain items from display so you could use them.
+	displayTake();							//take certain items from display so you could use pull them in next ascension.
 }
