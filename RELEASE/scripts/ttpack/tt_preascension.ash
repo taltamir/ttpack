@@ -153,4 +153,5 @@ void main()
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
 	displayTake();							//take certain items from display so you could use pull them in next ascension.
+	print("pre-ascension script finished", "green");
 }

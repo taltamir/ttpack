@@ -46,5 +46,5 @@ void main()
 		cli_execute("pvp flowers 0");		//burn remaining pvp fights. set for average season.
 	}
 
-	print("tt_kingliberated script finished", "blue");
+	print("tt_kingliberated script finished", "green");
 }

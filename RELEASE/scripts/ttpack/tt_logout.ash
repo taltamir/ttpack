@@ -34,4 +34,5 @@ void main()
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	cli_execute("pvprotect.ash");			//closet your expensive pvpable items
 	whenDrunk();							//actions we only want to take if overdrunk on logout
+	print("logout script finished", "green");
 }
