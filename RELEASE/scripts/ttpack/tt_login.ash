@@ -339,7 +339,11 @@ void discoKnife()
 
 void spaceGate()
 {
-	if(get_property("spacegateAlways") == "false")
+	if(!get_property("spacegateAlways").to_boolean())	//only check permanent ownership and not dayticket. latter does not allow acquiring gear
+	{
+		return;
+	}
+	if(!is_unrestricted($item[Spacegate access badge]))
 	{
 		return;
 	}
