@@ -542,6 +542,7 @@ void eatChocolate()
 
 void main()
 {
+	visit_url("charsheet.php");				//workaround for bug where standard restrictions are not updated on ascension
 	tt_login_settings_defaults();			//set default settings if needed.
 	pvpEnable();							//breaks the hippy stone to enable PVP fighting
 	songboomSetting(2);						//set boombox to food if available.
