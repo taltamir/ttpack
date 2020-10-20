@@ -73,6 +73,12 @@ void pa_consume()
 			autoDrink(drink_amt, $item[elemental caipiroska]);
 		}
 		
+		//nightcap
+		if(item_amount($item[bucket of wine]) == 0 && shop_amount($item[bucket of wine]) > 0)
+		{
+			take_shop(1, $item[bucket of wine]);
+		}
+		retrieve_item(1,$item[bucket of wine]);
 		autoDrink(1, $item[bucket of wine]);
 	}
 	
