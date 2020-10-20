@@ -36,7 +36,7 @@ void tt_cargoPants()
 	}
 	int count(item it)
 	{
-		return item_amount(it) + shop_amount(it) + closet_amount(it) + display_amount(it);
+		return item_amount(it) + shop_amount(it) + closet_amount(it) + display_amount(it) + storage_amount(it);
 	}
 	item target_it = $item[alabaster king];
 	int target_amt = count($item[onyx king]);
