@@ -1,6 +1,6 @@
 //used to set the default values for the various ttpack scripts
 
-void tt_login_settings_defaults()
+void tt_login_initialize()
 {
 	//set defaults
 	if(get_property("tt_login_pvp") == "")
@@ -29,5 +29,5 @@ void tt_initialize()
 {
 	//initialize settings defaults for all associated scripts
 	tt_depreciate();						//remove depreciated settings
-	tt_login_settings_defaults();			//initialize default settings for tt_login
+	tt_login_initialize();			//initialize default settings for tt_login
 }
