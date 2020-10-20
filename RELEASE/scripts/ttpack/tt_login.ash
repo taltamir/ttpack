@@ -2,51 +2,6 @@
 
 import <scripts/ttpack/util/tt_util.ash>
 
-void tt_login_settings_defaults()
-{
-	//set defaults
-	if(get_property("tt_login_pvp") == "")
-	{
-		set_property("tt_login_pvp", true);
-	}
-	if(get_property("tt_login_chocolateEat") == "")
-	{
-		set_property("tt_login_chocolateEat", true);
-	}
-	if(get_property("tt_login_chocolateMaxPricePerAdv") == "" || get_property("tt_login_chocolateMaxPricePerAdv").to_int() < 1)
-	{
-		set_property("tt_login_chocolateMaxPricePerAdv", 100);
-	}
-	
-	//start LT&T quest. default setting for activating is off for now until mafia tracking is added.
-	//see https://kolmafia.us/showthread.php?25027-LTT-is-not-listed-in-the-IOTM-tracking-preference-page&p=157520#post157520
-	if(get_property("tt_login_startQuestLTT") == "")
-	{
-		set_property("tt_login_startQuestLTT", false);
-	}
-	if(get_property("tt_login_startQuestLTTDifficulty") == "" || get_property("tt_login_startQuestLTTDifficulty").to_int() < 1 || get_property("tt_login_startQuestLTTDifficulty").to_int() > 3)
-	{
-		set_property("tt_login_startQuestLTTDifficulty", 3);
-	}
-}
-
-void tt_login_settings_print()
-{
-	//print current settings status
-	print();
-	print("Current settings for tt_login:", "blue");
-	tt_printSetting("tt_login_pvp");
-	tt_printSetting("tt_login_chocolateEat");
-	tt_printSetting("tt_login_chocolateMaxPricePerAdv");
-	tt_printSetting("tt_login_startQuestLTT");
-	tt_printSetting("tt_login_startQuestLTTDifficulty", "1 = easy. 2 = moderate. 3 = hard");
-	
-	print();
-	print("You can make changes to these settings by typing:", "blue");
-	print("set [setting_name] = [target]", "blue");
-	print();
-}
-
 void pvpEnable()
 {
 	if(!get_property("tt_login_pvp").to_boolean())
@@ -166,6 +121,7 @@ void startQuests()
 	}
 	
 	//start LT&T quest.
+	//tracking issue https://kolmafia.us/showthread.php?25027-LTT-is-not-listed-in-the-IOTM-tracking-preference-page&p=157520#post157520
 	visit_url("place.php?whichplace=town_right");		//workaround for telegraphOfficeAvailable not updating when you break standard
 	if(get_property("tt_login_startQuestLTT").to_boolean() && get_property("telegraphOfficeAvailable").to_boolean() && quest_unstarted("questLTTQuestByWire") && !get_property("_tt_login_lttQuestStartedToday").to_boolean())
 	{
@@ -542,7 +498,7 @@ void eatChocolate()
 
 void main()
 {
-	tt_login_settings_defaults();			//set default settings if needed.
+	tt_initialize();						//initialize settings if needed
 	pvpEnable();							//breaks the hippy stone to enable PVP fighting
 	songboomSetting(2);						//set boombox to food if available.
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
@@ -566,7 +522,6 @@ void main()
 	auto_beachUseFreeCombs();				//use free beach combs
 	eatChocolate();							//size 0 special consumables.
 	dependenceDayClovers();					//get clovers on Dependence Day
-	
-	tt_login_settings_print();				//print current settings.
+
 	print("login script finished", "green");
 }

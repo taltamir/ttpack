@@ -3,6 +3,9 @@
 
 # variable timing, number, variable name, variable type, description
 
-tt_login	0	tt_login_pvp	boolean	True == break hippy stone to unlock pvp
-tt_login	1	tt_login_chocolateEat	boolean	True == on login with unlimited mall access eat chocolates.
+tt_login	0	tt_login_pvp	boolean	break hippy stone to unlock pvp
+tt_login	1	tt_login_chocolateEat	boolean	when login with unlimited mall access eat chocolates
+tt_login	2	tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for chocolates
+tt_login	3	tt_login_startQuestLTT	boolean	automatically start LT&T quest if available. will not spend meat on overtime
+tt_login	4	tt_login_startQuestLTTDifficulty	int	LT&T Difficulty: 1 = easy. 2 = moderate. 3 = hard
 

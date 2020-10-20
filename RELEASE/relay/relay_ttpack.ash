@@ -1,4 +1,4 @@
-import <autoscend.ash>
+import <scripts/ttpack/util/tt_util.ash>
 
 record setting {
 	string name;
