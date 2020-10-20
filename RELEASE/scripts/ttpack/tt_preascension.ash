@@ -135,9 +135,9 @@ void main()
 	}
 	
 	tt_depreciate();
-	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	pa_pvp();								//if you accidentally entered valhalla without using all your pvp then use them now.
-	cli_execute("tt_login");				//do various login things. such as mafia breakfast script
+	cli_execute("tt_login.ash");			//do various login things. such as mafia breakfast script
+	cli_execute("tt_logout.ash");			//do various logout things.
 	useBorrowedTime();						//use borrowed time. only if you need extra adventures
 	pa_consume();							//fill up liver and stomach before ascending
 	
