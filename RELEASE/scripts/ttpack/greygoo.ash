@@ -269,6 +269,26 @@ boolean greygoo_fortuneConsume()
 	return false;
 }
 
+void greygoo_consume()
+{
+	if(my_adventures() > 11)
+	{
+		return;
+	}
+	while(fullness_left() > 0 && my_adventures() < 11)
+	{
+		int initial = fullness_left();
+		auto_autoConsumeOne("eat", false);
+		if(initial == fullness_left()) return;
+	}
+	while(inebriety_left() > 0)
+	{
+		int initial = inebriety_left();
+		auto_autoConsumeOne("drink", false);
+		if(initial == inebriety_left()) return;
+	}
+}
+
 boolean greygoo_oddJobs()
 {
 	//spend all your adventures on the odd jobs board for 100 meat per adv and some stats
@@ -420,7 +440,7 @@ boolean greygoo_doTasks()
 {
 	auto_interruptCheck();
 	greygoo_fortuneConsume();
-	consumeStuff();
+	greygoo_consume();
 	councilMaintenance();
 	cli_execute("refresh quests");		//greygoo has broken tracking verified for: questL02Larva && questM19Hippy
 	
