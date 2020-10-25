@@ -275,11 +275,15 @@ void greygoo_consume()
 	{
 		return;
 	}
-	while(fullness_left() > 0 && my_adventures() < 11)
+	while(fullness_left() > 0 && my_adventures() < 12)
 	{
 		int initial = fullness_left();
 		auto_autoConsumeOne("eat", false);
 		if(initial == fullness_left()) return;
+	}
+	if(my_adventures() > 11)
+	{
+		return;
 	}
 	while(inebriety_left() > 0)
 	{
