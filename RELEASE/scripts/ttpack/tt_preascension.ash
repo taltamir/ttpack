@@ -50,7 +50,7 @@ void pa_consume()
 	}
 	
 	//use stooper to increase liver size by 1 temporarily
-	if(inebriety_left() == 0 && have_familiar($familiar[Stooper]))
+	if(inebriety_left() >= 0 && have_familiar($familiar[Stooper]))
 	{
 		use_familiar($familiar[Stooper]);
 	}
