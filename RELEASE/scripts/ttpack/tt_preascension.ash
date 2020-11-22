@@ -157,6 +157,7 @@ void main()
 		cli_execute("OCDInv.ash");			//run OCD inventory control script (must be installed seperately)
 	}
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
+	cli_execute("tt_logout.ash");			//runs the tt_logout script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
 	displayTake();							//take certain items from display so you could use pull them in next ascension.
 	print("pre-ascension script finished", "green");
