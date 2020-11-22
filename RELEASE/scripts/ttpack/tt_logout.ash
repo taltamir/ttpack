@@ -38,11 +38,15 @@ void tt_cargoPants()
 	{
 		return item_amount(it) + shop_amount(it) + closet_amount(it) + display_amount(it) + storage_amount(it);
 	}
-	item target_it = $item[alabaster king];
-	int target_amt = count($item[onyx king]);
-	foreach it in $items[onyx knight, alabaster pawn, onyx king, onyx pawn,  alabaster rook, onyx rook, alabaster knight, onyx queen, onyx bishop, alabaster bishop, alabaster queen]
+	item target_it = $item[none];
+	int target_amt = 0;
+	foreach it in $items[onyx knight, alabaster pawn, onyx king, alabaster king, onyx pawn,  alabaster rook, onyx rook, alabaster knight, onyx queen, onyx bishop, alabaster bishop, alabaster queen]
 	{
-		if(auto_cargoShortsCanOpenPocket(it) && count(it) < target_amt)
+		if(!auto_cargoShortsCanOpenPocket(it))
+		{
+			continue;
+		}
+		if(target_it == $item[none] || count(it) < target_amt)
 		{
 			target_it = it;
 			target_amt = count(it);
