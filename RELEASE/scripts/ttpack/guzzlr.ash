@@ -549,6 +549,15 @@ void guzzlrEquip()
 			autoEquip($slot[acc3], $item[Personal Ventilation Unit]);
 		}
 	}
+	
+	if($location[8-Bit Realm] == goal)
+	{
+		if(possessEquipment($item[continuum transfunctioner]))
+		{
+			autoEquip($slot[acc3], $item[continuum transfunctioner]);
+		}
+		else abort("please get the [continuum transfunctioner] to unlock [8-bit realm] then run me again");
+	}
 
 }
 
