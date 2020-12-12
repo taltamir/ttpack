@@ -541,6 +541,12 @@ void guzzlrEquip()
 	{
 		autoEquip($slot[acc3], $item[pirate fledges]);
 	}
+	if($location[The Obligatory Pirate\'s Cove] == goal)
+	{
+		//must not wear fledges or outfit by accident. as they would replace adventuring in pirate cove with an entire zone
+		addToMaximize("-equip pirate fledges");
+		addToMaximize("-equip stuffed shoulder parrot");
+	}
 	
 	if($location[The Secret Government Laboratory] == goal)
 	{
