@@ -558,11 +558,15 @@ void guzzlrEquip()
 	
 	if($location[8-Bit Realm] == goal)
 	{
-		if(possessEquipment($item[continuum transfunctioner]))
+		if(!possessEquipment($item[continuum transfunctioner]))
 		{
-			autoEquip($slot[acc3], $item[continuum transfunctioner]);
+			visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
 		}
-		else abort("please get the [continuum transfunctioner] to unlock [8-bit realm] then run me again");
+		if(!possessEquipment($item[continuum transfunctioner]))
+		{
+			abort("please get the [continuum transfunctioner] to unlock [8-bit realm] then run me again");
+		}
+		autoEquip($slot[acc3], $item[continuum transfunctioner]);
 	}
 
 }
