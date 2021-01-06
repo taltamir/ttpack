@@ -560,6 +560,7 @@ void guzzlrEquip()
 	{
 		if(!possessEquipment($item[continuum transfunctioner]))
 		{
+			visit_url("woods.php");		//every ascension must first visit woods once to unlock crackpot mystic
 			visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
 		}
 		if(!possessEquipment($item[continuum transfunctioner]))
