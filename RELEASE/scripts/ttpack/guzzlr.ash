@@ -562,6 +562,13 @@ void guzzlrEquip()
 		{
 			visit_url("woods.php");		//every ascension must first visit woods once to unlock crackpot mystic
 			visit_url("place.php?whichplace=forestvillage&action=fv_mystic");
+			if(available_choice_options() contains 1)
+			{
+				run_choice(1);
+				run_choice(1);
+				run_choice(1);
+			}
+			else abort("please get the [continuum transfunctioner] to unlock [8-bit realm] then run me again");
 		}
 		if(!possessEquipment($item[continuum transfunctioner]))
 		{
