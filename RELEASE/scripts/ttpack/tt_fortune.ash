@@ -2,6 +2,8 @@
 //It will automatically set the correct asking words for the people being asked to get a high reward.
 //Currently populated with clanmates from FCA clan. Change the names in void main.
 
+import <scripts/ttpack/util/tt_util.ash>
+
 //CONFIG START - set your options below
 
 boolean compatible = true;			//true to get compatible rewards from zatara, false to get incompatible rewards
@@ -39,6 +41,10 @@ void doFortune(string name)
 
 void main()
 {
+	if(!auto_is_valid($item[Clan Carnival Game]))
+	{
+		return;
+	}
 	if(item_amount($item[Clan VIP Lounge key]) == 0)
 	{
 		return;
