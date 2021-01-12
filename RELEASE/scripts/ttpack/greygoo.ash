@@ -471,15 +471,6 @@ boolean greygoo_doTasks()
 	{
 		if(greygoo_oddJobs()) return true;
 	}
-	if(my_hp() < my_maxhp() * 0.8)
-	{
-		acquireHP();
-	}
-	int mp_target = min(my_maxmp() * 0.9, 200);		//0.9 multiplier to avoid wastage
-	if(my_mp() < mp_target)
-	{
-		acquireMP(mp_target);
-	}
 	
 	if(greygoo_fortuneCollect()) return true;
 	if(my_level() < 3)	//do oddjobs early if level is very low
