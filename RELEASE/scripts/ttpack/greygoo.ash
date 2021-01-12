@@ -467,6 +467,10 @@ boolean greygoo_doTasks()
 	
 	resetState();
 	
+	if(my_meat() < 300)
+	{
+		if(greygoo_oddJobs()) return true;
+	}
 	if(my_hp() < my_maxhp() * 0.8)
 	{
 		acquireHP();
