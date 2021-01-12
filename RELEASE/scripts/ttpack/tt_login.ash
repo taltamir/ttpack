@@ -496,6 +496,22 @@ void eatChocolate()
 	}
 }
 
+void fullAuto()
+{
+	if(!get_property("tt_login_auto").to_boolean())
+	{
+		return;
+	}
+	if(my_path() == "Grey Goo")
+	{
+		cli_execute("greygoo.ash");
+	}
+	else
+	{
+		cli_execute("autoscend.ash");
+	}
+}
+
 void main()
 {
 	tt_initialize();						//initialize settings if needed
@@ -524,4 +540,6 @@ void main()
 	dependenceDayClovers();					//get clovers on Dependence Day
 
 	print("login script finished", "green");
+	
+	fullAuto();								//if configured to. run autoscend or another appropriate script to fully automate a run.
 }

@@ -11,6 +11,10 @@ void tt_login_initialize()
 	{
 		set_property("tt_login_chocolateEat", true);
 	}
+	if(get_property("tt_login_auto") == "")
+	{
+		set_property("tt_login_auto", false);
+	}
 	if(get_property("tt_login_chocolateMaxPricePerAdv") == "" || get_property("tt_login_chocolateMaxPricePerAdv").to_int() < 1)
 	{
 		set_property("tt_login_chocolateMaxPricePerAdv", 100);
