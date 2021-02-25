@@ -161,7 +161,10 @@ boolean greygoo_food()
 	
 	//unlock and upgrade hippy store / organic orchard
 	set_property("auto_hippyInstead", true);		//frat gives better rewards from organic orchard, but this is much quicker
-	if(LX_hippyBoatman()) return true;		//unlock island
+	if(my_level() > 5)		//both for combat strength and to unlock forest to allow adventuring in that zone
+	{
+		if(LX_hippyBoatman()) return true;		//unlock island
+	}
 	if(L12_getOutfit()) return true;
 	if(L12_startWar()) return true;
 	if(L12_filthworms()) return true;
