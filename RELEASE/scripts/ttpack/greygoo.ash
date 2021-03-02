@@ -515,6 +515,7 @@ void greygoo_start()
 	backupSetting("manaBurningThreshold", -0.05);
 	backupSetting("autoAbortThreshold", -0.05);
 	
+	initializeDay(my_daycount());
 	horseDark();
 	auto_voteSetup();
 	
