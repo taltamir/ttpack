@@ -201,23 +201,13 @@ boolean greygoo_fortuneCollect()
 	location goal;
 	location lastsr = get_property("semirareLocation").to_location();
 	
-	if(lastsr != $location[The Outskirts of Cobb\'s Knob])		//can not get the same SR twice. so do not waste it
+	if(lastsr != $location[The Sleazy Back Alley])		//can not get the same SR twice. so do not waste it
 	{
-		goal = $location[The Outskirts of Cobb\'s Knob];
+		goal = $location[The Sleazy Back Alley];	//grab epic drink
 	}
 	else
 	{
-		int food_amt = item_amount($item[tasty tart]);
-		int drink_amt = item_amount($item[distilled fortified wine]);
-		
-		if(food_amt < drink_amt)
-		{
-			goal = $location[The Haunted Pantry];		//grab epic food
-		}
-		else
-		{
-			goal = $location[The Sleazy Back Alley];	//grab epic drink
-		}
+		goal = $location[The Haunted Pantry];		//grab epic food
 	}
 	
 	return greygooAdv(goal);
