@@ -502,14 +502,7 @@ void fullAuto()
 	{
 		return;
 	}
-	if(my_path() == "Grey Goo")
-	{
-		cli_execute("greygoo.ash");
-	}
-	else
-	{
-		cli_execute("autoscend.ash");
-	}
+	cli_execute("autoscend.ash");
 }
 
 void main()
