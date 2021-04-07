@@ -145,30 +145,16 @@ boolean greygoo_food()
 	}
 	
 	//unlock [madeline's baking supply]
-	if(startArmorySubQuest()) return true;
-	
-	if(internalQuestStatus("questM25Armorer") > -1 && internalQuestStatus("questM25Armorer") < 4)
-	{
-		set_property("choiceAdventure1061", 1);	//try to enter office
-		return greygooAdv($location[Madness Bakery]);
-	}
-	if(internalQuestStatus("questM25Armorer") == 4)		//got no-handed pie. need to turn it in.
-	{
-		print("finishing quest [Lending a Hand (and a Foot)]");
-		visit_url("shop.php?whichshop=armory");
-		run_choice(2);		//give no-handed pie to finish the quest
-	}
-	
+	set_property("auto_doArmory", true);
+	if(LX_armorySideQuest()) return true;
+
 	//unlock and upgrade hippy store / organic orchard
 	set_property("auto_hippyInstead", true);		//frat gives better rewards from organic orchard, but this is much quicker
 	if(my_level() > 5)		//both for combat strength and to unlock forest to allow adventuring in that zone
 	{
 		if(LX_hippyBoatman()) return true;		//unlock island
 	}
-	if(L12_getOutfit()) return true;
-	if(L12_startWar()) return true;
-	if(L12_filthworms()) return true;
-	if(L12_orchardFinalize()) return true;
+	if(L12_preOutfit()) return true;
 	
 	return false;
 }
