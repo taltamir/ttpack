@@ -286,9 +286,45 @@ void greygoo_consume()
 	}
 }
 
+boolean oddJobs(int target)
+{
+	//use odd jobs board for roughly ~100 meat per adv and some stats.
+	//choice 1 == costs 3 adv and balanced stats
+	//choice 2 == costs 10 adv and mus focus stats
+	//choice 3 == costs 10 adv and mys focus stats
+	//choice 4 == costs 10 adv and mox focus stats
+	if(target < 1 || target > 4)
+	{
+		abort("oddJobs has been given an invalid target");
+	}
+
+	int adv_needed = 10;
+	if (target == 1)
+	{
+		adv_needed = 3;
+	}
+	if(my_adventures() < adv_needed)
+	{
+		auto_log_warning("oddJobs does not have enough adv left to do desired oddjob");
+		return false;
+	}
+
+	int start_adv = my_adventures();
+	visit_url("place.php?whichplace=town&action=town_oddjobs");
+	run_choice(target);
+
+	if(my_adventures() == start_adv - adv_needed)
+	{
+		cli_execute("auto_post_adv.ash");
+		return true;
+	}
+	abort("oddJobs() error detected. target = " +target+ ". start_adv = " +start_adv+ ". adventures = " +my_adventures()+ ".");
+	return false;
+}
+
 boolean greygoo_oddJobs()
 {
-	//spend all your adventures on the odd jobs board for 100 meat per adv and some stats
+	//do a single oddjob for ~100/adv and some stats
 	if(!get_property("greygoo_oddJobs").to_boolean())
 	{
 		return false;
@@ -297,23 +333,30 @@ boolean greygoo_oddJobs()
 	{
 		while(my_meat() > 1000 && auto_autoConsumeOne("drink", false));		//try to fill up on drink
 		while(my_meat() > 1000 && auto_autoConsumeOne("eat", false));		//try to fill up on food
-		if(my_adventures() < 10)
+		if((my_adventures() < 10 && my_daycount() < 3 ) || my_adventures() < 3)
 		{
 			return false;
 		}
 	}
 	
-	int start_adv = my_adventures();
-	visit_url("place.php?whichplace=town&action=town_oddjobs");
-	run_choice(3);	//always trades 10 adv for 1000 meat and stats.
-	
-	if(my_adventures() == start_adv - 10)
+	int target = 1;		//choice 1 == costs 3 adv and balanced stats
+	if(my_adventures() > 9)
 	{
-		cli_execute("auto_post_adv.ash");
-		return true;
+		if($classes[Seal Clubber, Turtle Tamer] contains my_class())
+		{
+			target = 2;		//choice 2 == costs 10 adv and mus focus stats
+		}
+		if($classes[Pastamancer, Sauceror] contains my_class())
+		{
+			target = 3;		//choice 3 == costs 10 adv and mys focus stats
+		}
+		if($classes[Disco Bandit, Accordion Thief] contains my_class())
+		{
+			target = 4;		//choice 4 == costs 10 adv and mox focus stats
+		}
 	}
-	abort("greygoo_oddJobs() error detected. start_adv = " +start_adv+ " adventures = " +my_adventures());
-	return false;
+	
+	return oddJobs(target);
 }
 
 boolean greygoo_fightGoo()
@@ -460,13 +503,12 @@ boolean greygoo_doTasks()
 	
 	resetState();
 	
-	if(my_meat() < 300)
+	if(greygoo_fortuneCollect()) return true;
+	if(my_level() < 3)	//do oddjobs early if level is very low
 	{
 		if(greygoo_oddJobs()) return true;
 	}
-	
-	if(greygoo_fortuneCollect()) return true;
-	if(my_level() < 3)	//do oddjobs early if level is very low
+	if(my_meat() < 300)
 	{
 		if(greygoo_oddJobs()) return true;
 	}
@@ -549,7 +591,7 @@ void main()
 		}
 		else
 		{
-			print("You are done with this grey goo ascension. please enter the astral gash","green");
+			print("You are done with this grey goo ascension. please enter the astral gash","blue");
 		}
 	}
 }
