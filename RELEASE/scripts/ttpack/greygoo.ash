@@ -13,11 +13,6 @@ void greygoo_settings_defaults()
 	boolean new_setting_added = false;
 	
 	//set defaults
-	if(get_property("greygoo_guildUnlock") == "")
-	{
-		new_setting_added = true;
-		set_property("greygoo_guildUnlock", false);
-	}
 	if(get_property("greygoo_galaktikQuest") == "")
 	{
 		new_setting_added = true;
@@ -158,20 +153,6 @@ boolean greygoo_food()
 	*/
 	
 	return false;
-}
-
-boolean greygoo_guild()
-{
-	if(!get_property("greygoo_guildUnlock").to_boolean())
-	{
-		return false;
-	}
-	if($classes[Seal Clubber, Turtle Tamer] contains my_class())
-	{
-		return false;	//muscle classes cannot unlock guild in grey goo
-	}
-	
-	return LX_guildUnlock();	//autoscend function
 }
 
 boolean greygoo_fortuneCollect()
@@ -500,7 +481,7 @@ boolean greygoo_doTasks()
 		if(greygoo_oddJobs()) return true;
 	}
 	if(LX_galaktikSubQuest()) return true;
-	if(greygoo_guild()) return true;
+	if(LX_guildUnlock()) return true;
 	if(greygoo_food()) return true;
 	if(LX_freeCombats(true)) return true;
 	if(greygoo_oddJobs()) return true;
