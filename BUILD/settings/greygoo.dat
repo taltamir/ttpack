@@ -1,0 +1,8 @@
+greygoo_guildUnlock	boolean	unlock your class guild. advised to be true for food and drink and restores
+greygoo_galaktikQuest	boolean	do galaktik quest
+greygoo_foodHardcoreUnlock	boolean	unlock food and booze NPC shops if in hardcore
+greygoo_foodSoftcoreUnlock	boolean	unlock food and booze NPC shops if not in hardcore
+greygoo_fortuneHardcore	boolean	consume fortune cookie and lucky lindy in hardcore
+greygoo_fortuneSoftcore	boolean	consume fortune cookie and lucky lindy not in hardcore
+greygoo_oddJobs	boolean	spend all your adventures on the odd jobs board for 100 meat per adv and some stats
+greygoo_fightGoo	boolean	fight the goo monsters

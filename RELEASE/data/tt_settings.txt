@@ -3,6 +3,15 @@
 
 # variable timing, number, variable name, variable type, description
 
+greygoo	0	greygoo_guildUnlock	boolean	unlock your class guild. advised to be true for food and drink and restores
+greygoo	1	greygoo_galaktikQuest	boolean	do galaktik quest
+greygoo	2	greygoo_foodHardcoreUnlock	boolean	unlock food and booze NPC shops if in hardcore
+greygoo	3	greygoo_foodSoftcoreUnlock	boolean	unlock food and booze NPC shops if not in hardcore
+greygoo	4	greygoo_fortuneHardcore	boolean	consume fortune cookie and lucky lindy in hardcore
+greygoo	5	greygoo_fortuneSoftcore	boolean	consume fortune cookie and lucky lindy not in hardcore
+greygoo	6	greygoo_oddJobs	boolean	spend all your adventures on the odd jobs board for 100 meat per adv and some stats
+greygoo	7	greygoo_fightGoo	boolean	fight the goo monsters
+
 tt_login	0	tt_login_pvp	boolean	break hippy stone to unlock pvp
 tt_login	1	tt_login_chocolateEat	boolean	when login with unlimited mall access eat chocolates
 tt_login	2	tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for chocolates

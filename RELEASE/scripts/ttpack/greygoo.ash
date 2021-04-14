@@ -2,78 +2,37 @@
 
 import <scripts/ttpack/util/tt_util.ash>
 
-//public prototype start
-void greygoo_settings_print();
-
-//public prototype end
-
 void greygoo_settings_defaults()
 {
-	tt_depreciate();
-	boolean new_setting_added = false;
-	
-	//set defaults
+	//set default values for new settings which were just added
 	if(get_property("greygoo_galaktikQuest") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_galaktikQuest", true);
 	}
 	if(get_property("greygoo_foodHardcoreUnlock") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_foodHardcoreUnlock", true);
 	}
 	if(get_property("greygoo_foodSoftcoreUnlock") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_foodSoftcoreUnlock", true);
 	}
 	if(get_property("greygoo_fortuneHardcore") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_fortuneHardcore", true);
 	}
 	if(get_property("greygoo_fortuneSoftcore") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_fortuneSoftcore", true);
 	}
 	if(get_property("greygoo_oddJobs") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_oddJobs", false);
 	}
 	if(get_property("greygoo_fightGoo") == "")
 	{
-		new_setting_added = true;
 		set_property("greygoo_fightGoo", true);
 	}
-	
-	if(new_setting_added)
-	{
-		greygoo_settings_print();
-		abort("Settings have been configured to default. Please verify they are correct before running me again");
-	}
-}
-
-void greygoo_settings_print()
-{
-	//print current settings status
-	print();
-	print("Current settings for greygoo:", "blue");
-	tt_printSetting("greygoo_guildUnlock", "unlock your class guild. advised to be true for food and drink and restores");
-	tt_printSetting("greygoo_galaktikQuest", "do galaktik quest");
-	tt_printSetting("greygoo_foodHardcoreUnlock", "unlock food and booze NPC shops if in hardcore");
-	tt_printSetting("greygoo_foodSoftcoreUnlock", "unlock food and booze NPC shops if not in hardcore");
-	tt_printSetting("greygoo_fortuneHardcore", "consume fortune cookie and lucky lindy in hardcore");
-	tt_printSetting("greygoo_fortuneSoftcore", "consume fortune cookie and lucky lindy not in hardcore");
-	tt_printSetting("greygoo_oddJobs", "spend all your adventures on the odd jobs board for 100 meat per adv and some stats");
-	tt_printSetting("greygoo_fightGoo", "fight the goo monsters");
-	
-	print();
-	print("You can make changes to these settings by typing:", "blue");
-	print("set [setting_name] = [target]", "blue");
-	print();
 }
 
 boolean greygooAdv(location loc)
@@ -542,6 +501,7 @@ void main()
 		abort("I am not in Grey Goo");
 	}
 	
+	tt_depreciate();
 	greygoo_settings_defaults();
 	
 	try
@@ -551,8 +511,6 @@ void main()
 	finally
 	{
 		equipRollover();
-		greygoo_settings_print();
-		print();
 		if(my_daycount() < 3)
 		{
 			print("You are currently on day " +my_daycount()+ " out of 3 of this grey goo run","red");
