@@ -430,7 +430,6 @@ void greygoo_start()
 	backupSetting("dontStopForCounters", true);
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
 	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
-	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
 	backupSetting("hpAutoRecovery", -0.05);
