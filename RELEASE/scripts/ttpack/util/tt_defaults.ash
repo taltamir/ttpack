@@ -1,8 +1,8 @@
 //used to set the default values for the various ttpack scripts
 
-void tt_login_initialize()
+void settings_tt_login()
 {
-	//set defaults
+	//configure default settings on first run for tt_login.ash script
 	if(get_property("tt_login_pvp") == "")
 	{
 		set_property("tt_login_pvp", true);
@@ -29,9 +29,42 @@ void tt_login_initialize()
 	}
 }
 
+void settings_greygoo()
+{
+	//configure default settings on first run for greygoo.ash script
+	if(get_property("greygoo_galaktikQuest") == "")
+	{
+		set_property("greygoo_galaktikQuest", true);
+	}
+	if(get_property("greygoo_foodHardcoreUnlock") == "")
+	{
+		set_property("greygoo_foodHardcoreUnlock", true);
+	}
+	if(get_property("greygoo_foodSoftcoreUnlock") == "")
+	{
+		set_property("greygoo_foodSoftcoreUnlock", true);
+	}
+	if(get_property("greygoo_fortuneHardcore") == "")
+	{
+		set_property("greygoo_fortuneHardcore", true);
+	}
+	if(get_property("greygoo_fortuneSoftcore") == "")
+	{
+		set_property("greygoo_fortuneSoftcore", true);
+	}
+	if(get_property("greygoo_oddJobs") == "")
+	{
+		set_property("greygoo_oddJobs", false);
+	}
+	if(get_property("greygoo_fightGoo") == "")
+	{
+		set_property("greygoo_fightGoo", true);
+	}
+}
+
 void tt_initialize()
 {
 	//initialize settings defaults for all associated scripts
-	tt_depreciate();						//remove depreciated settings
-	tt_login_initialize();			//initialize default settings for tt_login
+	tt_depreciate();				//remove depreciated settings
+	settings_tt_login();			//initialize default settings for tt_login
 }

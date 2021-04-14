@@ -2,39 +2,6 @@
 
 import <scripts/ttpack/util/tt_util.ash>
 
-void greygoo_settings_defaults()
-{
-	//set default values for new settings which were just added
-	if(get_property("greygoo_galaktikQuest") == "")
-	{
-		set_property("greygoo_galaktikQuest", true);
-	}
-	if(get_property("greygoo_foodHardcoreUnlock") == "")
-	{
-		set_property("greygoo_foodHardcoreUnlock", true);
-	}
-	if(get_property("greygoo_foodSoftcoreUnlock") == "")
-	{
-		set_property("greygoo_foodSoftcoreUnlock", true);
-	}
-	if(get_property("greygoo_fortuneHardcore") == "")
-	{
-		set_property("greygoo_fortuneHardcore", true);
-	}
-	if(get_property("greygoo_fortuneSoftcore") == "")
-	{
-		set_property("greygoo_fortuneSoftcore", true);
-	}
-	if(get_property("greygoo_oddJobs") == "")
-	{
-		set_property("greygoo_oddJobs", false);
-	}
-	if(get_property("greygoo_fightGoo") == "")
-	{
-		set_property("greygoo_fightGoo", true);
-	}
-}
-
 boolean greygooAdv(location loc)
 {
 	if(!zone_isAvailable(loc, true)){
@@ -501,8 +468,7 @@ void main()
 		abort("I am not in Grey Goo");
 	}
 	
-	tt_depreciate();
-	greygoo_settings_defaults();
+	tt_initialize();		//configures ttpack settings to default values on first run and removes depreciated settings.
 	
 	try
 	{

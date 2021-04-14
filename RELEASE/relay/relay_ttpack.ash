@@ -113,6 +113,7 @@ void main()
 {
 	
 	initializeSettings();	//initialize autoscend settings for this ascension. relevant to ttpack due to shared settings like 100%familiar
+	tt_initialize();		//configures ttpack settings to default values on first run and removes depreciated settings.
 	
 	write_styles();
 	writeln("<html><head><title>ttpack manager</title>");
