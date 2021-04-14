@@ -40,6 +40,7 @@ void handleSetting(string type, int x)
 	switch(type)
 	{
 	case "tt_login":	color = "#00ffff";		break;
+	case "greygoo":		color = "#6FE26F";		break;
 	default:			color = "#ffffff";		break;
 	}
 
@@ -103,7 +104,8 @@ void write_settings_key()
 {
 	//display the key to the settings table.
 	writeln("<table><tr><th>Settings Color Codings</th></tr>");
-	writeln("<tr bgcolor=#00ffff><td>tt_login.ash is script to automate some post login actions</td></tr>");
+	writeln("<tr bgcolor=#00ffff><td>tt_login.ash script to automate some post login actions</td></tr>");
+	writeln("<tr bgcolor=#6FE26F><td>greygoo.ash script to automate greygoo ascensions</td></tr>");
 	writeln("</table>");
 }
 
@@ -159,6 +161,10 @@ void main()
 	foreach x in s["tt_login"]
 	{
 		handleSetting("tt_login", x);
+	}
+	foreach x in s["greygoo"]
+	{
+		handleSetting("greygoo", x);
 	}
 	writeln("<tr><td align=center colspan='3'><input type='submit' name='' value='Save Changes'/></td></tr></table></form>");
 
