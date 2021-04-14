@@ -39,7 +39,7 @@ void handleSetting(string type, int x)
 	string color = "white";
 	switch(type)
 	{
-	case "tt_login":	color = "#00ffff";		break;
+	case "tt_login":	color = "#8BDCE7";		break;
 	case "greygoo":		color = "#6FE26F";		break;
 	default:			color = "#ffffff";		break;
 	}
@@ -104,7 +104,7 @@ void write_settings_key()
 {
 	//display the key to the settings table.
 	writeln("<table><tr><th>Settings Color Codings</th></tr>");
-	writeln("<tr bgcolor=#00ffff><td>tt_login.ash script to automate some post login actions</td></tr>");
+	writeln("<tr bgcolor=#8BDCE7><td>tt_login.ash script to automate some post login actions</td></tr>");
 	writeln("<tr bgcolor=#6FE26F><td>greygoo.ash script to automate greygoo ascensions</td></tr>");
 	writeln("</table>");
 }
