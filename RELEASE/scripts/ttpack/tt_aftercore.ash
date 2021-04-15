@@ -230,12 +230,19 @@ void tt_acquireFamiliars()
 	}
 	tt_convert_hatchling_into_familiar($item[barrrnacle], $familiar[Barrrnacle]);
 	
-	//stat gains cheaply
+	//stat gains cheaply. nonscaling. better at low levels
 	if(!have_familiar($familiar[Blood-Faced Volleyball]))
 	{
 		retrieve_item(1, $item[blood-faced volleyball]);
 	}
 	tt_convert_hatchling_into_familiar($item[blood-faced volleyball], $familiar[Blood-Faced Volleyball]);
+	
+	//stat gains cheaply. scaling. better at high levels
+	if(!have_familiar($familiar[hovering sombrero]))
+	{
+		retrieve_item(1, $item[hovering sombrero]);
+	}
+	tt_convert_hatchling_into_familiar($item[hovering sombrero], $familiar[hovering sombrero]);
 	
 	//meat, MP/HP, confuse, or attack cheaply
 	if(!have_familiar($familiar[Cocoabo]))
