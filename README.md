@@ -49,6 +49,30 @@ This script will use the indicated amount of fertilizer (or how much you have in
 Warning: it takes a while. If you are doing thousands of fertilizer then it will take hours.
 I managed to get 1 mu thus far for 1/3rd the mall price.
 
+## greygoo.ash
+
+A script to do stuff during a greygoo ascension. configured via the GUI, it can fight the greygoo monsters (was designed for highscore. But could probably still be used for factoids). It can also eat, drink, and spend adventures on oddjob board for some XP and meat. makes ~15k meat per ascension and reaches level 7 on a 0 IOTM account. TODO: add NEP support which will significantly improve both figures.
+
+## guzzlr.ash
+
+configurable script to do guzzlr deliveries.
+
+Run this command in the gCLI:
+```
+guzzlr X
+```
+X = adventures to use.
+
+## plevel.ash
+
+powerleveling script for aftercore. currently uses gameinform dungeon. it will acquire a gameinform magazine, unlock the dungeon, buff your mainstat, and then adventure in the gameinform dungeon.
+
+Run this command in the gCLI:
+```
+plevel X
+```
+X = target level to reach
+
 ## dpills.ash
 
 Script specific discussion thread: https://kolmafia.us/showthread.php?24434
