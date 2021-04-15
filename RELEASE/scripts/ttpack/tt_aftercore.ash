@@ -289,6 +289,7 @@ void tt_acquireFamiliars()
 	//quest items that are familiar hatchlings
 	tt_convert_hatchling_into_familiar($item[reassembled blackbird], $familiar[Reassembled Blackbird]);	//every ascension
 	tt_convert_hatchling_into_familiar($item[mosquito larva], $familiar[Mosquito]);						//every ascension
+	tt_convert_hatchling_into_familiar($item[reconstituted crow], $familiar[reconstituted crow]);		//bees hate you
 	tt_convert_hatchling_into_familiar($item[black kitten], $familiar[Black Cat]);						//bad moon
 }
 
