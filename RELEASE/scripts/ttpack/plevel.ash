@@ -86,6 +86,7 @@ void pl_buff_mainstat(int target)
 		foreach it in $items[]
 		{
 			if(!auto_is_valid(it)) continue;
+			if(can_use(it) != "") continue;			//specifies why you can not use an item. "" means you can use it.
 			if(limited(it)) continue;
 			if(!it.tradeable || !it.usable) continue;		//it is not tradeable or not useable. skip it
 			if(it.fullness + it.inebriety + it.spleen > 0) continue;		//it requires organ space. skip it
@@ -118,7 +119,11 @@ void pl_buff_mainstat(int target)
 		}
 		float percent_gain = best_bonus / my_buffedstat(my_primestat());
 		float mag_cost_per_adv = (auto_mall_price(MAGAZINE) / 30);
-		if(best_cost < (percent_gain * mag_cost_per_adv))
+		print("best_item = " +best_item);
+		print("best_bonus = " +best_bonus);
+		print("percent_gain = " +percent_gain);
+		print("mag_cost_per_adv = " +mag_cost_per_adv);
+		if(best_cost > (percent_gain * mag_cost_per_adv))
 		{
 			//TODO get meat per adventure value from user and include it in the calculation as well.
 			print("Best item found = " +best_item);
