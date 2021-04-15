@@ -149,7 +149,6 @@ void use_gameinform_magazine()
 	retrieve_item(1, MAGAZINE);
 	//using gameinform magazine opens a mini window (not considered a choiceAdventure) where you need to click [Read it] to actually read it.
 	//you can navigate away from that mini window.
-	//visit_url(inv_use.php?pwd=&which=3&whichitem=6174);				//"use" in inventory
 	use(1, MAGAZINE);												//"use" in inventory
 	visit_url("inv_use.php?pwd=&confirm=Yep.&whichitem=6174");		//press [Read it] button
 	run_choice(1);													//press [Awesome!] button
@@ -164,6 +163,7 @@ boolean pl_gameinform()
 	pl_buff_mainstat(10000);		//buff mainstat. to a max value of 10,000
 	
 	print("last encounter = " +get_property("lastEncounter"), "blue");
+	print("adventuring in video game dungeon", "blue");
 	boolean advResult = false;
 	switch(get_property("_gameinform_zonesFinished").to_int())
 	{
@@ -172,6 +172,7 @@ boolean pl_gameinform()
 		if(!advResult)
 		{
 			set_property("_gameinform_zonesFinished", "1");
+			return true;
 		}
 		break;
 	case 1:
@@ -179,6 +180,7 @@ boolean pl_gameinform()
 		if(!advResult)
 		{
 			set_property("_gameinform_zonesFinished", "2");
+			return true;
 		}
 		break;
 	case 2:
@@ -186,14 +188,15 @@ boolean pl_gameinform()
 		if(get_property("lastEncounter") == "A Gracious Maze")
 		{
 			visit_url("place.php?pwd&whichplace=faqdungeon");
+			return true;
 		}
 		if(!advResult)
 		{
 			set_property("_gameinform_zonesFinished", "3");
+			return true;
 		}
 		break;
 	}
-	print("last encounter = " +get_property("lastEncounter"), "blue");
 	
 	return advResult;
 }
@@ -261,7 +264,7 @@ boolean pl_doTasks()
 	}
 	
 	resetState();
-	handleFamiliar("stat");
+	handleFamiliar($familiar[hovering sombrero]);
 	
 	if(pl_fortuneCollect()) return true;
 	if(LX_freeCombats(true)) return true;
