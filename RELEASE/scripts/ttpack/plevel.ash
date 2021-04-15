@@ -127,7 +127,7 @@ void pl_buff_mainstat(int target)
 		{
 			//TODO get meat per adventure value from user and include it in the calculation as well.
 			print("Best item found = " +best_item);
-			print("I have not reached target buff of" +target+ ". But the best item I found costs more meat than just using more magazines. So I am giving up", "red");
+			print("I have not reached target buff of " +target+ ". But the best item I found costs more meat than just using more magazines. So I am giving up", "red");
 			break;
 		}
 		if(!retrieve_item(1, best_item))
