@@ -121,6 +121,41 @@ void pl_buff_mainstat(int target)
 	equipMaximizedGear();
 	
 	//todo buff using skills. this can be hardcoded
+	foreach ef in $effects[					//all-stat bonuses
+	Big,									//+20% all. 1.5 MP/adv
+	Stevedave's Shanty of Superiority,		//+10% all. song. 30 MP (duration varies).
+	Leash of Linguini						//+5 familiar weight. 1.2 MP/adv
+	//Song of Bravado						//+15% all. 10MP per adv. too expensive. do not use until exact calculations are added.
+	] { buffMaintain(ef, 0, 1, 1); }
+	
+	switch(my_primestat())					//mainstat only bonuses
+	{
+	case $stat[muscle]:
+		foreach ef in $effects[
+		Quiet Determination,				//+25% mus. facial expression. 1 MP/adv
+		Rage of the Reindeer,				//+10% mus. +10 weapon dmg. 1 MP/adv
+		Power Ballad of the Arrowsmith,		//+10 mus. +20 maxHP. song. 5 MP (duration varies).
+		Seal Clubbing Frenzy,				//+2 mus. 0.2 MP/adv
+		Patience of the Tortoise,			//+1 mus. +3 maxHP. 0.2 MP/adv
+		] { buffMaintain(ef, 0, 1, 1); }
+		break;
+	case $stat[mysticality]:
+		foreach ef in $effects[
+		Quiet Judgement,					//+25% mys. facial expression. 1 MP/adv
+		The Magical Mojomuscular Melody,	//+10 mys. +20 maxMP. song. 3 MP (duration varies).
+		Pasta Oneness,						//+2 mys. 0.2 MP/adv
+		Saucemastery,						//+1 mys. +3 maxMP. 0.2 MP/adv
+		] { buffMaintain(ef, 0, 1, 1); }
+		break;
+	case $stat[moxie]:
+		foreach ef in $effects[
+		Quiet Desperation,					//+25% mox. facial expression. 1 MP/adv
+		The Moxious Madrigal,				//+10 mox. song. 2 MP (duration varies).
+		Disco State of Mind,				//+2 mox. 0.2 MP/adv
+		Mariachi Mood,						//+1 mox. +3 maxHP. 0.2 MP/adv
+		] { buffMaintain(ef, 0, 1, 1); }
+		break;
+	}
 	
 	//try to buff using potions
 	while(my_buffedstat(my_primestat()) < target)
