@@ -131,7 +131,6 @@ void pl_buff_mainstat(int target)
 		float best_value = 0;	//value = bonus/cost. track this seperately to avoid divide by zero
 		float best_bonus = 0;
 		float best_cost = 0;
-		float mpa = 500;		//TODO get meat worth of an adventure from player for calculations.
 		foreach it in $items[]
 		{
 			if(!auto_is_valid(it)) continue;
@@ -165,7 +164,7 @@ void pl_buff_mainstat(int target)
 			print("could not find an item to consume for a buff despite not reaching the target of " +target);
 			break;
 		}
-		float adv_cost = (auto_mall_price(MAGAZINE) / 30) + mpa + total_buff_cost();
+		float adv_cost = (auto_mall_price(MAGAZINE) / 30) + get_property("plevel_mpa").to_int() + total_buff_cost();
 		float adv_value = my_buffedstat(my_primestat()) / adv_cost;
 		print("best item = " +best_item+ ". cost per adv = " +best_cost+ ". mainstat bonus = " +best_bonus+ ". value = " +best_value);
 		print("cost of an adventure = magazine cost + mpa + total current buff cost = " +adv_cost+ ". value = " + adv_value);
