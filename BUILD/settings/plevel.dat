@@ -1,0 +1,1 @@
+plevel_mpa	int	meat per adventure value. input how much each adventure is worth to you if you were farming meat. this will be used to calculate whether it is worth it or not to buy a potion.

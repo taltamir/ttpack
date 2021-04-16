@@ -11,6 +11,8 @@ greygoo	4	greygoo_fortuneSoftcore	boolean	consume fortune cookie and lucky lindy
 greygoo	5	greygoo_oddJobs	boolean	spend all your adventures on the odd jobs board for 100 meat per adv and some stats
 greygoo	6	greygoo_fightGoo	boolean	fight the goo monsters
 
+plevel	0	plevel_mpa	int	meat per adventure value. input how much each adventure is worth to you if you were farming meat. this will be used to calculate whether it is worth it or not to buy a potion.
+
 tt_login	0	tt_login_pvp	boolean	break hippy stone to unlock pvp
 tt_login	1	tt_login_chocolateEat	boolean	when login with unlimited mall access eat chocolates
 tt_login	2	tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for chocolates
