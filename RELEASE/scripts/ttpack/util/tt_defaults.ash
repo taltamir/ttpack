@@ -62,9 +62,20 @@ void settings_greygoo()
 	}
 }
 
+void settings_plevel()
+{
+	//configure default settings on first run for plevel.ash script
+	if(get_property("plevel_mpa") == "")
+	{
+		set_property("plevel_mpa", 500);
+	}
+}
+
 void tt_initialize()
 {
 	//initialize settings defaults for all associated scripts
 	tt_depreciate();				//remove depreciated settings
 	settings_tt_login();			//initialize default settings for tt_login
+	settings_greygoo();				//initialize default settings for greygoo
+	settings_plevel();				//initialize default settings for plevel
 }
