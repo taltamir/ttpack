@@ -41,6 +41,7 @@ void handleSetting(string type, int x)
 	{
 	case "tt_login":	color = "#8BDCE7";		break;
 	case "greygoo":		color = "#6FE26F";		break;
+	case "plevel":		color = "#8BDCE7";		break;
 	default:			color = "#ffffff";		break;
 	}
 
@@ -106,6 +107,7 @@ void write_settings_key()
 	writeln("<table><tr><th>Settings Color Codings</th></tr>");
 	writeln("<tr bgcolor=#8BDCE7><td>tt_login.ash script to automate some post login actions</td></tr>");
 	writeln("<tr bgcolor=#6FE26F><td>greygoo.ash script to automate greygoo ascensions</td></tr>");
+	writeln("<tr bgcolor=#8BDCE7><td>plevel.ash script to automate some powerleveling in aftercore</td></tr>");
 	writeln("</table>");
 }
 
@@ -166,6 +168,10 @@ void main()
 	foreach x in s["greygoo"]
 	{
 		handleSetting("greygoo", x);
+	}
+	foreach x in s["plevel"]
+	{
+		handleSetting("plevel", x);
 	}
 	writeln("<tr><td align=center colspan='3'><input type='submit' name='' value='Save Changes'/></td></tr></table></form>");
 
