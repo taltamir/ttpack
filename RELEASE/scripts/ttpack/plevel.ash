@@ -342,6 +342,7 @@ boolean pl_doTasks()
 	}
 	
 	resetState();
+	if(!have_familiar($familiar[hovering sombrero])) abort("You do not have a hovering sombrero familiar. Get one and run me again");
 	handleFamiliar($familiar[hovering sombrero]);
 	
 	if(pl_fortuneCollect()) return true;
