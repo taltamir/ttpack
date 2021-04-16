@@ -79,10 +79,12 @@ void pl_buff_mainstat(int target)
 	//try to buff using potions
 	while(my_buffedstat(my_primestat()) < target)
 	{
+		//float x = 1/2 = 0. You need to convert the int to float before performing division. float x = 1.0/2 = 0.5.
+		//so use float to store all values. even integer values
 		item best_item = $item[none];
 		float best_value = 0;	//track this seperately to avoid divide by zero
-		int best_bonus = 0;
-		int best_cost = 0;
+		float best_bonus = 0;
+		float best_cost = 0;
 		foreach it in $items[]
 		{
 			if(!auto_is_valid(it)) continue;
@@ -93,8 +95,8 @@ void pl_buff_mainstat(int target)
 			if(it.levelreq > my_level()) continue;			//it can not be used due to level requirement. skip it
 			
 			//calculate buff bonus. if any
-			int bonus = bonus(it, my_primestat());
-			int to_target = target - my_buffedstat(my_primestat());
+			float bonus = bonus(it, my_primestat());
+			float to_target = target - my_buffedstat(my_primestat());
 			if(bonus > to_target) bonus = to_target;		//if we are only 10 short of goal and it provides +100. count it as providing 10.
 			if(bonus < 1) continue;			//it does not provide a bonus to my primestat. skip it and go to next item.
 			
@@ -121,9 +123,9 @@ void pl_buff_mainstat(int target)
 		float mag_cost_per_adv = (auto_mall_price(MAGAZINE) / 30);
 		print("best_item = " +best_item);
 		print("best_bonus = " +best_bonus);
-		print("percent_gain = " +percent_gain);
+		print("percent_gain = " +percent_gain+ "%");
 		print("mag_cost_per_adv = " +mag_cost_per_adv);
-		if(best_cost > (percent_gain * mag_cost_per_adv))
+		if(100*best_cost > (percent_gain * mag_cost_per_adv))
 		{
 			//TODO get meat per adventure value from user and include it in the calculation as well.
 			print("Best item found = " +best_item);
