@@ -32,6 +32,73 @@ boolean pl_fortuneCollect()
 	return autoAdv(goal);
 }
 
+float price_per_adv(item it)
+{
+	int duration = numeric_modifier(it, "effect duration");
+	int price = auto_mall_price(it);
+	if(duration < 1 || price < 1) return -1;
+	return price / duration;
+}
+
+boolean[item] effect_to_items(effect ef)
+{
+	//this function tells you which items can be used to provide an effect.
+	boolean[item] retval;
+	item it;
+	foreach s in ef.all
+	{
+		if(s.contains_text("use 1 "))
+		{
+			it = to_item(s.replace_string("use 1 ", ""));
+			retval[it] = true;
+		}
+	}
+	return retval;
+}
+
+item best_potion(effect ef)
+{
+	//determines the best (in terms of meat per adv) mall buyable potion available to produce effect ef
+	//if none exists returns $item[none]
+	//TODO also check NPC store items
+	item retval = $item[none];
+	float best_cost = -1;
+	foreach it in effect_to_items(ef)
+	{
+		if(!auto_is_valid(it)) continue;
+		if(can_use(it) != "") continue;					//specifies why you can not use an item. "" means you can use it.
+		if(!it.tradeable || !it.usable) continue;		//it is not tradeable or not useable. skip it
+		if(it.fullness + it.inebriety + it.spleen > 0) continue;		//it requires organ space. skip it
+		if(it.levelreq > my_level()) continue;			//it can not be used due to level requirement. skip it
+		if(auto_mall_price(it) > get_property("autoBuyPriceLimit").to_int()) continue;		//it is too expensive. skip.
+		float cost = price_per_adv(it);
+		if(cost == -1) continue;		//it cannot be priced. what is wrong with it? skip it and go to next item.
+		
+		if(cost > 0 && (best_cost == -1 || cost < best_cost))
+		{
+			retval = it;
+			best_cost = cost;
+		}
+	}
+	return retval;
+}
+
+float total_buff_cost()
+{
+	//returns the current cost per adv of all buffs currently applied. currently only counts potions. TODO calculate skills too.
+	float retval = 0;
+	foreach ef in $effects[]
+	{
+		if(have_effect(ef) == 0) continue;		//I do not have this effect so skip to next effect.
+		item it = best_potion(ef);
+		if(it != $item[none])
+		{
+			retval += price_per_adv(it);
+		}
+	}
+	return retval;
+}
+
 void pl_buff_mainstat(int target)
 {
 	//buffs mainstat up to a target value. once target is exceeded we stop
@@ -49,32 +116,11 @@ void pl_buff_mainstat(int target)
 		return bonus_percent + bonus_flat;
 	}
 	
-	float price_per_adv(item it)
-	{
-		int duration = numeric_modifier(it, "effect duration");
-		int price = auto_mall_price(it);
-		if(duration < 1 || price < 1) return -1;
-		return price / duration;
-	}
-	
-	boolean limited(item it)
-	{
-		// https://kolmafia.us/threads/exposing-use-limiter-via-function.25961/
-		//currently no way to expose limits on consumption so this requires some manual forbidding of certain items.
-		
-		//dependence day specific items
-		if($items[M-242, snake, sparkler, green rocket] contains it)
-		{
-			if(holiday() != "Dependence Day") return true;		//these items are forbidden when it is not dependence day
-			if(get_property("_fireworkUsed").to_boolean()) return true;		//can only use one firework per day
-		}
-		
-		return false;
-	}
-	
 	//wear suitable equipment
 	addToMaximize("50" +my_primestat().to_string());
 	equipMaximizedGear();
+	
+	//todo buff using skills. this can be hardcoded
 	
 	//try to buff using potions
 	while(my_buffedstat(my_primestat()) < target)
@@ -82,14 +128,14 @@ void pl_buff_mainstat(int target)
 		//float x = 1/2 = 0. You need to convert the int to float before performing division. float x = 1.0/2 = 0.5.
 		//so use float to store all values. even integer values
 		item best_item = $item[none];
-		float best_value = 0;	//track this seperately to avoid divide by zero
+		float best_value = 0;	//value = bonus/cost. track this seperately to avoid divide by zero
 		float best_bonus = 0;
 		float best_cost = 0;
+		float mpa = 500;		//TODO get meat worth of an adventure from player for calculations.
 		foreach it in $items[]
 		{
 			if(!auto_is_valid(it)) continue;
-			if(can_use(it) != "") continue;			//specifies why you can not use an item. "" means you can use it.
-			if(limited(it)) continue;
+			if(can_use(it) != "") continue;					//specifies why you can not use an item. "" means you can use it.
 			if(!it.tradeable || !it.usable) continue;		//it is not tradeable or not useable. skip it
 			if(it.fullness + it.inebriety + it.spleen > 0) continue;		//it requires organ space. skip it
 			if(it.levelreq > my_level()) continue;			//it can not be used due to level requirement. skip it
@@ -119,16 +165,12 @@ void pl_buff_mainstat(int target)
 			print("could not find an item to consume for a buff despite not reaching the target of " +target);
 			break;
 		}
-		float percent_gain = best_bonus / my_buffedstat(my_primestat());
-		float mag_cost_per_adv = (auto_mall_price(MAGAZINE) / 30);
-		print("best_item = " +best_item);
-		print("best_bonus = " +best_bonus);
-		print("percent_gain = " +percent_gain+ "%");
-		print("mag_cost_per_adv = " +mag_cost_per_adv);
-		if(100*best_cost > (percent_gain * mag_cost_per_adv))
+		float adv_cost = (auto_mall_price(MAGAZINE) / 30) + mpa + total_buff_cost();
+		float adv_value = my_buffedstat(my_primestat()) / adv_cost;
+		print("best item = " +best_item+ ". cost per adv = " +best_cost+ ". mainstat bonus = " +best_bonus+ ". value = " +best_value);
+		print("cost of an adventure = magazine cost + mpa + total current buff cost = " +adv_cost+ ". value = " + adv_value);
+		if(best_value < adv_value)
 		{
-			//TODO get meat per adventure value from user and include it in the calculation as well.
-			print("Best item found = " +best_item);
 			print("I have not reached target buff of " +target+ ". But the best item I found costs more meat than just using more magazines. So I am giving up", "red");
 			break;
 		}
