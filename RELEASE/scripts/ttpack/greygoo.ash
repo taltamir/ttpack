@@ -413,6 +413,11 @@ boolean greygoo_doTasks()
 	if(greygoo_oddJobs()) return true;
 	if(greygoo_fightGoo()) return true;
 	
+	if(inebriety_left() == 0 && my_adventures() < 11)		//checks that we reached here because we are done rather than due to some problem.
+	{
+		auto_drinkNightcap();		//drink nightcap
+	}
+	
 	return false;
 }
 
