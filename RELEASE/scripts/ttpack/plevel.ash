@@ -172,7 +172,7 @@ void pl_buff_mainstat(int target)
 		foreach it in $items[]
 		{
 			if(!auto_is_valid(it)) continue;
-			if(can_use(it) != "") continue;					//specifies why you can not use an item. "" means you can use it.
+			if(it.dailyusesleft == 0) continue;
 			if(!it.tradeable || !it.usable) continue;		//it is not tradeable or not useable. skip it
 			if(it.fullness + it.inebriety + it.spleen > 0) continue;		//it requires organ space. skip it
 			if(it.levelreq > my_level()) continue;			//it can not be used due to level requirement. skip it
