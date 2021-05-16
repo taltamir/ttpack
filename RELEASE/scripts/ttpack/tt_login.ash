@@ -537,7 +537,6 @@ void main()
 	glitchmon();							//fight glitch monster
 	auto_beachUseFreeCombs();				//use free beach combs
 	eatChocolate();							//size 0 special consumables.
-	dependenceDayClovers();					//get clovers on Dependence Day
 
 	print("login script finished", "green");
 	
