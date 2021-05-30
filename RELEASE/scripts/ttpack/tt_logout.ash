@@ -60,6 +60,7 @@ void main()
 	cli_execute("breakfast");				//Run mafia built in breakfast script to do many daily tasks
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	cli_execute("pvprotect.ash");			//closet your expensive pvpable items
+	while(LX_freeCombats(true));			//use remaining free combats for the day
 	tt_whenDrunk();							//actions we only want to take if overdrunk on logout
 	tt_cargoPants();
 	print("logout script finished", "green");
