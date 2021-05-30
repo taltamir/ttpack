@@ -502,7 +502,7 @@ void fullAuto()
 	{
 		return;
 	}
-	if(in_aftercore())
+	if(inAftercore())
 	{
 		return;
 	}
