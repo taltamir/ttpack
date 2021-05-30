@@ -79,7 +79,7 @@ void pa_consume()
 			take_shop(1, $item[bucket of wine]);
 		}
 		retrieve_item(1,$item[bucket of wine]);
-		autoDrink(1, $item[bucket of wine]);
+		drinksilent(1, $item[bucket of wine]);
 	}
 	
 	//switch back from stooper to 100% familiar if one has been set
