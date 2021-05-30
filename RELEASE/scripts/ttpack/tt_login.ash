@@ -502,6 +502,10 @@ void fullAuto()
 	{
 		return;
 	}
+	if(in_aftercore())
+	{
+		return;
+	}
 	if(my_path() == "Grey Goo")
 	{
 		cli_execute("greygoo.ash");
