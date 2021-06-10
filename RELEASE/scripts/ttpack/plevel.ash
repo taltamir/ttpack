@@ -379,6 +379,9 @@ void pl_start(int target_level)
 	backupSetting("manaBurningTrigger", -0.05);
 	backupSetting("manaBurningThreshold", -0.05);
 	backupSetting("autoAbortThreshold", -0.05);
+	backupSetting("currentMood", "apathetic");
+	backupSetting("logPreferenceChange", "true");
+	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
 	
 	initializeDay(my_daycount());
 	horseDark();

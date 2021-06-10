@@ -819,6 +819,9 @@ void guzzlr_deliver(int adv_to_use)
 	backupSetting("currentMood", get_property("guzzlr_mood"));
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
+	backupSetting("currentMood", "apathetic");
+	backupSetting("logPreferenceChange", "true");
+	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
 	
 	int adv_initial = my_session_adv();
 	
