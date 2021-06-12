@@ -616,14 +616,14 @@ item platinumDrinkIngredient(item drink)
 item cheapestPlatinumDrink()
 {
 	item drink = $item[Ghiaccio Colada];
-	int cheapest_price = auto_mall_price(platinumDrinkIngredient(drink));
+	int cheapest_price = mall_price(platinumDrinkIngredient(drink));
 	
 	foreach it in $items[Steamboat, Nog-on-the-Cob, Sourfinger, Buttery Boy]
 	{
-		if(auto_mall_price(platinumDrinkIngredient(it)) < cheapest_price)
+		if(mall_price(platinumDrinkIngredient(it)) < cheapest_price)
 		{
 			drink = it;
-			cheapest_price = auto_mall_price(platinumDrinkIngredient(it));
+			cheapest_price = mall_price(platinumDrinkIngredient(it));
 		}
 	}
 	
@@ -701,12 +701,12 @@ boolean guzzlr_deliverLoop()
 	if(guzzlr_QuestTier() == 3)
 	{
 		drink = cheapestPlatinumDrink();
-		drink_price = auto_mall_price(platinumDrinkIngredient(drink));
+		drink_price = mall_price(platinumDrinkIngredient(drink));
 	}
 	else
 	{
 		drink = get_property("guzzlrQuestBooze").to_item();
-		drink_price = auto_mall_price(drink);
+		drink_price = mall_price(drink);
 	}
 	location goal = get_property("guzzlrQuestLocation").to_location();
 	
@@ -728,7 +728,7 @@ boolean guzzlr_deliverLoop()
 	if(guzzlr_QuestTier() == 3)
 	{
 		item access_item = accessItem();
-		int price_access_item = auto_mall_price(access_item);
+		int price_access_item = mall_price(access_item);
 		int price_sum = drink_price;
 		if(!platinumZoneAvailable())
 		{
