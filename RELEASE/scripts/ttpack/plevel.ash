@@ -38,7 +38,7 @@ boolean pl_fortuneCollect()
 float price_per_adv(item it)
 {
 	int duration = numeric_modifier(it, "effect duration");
-	int price = auto_mall_price(it);
+	int price = mall_price(it);
 	if(duration < 1 || price < 1) return -1;
 	return price / duration;
 }
@@ -73,7 +73,7 @@ item best_potion(effect ef)
 		if(!it.tradeable || !it.usable) continue;		//it is not tradeable or not useable. skip it
 		if(it.fullness + it.inebriety + it.spleen > 0) continue;		//it requires organ space. skip it
 		if(it.levelreq > my_level()) continue;			//it can not be used due to level requirement. skip it
-		if(auto_mall_price(it) > get_property("autoBuyPriceLimit").to_int()) continue;		//it is too expensive. skip.
+		if(mall_price(it) > get_property("autoBuyPriceLimit").to_int()) continue;		//it is too expensive. skip.
 		float cost = price_per_adv(it);
 		if(cost == -1) continue;		//it cannot be priced. what is wrong with it? skip it and go to next item.
 		
@@ -184,7 +184,7 @@ void pl_buff_mainstat(int target)
 			if(bonus < 1) continue;			//it does not provide a bonus to my primestat. skip it and go to next item.
 			
 			//calculate price. mallchecks are delayed until this point to minimize mall hits for things that we do not want for other reasons.
-			if(auto_mall_price(it) > get_property("autoBuyPriceLimit").to_int()) continue;		//it is too expensive. skip.
+			if(mall_price(it) > get_property("autoBuyPriceLimit").to_int()) continue;		//it is too expensive. skip.
 			float cost = price_per_adv(it);
 			if(cost == -1) continue;		//it cannot be priced. what is wrong with it? skip it and go to next item.
 			
@@ -202,7 +202,7 @@ void pl_buff_mainstat(int target)
 			print("could not find an item to consume for a buff despite not reaching the target of " +target);
 			break;
 		}
-		float adv_cost = (auto_mall_price(MAGAZINE) / 30) + get_property("plevel_mpa").to_int() + total_buff_cost();
+		float adv_cost = (mall_price(MAGAZINE) / 30) + get_property("plevel_mpa").to_int() + total_buff_cost();
 		float adv_value = my_buffedstat(my_primestat()) / adv_cost;
 		print("best item = " +best_item+ ". cost per adv = " +best_cost+ ". mainstat bonus = " +best_bonus+ ". value = " +best_value);
 		print("cost of an adventure = magazine cost + mpa + total current buff cost = " +adv_cost+ ". value = " + adv_value);
