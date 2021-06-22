@@ -1,0 +1,80 @@
+# This is a workflow to perform basic verification for KoLmafia ASH scripts
+
+name: CI
+env:
+  SCRIPT_NAMES: "blackpudding.ash dpills.ash getmu.ash greygoo.ash guzzlr.ash plevel.ash tt_aftercore.ash tt_display.ash tt_fortune.ash tt_kingliberated.ash tt_login.ash tt_logout.ash tt_preascension.ash tt_quickconfig.ash"
+
+on: [push, pull_request]
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 1.8
+
+    - name: Determine KoLmafia version
+      id: mafia
+      run: |
+        set -o pipefail
+        export MAFIA_BUILD=$(curl --fail --silent --globoff 'https://ci.kolmafia.us/job/Kolmafia/api/json?tree=lastCompletedBuild[changeSet[items[revision]]]' | jq '.lastCompletedBuild.changeSet.items[0].revision')
+        if [[ -z "$MAFIA_BUILD" ]]; then
+          echo "Could not determine mafia version of Jenkins last completed build!"
+          exit 1
+        fi
+        export JENKINS_URL="https://ci.kolmafia.us/job/Kolmafia/lastCompletedBuild/artifact/dist/KoLmafia-${MAFIA_BUILD}.jar"
+        echo "::set-output name=jenkins::$JENKINS_URL"
+        echo "Jenkins URL = ${JENKINS_URL}"
+        echo "::set-output name=build::$MAFIA_BUILD"
+        echo "Jenkins Mafia Build = ${MAFIA_BUILD}"
+
+    - name: Cache KoLmafia
+      id: cache
+      uses: actions/cache@v2
+      with:
+        path: .github/kolmafia.jar
+        key: kolmafia-${{steps.mafia.outputs.build}}
+
+    - name: Download KoLmafia
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        curl "${{steps.mafia.outputs.jenkins}}" --output .github/kolmafia.jar
+
+    - name: Install and verify
+      run: |
+        cd RELEASE
+
+        if [[ -f "dependencies.txt" ]]; then
+          # Install dependencies
+          echo "Installing dependencies..."
+
+          output_file="scripts/_ci_dependencies.ash"
+          while read -r line || [ -n "$line" ]; do
+            echo "cli_execute('svn checkout ${line}');" >> "$output_file"
+          done < "dependencies.txt"
+          echo "cli_execute('exit');" >> "$output_file"
+          java -DuseCWDasROOT=true -jar ../.github/kolmafia.jar --CLI _ci_dependencies
+        fi
+
+        errors=0
+        for ashfile in ${SCRIPT_NAMES}; do
+            # Run the verification
+            echo "Verifying ${ashfile}..."
+
+            echo "try { cli_execute('verify ${ashfile}'); } finally { cli_execute('exit'); }" > scripts/_ci_verify.ash
+            output=$(java -DuseCWDasROOT=true -jar ../.github/kolmafia.jar --CLI _ci_verify)
+            if [[ $output == *"Script verification complete." ]]; then
+                echo "Verified ${ashfile}!"
+            else
+                echo $output
+                errors=$((errors+1))
+            fi
+        done
+
+        exit ${errors}
