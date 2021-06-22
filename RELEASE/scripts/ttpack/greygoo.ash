@@ -377,12 +377,8 @@ boolean greygoo_doTasks()
 	greygoo_consume();
 	councilMaintenance();
 	cli_execute("refresh quests");		//greygoo has broken tracking verified for: questL02Larva && questM19Hippy
+	if(out_of_adv()) return false;
 	
-	if(my_adventures() == 0)
-	{
-		print("out of adventures");
-		return false;
-	}
 	if(my_familiar() == $familiar[Stooper])
 	{
 		auto_log_info("Avoiding stooper stupor...", "blue");

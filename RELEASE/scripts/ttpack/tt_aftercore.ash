@@ -1,95 +1,15 @@
 import <scripts/ttpack/util/tt_util.ash>
 
 //public prototypes
-void tt_settings_print();
 void tt_chooseFamiliar();
 boolean tt_iceHouseAMC();
-boolean tt_convert_hatchling_into_familiar(item hatchling, familiar adult);
-void tt_acquireFamiliars();
 boolean tt_dailyDungeon();
 boolean tt_fatLootToken();
 boolean tt_meatFarm();
 void tt_help();
 
-void tt_settings_defaults()
-{
-	tt_depreciate();
-	boolean new_setting_added = false;
-	
-	//set defaults
-	if(get_property("tt_aftercore_fatLootToken") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_fatLootToken", true);
-	}
-	if(get_property("tt_aftercore_iceHouseAMC") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_iceHouseAMC", true);
-	}
-	if(get_property("tt_aftercore_guildUnlock") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_guildUnlock", false);
-	}
-	if(get_property("tt_aftercore_meatFarm") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_meatFarm", false);
-	}
-	if(get_property("tt_aftercore_useAstralLeftovers") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_useAstralLeftovers", true);
-	}
-	if(get_property("tt_aftercore_buyStuff") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_buyStuff", true);
-	}
-	if(get_property("tt_aftercore_eatSurpriseEggs") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_eatSurpriseEggs", false);
-	}
-	if(get_property("tt_aftercore_consumeAll") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_consumeAll", false);
-	}
-	
-	if(new_setting_added)
-	{
-		tt_help();
-		tt_settings_print();
-		abort("Settings have been configured to default. Please verify they are correct before running me again");
-	}
-}
-
-void tt_settings_print()
-{
-	//print current settings status
-	print();
-	print("Current settings for tt_aftercore:", "blue");
-	tt_printSetting("tt_aftercore_fatLootToken", "Farm fat loot tokens if you still need more to buy the skills and familiars");
-	tt_printSetting("tt_aftercore_iceHouseAMC", "Automatically capture AMC gremlin in the ice house");
-	tt_printSetting("tt_aftercore_guildUnlock", "Unlock your guild");
-	tt_printSetting("tt_aftercore_meatFarm", "Farm some meat. Currently terrible at it.");
-	tt_printSetting("tt_aftercore_useAstralLeftovers", "Use leftover astral drink/food");
-	tt_printSetting("tt_aftercore_buyStuff", "Allow buying some useful things");
-	tt_printSetting("tt_aftercore_eatSurpriseEggs", "Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]");
-	tt_printSetting("tt_aftercore_consumeAll", "Run soolar CONSUME script with ALL command after all other eating is done");
-	
-	print();
-	print("You can make changes to these settings by typing:", "blue");
-	print("set [setting_name] = [target]", "blue");
-	print();
-}
-
 void tt_chooseFamiliar()
 {
-	tt_acquireFamiliars();	//get familiars.
-	
 	familiar familiar_target_100 = get_property("auto_100familiar").to_familiar();
 	if(familiar_target_100 != $familiar[none])		//do not break 100 familiar runs. yes, even in aftercore.
 	{
@@ -148,149 +68,31 @@ void tt_buyStuff()
 	tt_acquire($item[mafia thumb ring]);
 }
 
-boolean tt_convert_hatchling_into_familiar(item hatchling, familiar adult)
+boolean tt_acquireFamiliars()
 {
-	//This functions converts an item named hatchling into a familiar named adult.
-	
-	//TODO return false if no terrarium installed in camp
-	
-	if(have_familiar(adult))
-	{
-		return true;
-	}
-	if(item_amount(hatchling) == 0)
+	getTerrarium();
+	if(!checkTerrarium())
 	{
 		return false;
 	}
 	
-	print("Trying to acquire familiar [" + adult + "]", "blue");
-	visit_url("inv_familiar.php?pwd=&which=3&whichitem=" + hatchling.to_int());
-	
-	if(have_familiar(adult))
-	{
-		print("Successfully acquired familiar [" + adult + "]", "blue");
-		return true;
-	}
-	print("Failed to convert the familiar hatchling [" + hatchling + "] into the familiar [" + adult + "]", "red");
-	return false;
-}
+	hatchList();				//hatch common familiars whose hatchlings drop naturally.
+	acquireFamiliars();			//acquire common familiars then hatch them.
+	acquireFamiliarsCasual();	//acquire more common familiars then hatch them.
 
-void tt_acquireFamiliars()
-{
-	//TODO auto acquire terrarium
-
-	//Very cheap IOTM derivative that is very useful. providing MP/HP regen, and your main source of early food.
-	if(!have_familiar($familiar[Lil\' Barrel Mimic]))
-	{
-		tt_acquire($item[tiny barrel]);
-	}
-	tt_convert_hatchling_into_familiar($item[tiny barrel], $familiar[Lil\' Barrel Mimic]);
-
-	//Gelatinous Cubeling familiar costs 27 fat loot tokens and significantly improves doing daily dungeon in run.
-	//we only want to buy it from vending machine. do not spend meat on it in mall
-	if(!have_familiar($familiar[Gelatinous Cubeling]) && item_amount($item[dried gelatinous cube]) < 1 && item_amount($item[fat loot token]) > 26)
-	{
-		buy($coinmaster[Vending Machine], 1, $item[dried gelatinous cube]);
-	}
-	tt_convert_hatchling_into_familiar($item[dried gelatinous cube], $familiar[Gelatinous Cubeling]);
+	if(LX_acquireFamiliarLeprechaun()) return true;
 	
-	//Levitating Potato blocks enemy attacks and is very cheap.
-	//no point in mallbuying it despite the low price. since early on you are limited in meat availability.
-	if(!have_familiar($familiar[Levitating Potato]) && item_amount($item[potato sprout]) < 1 && item_amount($item[fat loot token]) > 0)
-	{
-		buy($coinmaster[Vending Machine], 1, $item[potato sprout]);
-	}
-	tt_convert_hatchling_into_familiar($item[potato sprout], $familiar[Levitating Potato]);
-	
-	//If you don't already have leprechaun you are a new account so poor that it is worth spending ~2 full to save ~18k meat
-	while(!have_familiar($familiar[Leprechaun]) && item_amount($item[leprechaun hatchling]) < 1 && fullness_left() > 0 && retrieve_item(1, $item[bowl of lucky charms]))
-	{
-		eat(1, $item[bowl of lucky charms]);
-	}
-	tt_convert_hatchling_into_familiar($item[leprechaun hatchling], $familiar[Leprechaun]);
-	
+	//rugamuffing imp currently disabled until I add it with a user toggleable setting to autoscend.
+	/*
 	//attack familiar that is very easy to get.
 	if(!have_familiar($familiar[Ragamuffin Imp]) && !get_property("demonSummoned").to_boolean() && item_amount($item[pile of smoking rags]) < 1 && display_amount($item[pile of smoking rags]) < 1)
 	{
 		cli_execute("summon Tatter");
 	}
-	tt_convert_hatchling_into_familiar($item[pile of smoking rags], $familiar[Ragamuffin Imp]);
+	hatchFamiliar($familiar[Ragamuffin Imp]);
+	*/
 	
-	//easy attack familiar
-	if(!have_familiar($familiar[Howling Balloon Monkey]))
-	{
-		retrieve_item(1, $item[balloon monkey]);
-	}
-	tt_convert_hatchling_into_familiar($item[balloon monkey], $familiar[Howling Balloon Monkey]);
-	
-	//delevel enemy cheaply
-	if(!have_familiar($familiar[barrrnacle]))
-	{
-		retrieve_item(1, $item[Barrrnacle]);
-	}
-	tt_convert_hatchling_into_familiar($item[barrrnacle], $familiar[Barrrnacle]);
-	
-	//stat gains cheaply. nonscaling. better at low levels
-	if(!have_familiar($familiar[Blood-Faced Volleyball]))
-	{
-		retrieve_item(1, $item[blood-faced volleyball]);
-	}
-	tt_convert_hatchling_into_familiar($item[blood-faced volleyball], $familiar[Blood-Faced Volleyball]);
-	
-	//stat gains cheaply. scaling. better at high levels
-	if(!have_familiar($familiar[hovering sombrero]))
-	{
-		retrieve_item(1, $item[hovering sombrero]);
-	}
-	tt_convert_hatchling_into_familiar($item[hovering sombrero], $familiar[hovering sombrero]);
-	
-	//meat, MP/HP, confuse, or attack cheaply
-	if(!have_familiar($familiar[Cocoabo]))
-	{
-		retrieve_item(1, $item[cocoa egg]);
-	}
-	tt_convert_hatchling_into_familiar($item[cocoa egg], $familiar[Cocoabo]);
-	
-	//initiative and hot damage
-	if(!have_familiar($familiar[Cute Meteor]))
-	{
-		retrieve_item(1, $item[cute meteoroid]);
-	}
-	tt_convert_hatchling_into_familiar($item[cute meteoroid], $familiar[Cute Meteor]);
-	
-	//initiative for in standard runs
-	if(!have_familiar($familiar[Oily Woim]))
-	{
-		tt_acquire($item[woim]);
-	}
-	tt_convert_hatchling_into_familiar($item[woim], $familiar[Oily Woim]);
-	
-	//+1 liver while equipped allowing better rollover drinking
-	if(!have_familiar($familiar[Stooper]))
-	{
-		tt_acquire($item[Stooper]);
-	}
-	tt_convert_hatchling_into_familiar($item[Stooper], $familiar[Stooper]);
-	
-	//get an egg every ascension. if you didn't eat it then get the familiar.
-	tt_convert_hatchling_into_familiar($item[grue egg], $familiar[Grue]);
-	
-	//hatchling is a common drop
-	tt_convert_hatchling_into_familiar($item[sleeping wereturtle], $familiar[Wereturtle]);
-	
-	//nemesis quest familiars
-	tt_convert_hatchling_into_familiar($item[adorable seal larva], $familiar[Adorable Seal Larva]);		//seal clubber
-	tt_convert_hatchling_into_familiar($item[untamable turtle], $familiar[Untamed Turtle]);				//turtle tamer
-	tt_convert_hatchling_into_familiar($item[macaroni duck], $familiar[Animated Macaroni Duck]);		//pastamancer
-	tt_convert_hatchling_into_familiar($item[friendly cheez blob], $familiar[Pet Cheezling]);			//sauceror
-	tt_convert_hatchling_into_familiar($item[unusual disco ball], $familiar[Autonomous Disco Ball]);	//disco bandit
-	tt_convert_hatchling_into_familiar($item[stray chihuahua], $familiar[Mariachi Chihuahua]);			//accordion thief
-	
-	//quest items that are familiar hatchlings
-	tt_convert_hatchling_into_familiar($item[reassembled blackbird], $familiar[Reassembled Blackbird]);	//every ascension
-	tt_convert_hatchling_into_familiar($item[mosquito larva], $familiar[Mosquito]);						//every ascension
-	tt_convert_hatchling_into_familiar($item[reconstituted crow], $familiar[reconstituted crow]);		//bees hate you
-	tt_convert_hatchling_into_familiar($item[black kitten], $familiar[Black Cat]);						//bad moon
+	return false;
 }
 
 boolean tt_dailyDungeon()
@@ -319,8 +121,6 @@ boolean tt_fatLootToken(boolean override)
 		return false;
 	}
 
-	tt_acquireFamiliars();			//in case we can buy cubeling
-	
 	int tokens_needed = 73;
 	if(have_familiar($familiar[Gelatinous Cubeling]))
 	{
@@ -437,23 +237,31 @@ boolean tt_meatFarm(boolean override)
 	}
 	maximize(maximizer_string, false);
 
-	return adv1($location[The Castle in the Clouds in the Sky (Basement)], -1, "");
+	return autoAdv($location[The Castle in the Clouds in the Sky (Basement)]);
 }
 
 boolean tt_doTasks()
 {
 	//main loop of tt_aftercore. returning true resets the loop. returning false exits the loop
+	auto_interruptCheck();
+	resetState();
+	tt_chooseFamiliar();
+	if(out_of_adv()) return false;
 	
-	if(my_adventures() == 0)
+	if(my_familiar() == $familiar[Stooper])
 	{
-		print("Out of adventures", "red");
+		auto_log_info("Avoiding stooper stupor...", "blue");
+		familiar fam = (is100FamRun() ? get_property("auto_100familiar").to_familiar() : $familiar[Mosquito]);
+		use_familiar(fam);
+	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		auto_log_warning("I am overdrunk", "red");
 		return false;
 	}
 	
-	resetState();
-	auto_interruptCheck();
-	tt_chooseFamiliar();
-	
+	if(tt_acquireFamiliars()) return true;
+	if(LX_freeCombats(true)) return true;
 	if(tt_iceHouseAMC(false)) return true;
 	if(tt_fatLootToken(false)) return true;
 	if(tt_guild(false)) return true;
@@ -464,17 +272,24 @@ boolean tt_doTasks()
 boolean tt_doSingleTask(string command)
 {
 	//this is a primary loop. returning true resets the loop. returning false exits the loop
+	auto_interruptCheck();
+	resetState();
+	tt_chooseFamiliar();
+	if(out_of_adv()) return false;
 	
-	if(!auto_unreservedAdvRemaining())
+	if(my_familiar() == $familiar[Stooper])
 	{
-		print("Not enough reserved adventures. Done for today", "red");
+		auto_log_info("Avoiding stooper stupor...", "blue");
+		familiar fam = (is100FamRun() ? get_property("auto_100familiar").to_familiar() : $familiar[Mosquito]);
+		use_familiar(fam);
+	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		auto_log_warning("I am overdrunk", "red");
 		return false;
 	}
 	
-	resetState();
-	auto_interruptCheck();	
-	tt_chooseFamiliar();
-	
+	if(tt_acquireFamiliars()) return true;
 	if(command == "amc")
 	{
 		return tt_iceHouseAMC(true);
@@ -508,13 +323,12 @@ void tt_help()
 	print("To use type in gCLI:");
 	print("tt_aftercore [goal]");
 	print("Currently supported options for [goal]:");
-	print("help = display available commands");
-	print("config = display configuration");
 	print("auto = automatically does all the things based on your configuration");
 	print("guild = unlock your guild");
 	print("token = gets a single fat loot token if possible");
 	print("amc = traps an AMC gremlin in the ice house. currently unimplemented");
 	print("meat = meatfarms. currently terrible at it");
+	print("anything else = show this menu");
 }
 
 void main(string command)
@@ -525,20 +339,35 @@ void main(string command)
 	}
 	command = to_lower_case(command);
 	
-	tt_settings_defaults();
+	tt_initialize();
+	
+	backupSetting("printStackOnAbort", true);
+	backupSetting("promptAboutCrafting", 0);
+	backupSetting("breakableHandling", 4);
+	backupSetting("dontStopForCounters", true);
+	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	backupSetting("battleAction", "custom combat script");
+	backupSetting("maximizerCombinationLimit", "10000");
+	backupSetting("hpAutoRecovery", -0.05);
+	backupSetting("hpAutoRecoveryTarget", -0.05);
+	backupSetting("mpAutoRecovery", -0.05);
+	backupSetting("mpAutoRecoveryTarget", -0.05);
+	backupSetting("manaBurningTrigger", -0.05);
+	backupSetting("manaBurningThreshold", -0.05);
+	backupSetting("autoAbortThreshold", -0.05);
+	backupSetting("currentMood", "apathetic");
+	backupSetting("logPreferenceChange", "true");
+	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
+	
+	initializeDay(my_daycount());
+	horseDark();
+	auto_voteSetup();
 	
 	tt_useAstralLeftovers();
 	tt_eatSurpriseEggs();
 	tt_consumeAll();
 	
-	if(command == "help" || command == "" || command == "0");
-	{
-		tt_help();
-	}
-	if(command == "config")
-	{
-		tt_settings_print();
-	}
 	if(command == "auto")
 	{
 		try
@@ -549,10 +378,9 @@ void main(string command)
 		finally
 		{
 			restoreAllSettings();
-			tt_settings_print();
 		}
 	}
-	if($strings[guild, token, amc, meat] contains command)
+	else if($strings[guild, token, amc, meat] contains command)
 	{
 		try
 		{
@@ -562,7 +390,7 @@ void main(string command)
 		finally
 		{
 			restoreAllSettings();
-			tt_settings_print();
 		}
 	}
+	else tt_help();		//print instructions.
 }

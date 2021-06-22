@@ -71,6 +71,43 @@ void settings_plevel()
 	}
 }
 
+void settings_tt_aftercore()
+{
+	//configure default settings on first run for tt_aftercore.ash script
+	if(get_property("tt_aftercore_fatLootToken") == "")
+	{
+		set_property("tt_aftercore_fatLootToken", true);
+	}
+	if(get_property("tt_aftercore_iceHouseAMC") == "")
+	{
+		set_property("tt_aftercore_iceHouseAMC", true);
+	}
+	if(get_property("tt_aftercore_guildUnlock") == "")
+	{
+		set_property("tt_aftercore_guildUnlock", false);
+	}
+	if(get_property("tt_aftercore_meatFarm") == "")
+	{
+		set_property("tt_aftercore_meatFarm", false);
+	}
+	if(get_property("tt_aftercore_useAstralLeftovers") == "")
+	{
+		set_property("tt_aftercore_useAstralLeftovers", true);
+	}
+	if(get_property("tt_aftercore_buyStuff") == "")
+	{
+		set_property("tt_aftercore_buyStuff", true);
+	}
+	if(get_property("tt_aftercore_eatSurpriseEggs") == "")
+	{
+		set_property("tt_aftercore_eatSurpriseEggs", false);
+	}
+	if(get_property("tt_aftercore_consumeAll") == "")
+	{
+		set_property("tt_aftercore_consumeAll", false);
+	}
+}
+
 void tt_initialize()
 {
 	//initialize settings defaults for all associated scripts
@@ -78,4 +115,5 @@ void tt_initialize()
 	settings_tt_login();			//initialize default settings for tt_login
 	settings_greygoo();				//initialize default settings for greygoo
 	settings_plevel();				//initialize default settings for plevel
+	settings_tt_aftercore();		//initialize default settings for tt_aftercore
 }
