@@ -173,7 +173,7 @@ void main()
 	}
 	foreach x in s["tt_aftercore"]
 	{
-		handleSetting("tt_login", x);
+		handleSetting("tt_aftercore", x);
 	}
 	foreach x in s["tt_login"]
 	{
