@@ -257,7 +257,7 @@ boolean tt_meatFarm(boolean override)
 	}
 	maximize(maximizer_string, false);
 
-	return adv1($location[The Castle in the Clouds in the Sky (Basement)], -1, "");
+	return autoAdv($location[The Castle in the Clouds in the Sky (Basement)]);
 }
 
 boolean tt_doTasks()
@@ -268,7 +268,20 @@ boolean tt_doTasks()
 	tt_chooseFamiliar();
 	if(out_of_adv()) return false;
 	
+	if(my_familiar() == $familiar[Stooper])
+	{
+		auto_log_info("Avoiding stooper stupor...", "blue");
+		familiar fam = (is100FamRun() ? get_property("auto_100familiar").to_familiar() : $familiar[Mosquito]);
+		use_familiar(fam);
+	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		auto_log_warning("I am overdrunk", "red");
+		return false;
+	}
+	
 	if(tt_acquireFamiliars()) return true;
+	if(LX_freeCombats(true)) return true;
 	if(tt_iceHouseAMC(false)) return true;
 	if(tt_fatLootToken(false)) return true;
 	if(tt_guild(false)) return true;
@@ -283,6 +296,18 @@ boolean tt_doSingleTask(string command)
 	resetState();
 	tt_chooseFamiliar();
 	if(out_of_adv()) return false;
+	
+	if(my_familiar() == $familiar[Stooper])
+	{
+		auto_log_info("Avoiding stooper stupor...", "blue");
+		familiar fam = (is100FamRun() ? get_property("auto_100familiar").to_familiar() : $familiar[Mosquito]);
+		use_familiar(fam);
+	}
+	if(my_inebriety() > inebriety_limit())
+	{
+		auto_log_warning("I am overdrunk", "red");
+		return false;
+	}
 	
 	if(tt_acquireFamiliars()) return true;
 	if(command == "amc")
