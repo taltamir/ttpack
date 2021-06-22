@@ -263,16 +263,10 @@ boolean tt_meatFarm(boolean override)
 boolean tt_doTasks()
 {
 	//main loop of tt_aftercore. returning true resets the loop. returning false exits the loop
-	
-	if(my_adventures() == 0)
-	{
-		print("Out of adventures", "red");
-		return false;
-	}
-	
-	resetState();
 	auto_interruptCheck();
+	resetState();
 	tt_chooseFamiliar();
+	if(out_of_adv()) return false;
 	
 	if(tt_acquireFamiliars()) return true;
 	if(tt_iceHouseAMC(false)) return true;
@@ -285,19 +279,12 @@ boolean tt_doTasks()
 boolean tt_doSingleTask(string command)
 {
 	//this is a primary loop. returning true resets the loop. returning false exits the loop
-	
-	if(!auto_unreservedAdvRemaining())
-	{
-		print("Not enough reserved adventures. Done for today", "red");
-		return false;
-	}
-	
+	auto_interruptCheck();
 	resetState();
-	auto_interruptCheck();	
 	tt_chooseFamiliar();
+	if(out_of_adv()) return false;
 	
 	if(tt_acquireFamiliars()) return true;
-	
 	if(command == "amc")
 	{
 		return tt_iceHouseAMC(true);
@@ -368,6 +355,10 @@ void main(string command)
 	backupSetting("currentMood", "apathetic");
 	backupSetting("logPreferenceChange", "true");
 	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
+	
+	initializeDay(my_daycount());
+	horseDark();
+	auto_voteSetup();
 	
 	tt_useAstralLeftovers();
 	tt_eatSurpriseEggs();

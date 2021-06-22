@@ -156,3 +156,13 @@ void tt_snapshot()
 
 	set_property("auto_snapshot", my_ascensions());
 }
+
+boolean out_of_adv()
+{
+	if(my_adventures() == 0)
+	{
+		print("Out of adventures", "red");
+		return true;
+	}
+	return false;
+}
