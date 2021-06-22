@@ -8,26 +8,6 @@ boolean tt_fatLootToken();
 boolean tt_meatFarm();
 void tt_help();
 
-void tt_aftercore_settings_print()
-{
-	//print current settings status
-	print();
-	print("Current settings for tt_aftercore:", "blue");
-	tt_printSetting("tt_aftercore_fatLootToken", "Farm fat loot tokens if you still need more to buy the skills and familiars");
-	tt_printSetting("tt_aftercore_iceHouseAMC", "Automatically capture AMC gremlin in the ice house");
-	tt_printSetting("tt_aftercore_guildUnlock", "Unlock your guild");
-	tt_printSetting("tt_aftercore_meatFarm", "Farm some meat. Currently terrible at it.");
-	tt_printSetting("tt_aftercore_useAstralLeftovers", "Use leftover astral drink/food");
-	tt_printSetting("tt_aftercore_buyStuff", "Allow buying some useful things");
-	tt_printSetting("tt_aftercore_eatSurpriseEggs", "Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]");
-	tt_printSetting("tt_aftercore_consumeAll", "Run soolar CONSUME script with ALL command after all other eating is done");
-	
-	print();
-	print("You can make changes to these settings by typing:", "blue");
-	print("set [setting_name] = [target]", "blue");
-	print();
-}
-
 void tt_chooseFamiliar()
 {
 	familiar familiar_target_100 = get_property("auto_100familiar").to_familiar();
@@ -343,13 +323,12 @@ void tt_help()
 	print("To use type in gCLI:");
 	print("tt_aftercore [goal]");
 	print("Currently supported options for [goal]:");
-	print("help = display available commands");
-	print("config = display configuration");
 	print("auto = automatically does all the things based on your configuration");
 	print("guild = unlock your guild");
 	print("token = gets a single fat loot token if possible");
 	print("amc = traps an AMC gremlin in the ice house. currently unimplemented");
 	print("meat = meatfarms. currently terrible at it");
+	print("anything else = show this menu");
 }
 
 void main(string command)

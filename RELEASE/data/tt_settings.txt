@@ -13,6 +13,15 @@ greygoo	6	greygoo_fightGoo	boolean	fight the goo monsters
 
 plevel	0	plevel_mpa	int	meat per adventure value. input how much each adventure is worth to you if you were farming meat. this will be used to calculate whether it is worth it or not to buy a potion.
 
+tt_aftercore	0	tt_aftercore_fatLootToken	boolean	Farm fat loot tokens if you still need more to buy the skills and familiars
+tt_aftercore	1	tt_aftercore_iceHouseAMC	boolean	Automatically capture AMC gremlin in the ice house
+tt_aftercore	2	tt_aftercore_guildUnlock	boolean	Unlock your guild
+tt_aftercore	3	tt_aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
+tt_aftercore	4	tt_aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
+tt_aftercore	5	tt_aftercore_buyStuff	boolean	Allow buying some useful things
+tt_aftercore	6	tt_aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
+tt_aftercore	7	tt_aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
+
 tt_login	0	tt_login_pvp	boolean	break hippy stone to unlock pvp
 tt_login	1	tt_login_chocolateEat	boolean	when login with unlimited mall access eat chocolates
 tt_login	2	tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for chocolates

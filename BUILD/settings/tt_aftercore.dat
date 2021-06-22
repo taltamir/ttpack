@@ -1,0 +1,8 @@
+tt_aftercore_fatLootToken	boolean	Farm fat loot tokens if you still need more to buy the skills and familiars
+tt_aftercore_iceHouseAMC	boolean	Automatically capture AMC gremlin in the ice house
+tt_aftercore_guildUnlock	boolean	Unlock your guild
+tt_aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
+tt_aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
+tt_aftercore_buyStuff	boolean	Allow buying some useful things
+tt_aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
+tt_aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
