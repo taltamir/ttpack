@@ -527,6 +527,25 @@ void main(string command)
 	
 	tt_settings_defaults();
 	
+	backupSetting("printStackOnAbort", true);
+	backupSetting("promptAboutCrafting", 0);
+	backupSetting("breakableHandling", 4);
+	backupSetting("dontStopForCounters", true);
+	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
+	backupSetting("battleAction", "custom combat script");
+	backupSetting("maximizerCombinationLimit", "10000");
+	backupSetting("hpAutoRecovery", -0.05);
+	backupSetting("hpAutoRecoveryTarget", -0.05);
+	backupSetting("mpAutoRecovery", -0.05);
+	backupSetting("mpAutoRecoveryTarget", -0.05);
+	backupSetting("manaBurningTrigger", -0.05);
+	backupSetting("manaBurningThreshold", -0.05);
+	backupSetting("autoAbortThreshold", -0.05);
+	backupSetting("currentMood", "apathetic");
+	backupSetting("logPreferenceChange", "true");
+	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
+	
 	tt_useAstralLeftovers();
 	tt_eatSurpriseEggs();
 	tt_consumeAll();
