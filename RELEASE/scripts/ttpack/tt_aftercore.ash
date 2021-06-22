@@ -1,7 +1,6 @@
 import <scripts/ttpack/util/tt_util.ash>
 
 //public prototypes
-void tt_settings_print();
 void tt_chooseFamiliar();
 boolean tt_iceHouseAMC();
 boolean tt_convert_hatchling_into_familiar(item hatchling, familiar adult);
@@ -11,62 +10,7 @@ boolean tt_fatLootToken();
 boolean tt_meatFarm();
 void tt_help();
 
-void tt_settings_defaults()
-{
-	tt_depreciate();
-	boolean new_setting_added = false;
-	
-	//set defaults
-	if(get_property("tt_aftercore_fatLootToken") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_fatLootToken", true);
-	}
-	if(get_property("tt_aftercore_iceHouseAMC") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_iceHouseAMC", true);
-	}
-	if(get_property("tt_aftercore_guildUnlock") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_guildUnlock", false);
-	}
-	if(get_property("tt_aftercore_meatFarm") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_meatFarm", false);
-	}
-	if(get_property("tt_aftercore_useAstralLeftovers") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_useAstralLeftovers", true);
-	}
-	if(get_property("tt_aftercore_buyStuff") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_buyStuff", true);
-	}
-	if(get_property("tt_aftercore_eatSurpriseEggs") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_eatSurpriseEggs", false);
-	}
-	if(get_property("tt_aftercore_consumeAll") == "")
-	{
-		new_setting_added = true;
-		set_property("tt_aftercore_consumeAll", false);
-	}
-	
-	if(new_setting_added)
-	{
-		tt_help();
-		tt_settings_print();
-		abort("Settings have been configured to default. Please verify they are correct before running me again");
-	}
-}
-
-void tt_settings_print()
+void tt_aftercore_settings_print()
 {
 	//print current settings status
 	print();
@@ -525,7 +469,7 @@ void main(string command)
 	}
 	command = to_lower_case(command);
 	
-	tt_settings_defaults();
+	tt_initialize();
 	
 	backupSetting("printStackOnAbort", true);
 	backupSetting("promptAboutCrafting", 0);
@@ -550,13 +494,9 @@ void main(string command)
 	tt_eatSurpriseEggs();
 	tt_consumeAll();
 	
-	if(command == "help" || command == "" || command == "0");
+	if(command == "help" || command == "" || command == "0" || command == "config");
 	{
 		tt_help();
-	}
-	if(command == "config")
-	{
-		tt_settings_print();
 	}
 	if(command == "auto")
 	{
@@ -568,7 +508,6 @@ void main(string command)
 		finally
 		{
 			restoreAllSettings();
-			tt_settings_print();
 		}
 	}
 	if($strings[guild, token, amc, meat] contains command)
@@ -581,7 +520,6 @@ void main(string command)
 		finally
 		{
 			restoreAllSettings();
-			tt_settings_print();
 		}
 	}
 }
