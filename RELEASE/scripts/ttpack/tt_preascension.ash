@@ -90,11 +90,27 @@ void pa_consume()
 	}
 }
 
+string[int] invertIntString(int[string] source)
+{
+	//invert an int[string] into a string[int]. use with caution as it will mangle the data if the int values are not unique.
+	string [int] retval;
+	foreach s, i in source
+	{
+		retval[i] = s;
+	}
+	return retval;
+}
+
 void pa_pvp()
 {
 	//if you accidentally entered valhalla without using all your pvp then use them now.
 	if(pvp_attacks_left() == 0)
 	{
+		return;
+	}
+	if(!(invertIntString(current_pvp_stances()) contains 1))
+	{
+		print("PVP does not appear to be available. Skipping", "red");
 		return;
 	}
 
@@ -141,7 +157,6 @@ void main()
 	}
 	
 	tt_depreciate();
-	pa_pvp();								//if you accidentally entered valhalla without using all your pvp then use them now.
 	cli_execute("tt_login.ash");			//do various login things. such as mafia breakfast script
 	cli_execute("tt_logout.ash");			//do various logout things.
 	useBorrowedTime();						//use borrowed time. only if you need extra adventures
@@ -160,5 +175,7 @@ void main()
 	cli_execute("tt_logout.ash");			//runs the tt_logout script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
 	displayTake();							//take certain items from display so you could use pull them in next ascension.
+	//pvp fights should be done last. as it fails on days in which pvp season changes
+	pa_pvp();								//using remaining pvp fights.
 	print("pre-ascension script finished", "green");
 }
