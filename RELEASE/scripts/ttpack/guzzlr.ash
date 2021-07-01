@@ -880,7 +880,7 @@ void main(int adv_to_use)
 	{
 		inrun = false;
 	}
-	else if(inCasual() && get_property("guzzlr_treatCasualAsAftercore").to_boolean())
+	else if(in_casual() && get_property("guzzlr_treatCasualAsAftercore").to_boolean())
 	{
 		inrun = false;
 	}
