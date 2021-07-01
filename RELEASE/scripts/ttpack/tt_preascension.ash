@@ -2,21 +2,6 @@
 
 import <scripts/ttpack/util/tt_util.ash>
 
-void displayTake()
-{
-	if(!have_display()) return;
-	
-	int instant_karma_to_take = 0;
-	if(display_amount($item[instant karma]) > 1)
-	{
-		instant_karma_to_take = min(10, (display_amount($item[instant karma]) - 1));
-	}
-	if(instant_karma_to_take > 0)
-	{
-		take_display(instant_karma_to_take, $item[instant karma]);
-	}
-}
-
 boolean needExtraAdv()
 {
 	//do we have a way to burn extra adv. such as combing the beach.
@@ -174,7 +159,6 @@ void main()
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
 	cli_execute("tt_logout.ash");			//runs the tt_logout script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
-	displayTake();							//take certain items from display so you could use pull them in next ascension.
 	//pvp fights should be done last. as it fails on days in which pvp season changes
 	pa_pvp();								//using remaining pvp fights.
 	print("pre-ascension script finished", "green");
