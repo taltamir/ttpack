@@ -149,8 +149,13 @@ void main()
 	
 	KGB();									//Do some briefcase things before ascension.
 	combBeach();							//burn all remaining adventures on beach combing before ascension.
+	pa_pvp();								//using remaining pvp fights.
 	
-	if(my_path() == "Grey Goo")	return;		//everything below this line errors in grey goo.
+	if(my_path() == "Grey Goo")
+	{
+		print("pre-ascension script finished", "green");
+		return;		//everything below this line errors in grey goo.
+	}
 	
 	if(have_shop())
 	{
@@ -159,7 +164,6 @@ void main()
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
 	cli_execute("tt_logout.ash");			//runs the tt_logout script (must be installed seperately)
 	tt_snapshot();							//runs the cc snapshot script (must be installed seperately)
-	//pvp fights should be done last. as it fails on days in which pvp season changes
-	pa_pvp();								//using remaining pvp fights.
+	
 	print("pre-ascension script finished", "green");
 }
