@@ -28,6 +28,7 @@ void main()
 	
 	print("Pulling all items from hangk's ancestral storage", "blue");
 	cli_execute("pull all");				//pull all hangk items
+	cli_execute("refresh all");
 	
 	cli_execute("tt_login.ash");			//run login script
 	cli_execute("tt_fortune.ash");			//reply and ask for zatara fortunes.
