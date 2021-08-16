@@ -55,6 +55,17 @@ void tt_cargoPants()
 	auto_cargoShortsOpenPocket(target_it);
 }
 
+void tt_collect_on_logout()
+{
+	foreach sk in $skills[Acquire Rhinestones, Advanced Cocktailcrafting, Advanced Saucecrafting, Bowl Full of Jelly, Chubby and Plump, Communism!, Eye and a Twist, Grab a Cold One, Lunch Break, Pastamastery, Perfect Freeze, Prevent Scurvy and Sobriety, Request Sandwich, Spaghetti Breakfast, Summon Alice\'s Army Cards, Summon Carrot, Summon Confiscated Things, Summon Crimbo Candy, Summon Geeky Gifts, Summon Hilarious Objects, Summon Holiday Fun!, Summon Kokomo Resort Pass, Summon Tasteful Items]
+	{
+		if(is_unrestricted(sk) && auto_have_skill(sk) && (my_mp() >= mp_cost(sk)))
+		{
+			use_skill(1, sk);
+		}
+	}
+}
+
 void main()
 {
 	cli_execute("breakfast");				//Run mafia built in breakfast script to do many daily tasks
@@ -63,5 +74,6 @@ void main()
 	while(LX_freeCombats(true));			//use remaining free combats for the day
 	tt_whenDrunk();							//actions we only want to take if overdrunk on logout
 	tt_cargoPants();
+	tt_collect_on_logout();
 	print("logout script finished", "green");
 }
