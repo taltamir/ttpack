@@ -313,6 +313,10 @@ boolean tt_doSingleTask(string command)
 	{
 		return tt_meatFarm(true);
 	}
+	if(command == "nemesis")
+	{
+		return LX_NemesisQuest();
+	}
 	
 	return false;
 }
@@ -328,6 +332,7 @@ void tt_help()
 	print("token = gets a single fat loot token if possible");
 	print("amc = traps an AMC gremlin in the ice house. currently unimplemented");
 	print("meat = meatfarms. currently terrible at it");
+	print("nemesis = do nemesis quest. partially implemented");
 	print("anything else = show this menu");
 }
 
@@ -380,7 +385,7 @@ void main(string command)
 			restoreAllSettings();
 		}
 	}
-	else if($strings[guild, token, amc, meat] contains command)
+	else if($strings[guild, token, amc, meat, nemesis] contains command)
 	{
 		try
 		{
