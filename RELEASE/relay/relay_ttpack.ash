@@ -41,7 +41,7 @@ void handleSetting(string type, int x)
 	{
 	case "greygoo":			color = "#6FE26F";		break;
 	case "plevel":			color = "#8BDCE7";		break;
-	case "tt_aftercore":	color = "#6FE26F";		break;
+	case "aftercore":		color = "#6FE26F";		break;
 	case "tt_login":		color = "#8BDCE7";		break;
 	default:				color = "#ffffff";		break;
 	}
@@ -108,7 +108,7 @@ void write_settings_key()
 	writeln("<table><tr><th>Settings Color Codings</th></tr>");
 	writeln("<tr bgcolor=#6FE26F><td>greygoo.ash script to automate greygoo ascensions</td></tr>");
 	writeln("<tr bgcolor=#8BDCE7><td>plevel.ash script to automate some powerleveling in aftercore</td></tr>");
-	writeln("<tr bgcolor=#6FE26F><td>tt_aftercore.ash script to automate aftercore actions</td></tr>");
+	writeln("<tr bgcolor=#6FE26F><td>aftercore.ash script to automate aftercore actions</td></tr>");
 	writeln("<tr bgcolor=#8BDCE7><td>tt_login.ash script to automate some post login actions</td></tr>");
 	writeln("</table>");
 }
@@ -171,9 +171,9 @@ void main()
 	{
 		handleSetting("plevel", x);
 	}
-	foreach x in s["tt_aftercore"]
+	foreach x in s["aftercore"]
 	{
-		handleSetting("tt_aftercore", x);
+		handleSetting("aftercore", x);
 	}
 	foreach x in s["tt_login"]
 	{
