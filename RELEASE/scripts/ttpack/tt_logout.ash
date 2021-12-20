@@ -72,6 +72,7 @@ void main()
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	cli_execute("pvprotect.ash");			//closet your expensive pvpable items
 	while(LX_freeCombats(true));			//use remaining free combats for the day
+	doBedtime();							//various actions from autoscend bedtime
 	tt_whenDrunk();							//actions we only want to take if overdrunk on logout
 	tt_cargoPants();
 	tt_collect_on_logout();
