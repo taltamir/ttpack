@@ -116,5 +116,5 @@ void tt_initialize()
 	settings_tt_login();			//initialize default settings for tt_login
 	settings_greygoo();				//initialize default settings for greygoo
 	settings_plevel();				//initialize default settings for plevel
-	settings_aftercore();		//initialize default settings for aftercore
+	settings_aftercore();			//initialize default settings for aftercore
 }

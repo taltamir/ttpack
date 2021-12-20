@@ -9,25 +9,36 @@ void tt_depreciate()
 	remove_property("greygoo_guildUnlock");
 }
 
-void rename_property(string old, string new)
+void cleanup_property(string target)
 {
-	if(get_property(old) == "")
+	//we need to clear out empty property that exist with an empty value.
+	//aside from being messy they also cause problems such as rename_property refusing to work.
+	if(get_property(target) == "" && property_exists(target))
+	{
+		remove_property(target);
+	}
+}
+
+void tt_rename_property(string oldprop, string newprop)
+{
+	cleanup_property(oldprop);
+	cleanup_property(newprop);
+	if(!property_exists(oldprop) || property_exists(newprop))
 	{
 		return;
 	}
-	set_property(new, get_property(old));
-	remove_property(old);
+	rename_property(oldprop,newprop);
 }
 
 void tt_settingsUpgrade()
 {
 	//upgrade settings from old format to new format
-	rename_property("tt_aftercore_fatLootToken", "aftercore_fatLootToken");
-	rename_property("tt_aftercore_iceHouseAMC", "aftercore_iceHouseAMC");
-	rename_property("tt_aftercore_guildUnlock", "aftercore_guildUnlock");
-	rename_property("tt_aftercore_meatFarm", "aftercore_meatFarm");
-	rename_property("tt_aftercore_useAstralLeftovers", "aftercore_useAstralLeftovers");
-	rename_property("tt_aftercore_buyStuff", "aftercore_buyStuff");
-	rename_property("tt_aftercore_eatSurpriseEggs", "aftercore_eatSurpriseEggs");
-	rename_property("tt_aftercore_consumeAll", "aftercore_consumeAll");
+	tt_rename_property("tt_aftercore_fatLootToken", "aftercore_fatLootToken");
+	tt_rename_property("tt_aftercore_iceHouseAMC", "aftercore_iceHouseAMC");
+	tt_rename_property("tt_aftercore_guildUnlock", "aftercore_guildUnlock");
+	tt_rename_property("tt_aftercore_meatFarm", "aftercore_meatFarm");
+	tt_rename_property("tt_aftercore_useAstralLeftovers", "aftercore_useAstralLeftovers");
+	tt_rename_property("tt_aftercore_buyStuff", "aftercore_buyStuff");
+	tt_rename_property("tt_aftercore_eatSurpriseEggs", "aftercore_eatSurpriseEggs");
+	tt_rename_property("tt_aftercore_consumeAll", "aftercore_consumeAll");
 }
