@@ -35,7 +35,10 @@ void pa_consume()
 	}
 	
 	//use stooper to increase liver size by 1 temporarily
-	if(inebriety_left() >= 0 && have_familiar($familiar[Stooper]))
+	familiar start_fam = my_familiar();
+	if(inebriety_left() >= 0 &&
+	auto_have_familiar($familiar[Stooper]) && //drinking does not break 100fam runs so do not use canChangeToFamiliar
+	start_fam != $familiar[Stooper] && pathAllowsChangingFamiliar()) //check if path allows changing familiar
 	{
 		use_familiar($familiar[Stooper]);
 	}
@@ -58,20 +61,23 @@ void pa_consume()
 			autoDrink(drink_amt, $item[elemental caipiroska]);
 		}
 		
+		//fill up remaining liver first. such as stooper space.
+		while(inebriety_left() > 0 && auto_autoConsumeOne("drink"));
+		
 		//nightcap
 		if(item_amount($item[bucket of wine]) == 0 && shop_amount($item[bucket of wine]) > 0)
 		{
 			take_shop(1, $item[bucket of wine]);
 		}
 		retrieve_item(1,$item[bucket of wine]);
+		buffMaintain($effect[Ode to Booze],0,1,10);	//need at least 10 turns worth of ode
 		drinksilent(1, $item[bucket of wine]);
 	}
 	
 	//switch back from stooper to 100% familiar if one has been set
-	familiar hundred_fam = to_familiar(get_property("auto_100familiar"));
-	if(hundred_fam != $familiar[none])
+	if(start_fam != my_familiar() && pathAllowsChangingFamiliar())	//familiar can change when crafting the drink in QT
 	{
-		use_familiar(hundred_fam);
+		use_familiar(start_fam);
 	}
 }
 
