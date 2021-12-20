@@ -339,6 +339,7 @@ void postStuff()
 		use(qty, $item[Meteorite-Ade]);
 	}
 	
+	/*
 	//use up to 3 mojo filters. max 3 per day.
 	if(tt_isRich() && get_property("currentMojoFilters").to_int() < 3)
 	{
@@ -354,6 +355,7 @@ void postStuff()
 			use(qty, $item[mojo filter]);
 		}
 	}
+	*/
 	
 	//If you have not done so yet, buy your daily print screen button. can be sold for good profit
 	//if(get_property("_internetPrintScreenButtonBought") == "false" && item_amount($item[bacon]) >= 111)
