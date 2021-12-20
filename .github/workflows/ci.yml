@@ -2,7 +2,7 @@
 
 name: CI
 env:
-  SCRIPT_NAMES: "blackpudding.ash dpills.ash getmu.ash greygoo.ash guzzlr.ash plevel.ash tt_aftercore.ash tt_display.ash tt_fortune.ash tt_kingliberated.ash tt_login.ash tt_logout.ash tt_preascension.ash tt_quickconfig.ash"
+  SCRIPT_NAMES: "blackpudding.ash dpills.ash getmu.ash greygoo.ash guzzlr.ash plevel.ash aftercore.ash tt_display.ash tt_fortune.ash tt_kingliberated.ash tt_login.ash tt_logout.ash tt_preascension.ash tt_quickconfig.ash"
 
 on: [push, pull_request]
 

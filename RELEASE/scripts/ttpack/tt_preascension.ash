@@ -42,7 +42,7 @@ void pa_consume()
 	
 	//TODO eat and drink things to unlock trophies.
 	
-	tt_eatSurpriseEggs();	//fill up stomach with lucky and spooky surprise eggs. based on setting tt_aftercore_eatSurpriseEggs
+	tt_eatSurpriseEggs();	//fill up stomach with lucky and spooky surprise eggs. based on setting aftercore_eatSurpriseEggs
 	
 	if(needExtraAdv())		//use remaining space to eat and drink things to gian adventures
 	{

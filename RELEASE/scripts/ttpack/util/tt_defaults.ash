@@ -71,40 +71,40 @@ void settings_plevel()
 	}
 }
 
-void settings_tt_aftercore()
+void settings_aftercore()
 {
-	//configure default settings on first run for tt_aftercore.ash script
-	if(get_property("tt_aftercore_fatLootToken") == "")
+	//configure default settings on first run for aftercore.ash script
+	if(get_property("aftercore_fatLootToken") == "")
 	{
-		set_property("tt_aftercore_fatLootToken", true);
+		set_property("aftercore_fatLootToken", true);
 	}
-	if(get_property("tt_aftercore_iceHouseAMC") == "")
+	if(get_property("aftercore_iceHouseAMC") == "")
 	{
-		set_property("tt_aftercore_iceHouseAMC", true);
+		set_property("aftercore_iceHouseAMC", true);
 	}
-	if(get_property("tt_aftercore_guildUnlock") == "")
+	if(get_property("aftercore_guildUnlock") == "")
 	{
-		set_property("tt_aftercore_guildUnlock", false);
+		set_property("aftercore_guildUnlock", false);
 	}
-	if(get_property("tt_aftercore_meatFarm") == "")
+	if(get_property("aftercore_meatFarm") == "")
 	{
-		set_property("tt_aftercore_meatFarm", false);
+		set_property("aftercore_meatFarm", false);
 	}
-	if(get_property("tt_aftercore_useAstralLeftovers") == "")
+	if(get_property("aftercore_useAstralLeftovers") == "")
 	{
-		set_property("tt_aftercore_useAstralLeftovers", true);
+		set_property("aftercore_useAstralLeftovers", true);
 	}
-	if(get_property("tt_aftercore_buyStuff") == "")
+	if(get_property("aftercore_buyStuff") == "")
 	{
-		set_property("tt_aftercore_buyStuff", true);
+		set_property("aftercore_buyStuff", true);
 	}
-	if(get_property("tt_aftercore_eatSurpriseEggs") == "")
+	if(get_property("aftercore_eatSurpriseEggs") == "")
 	{
-		set_property("tt_aftercore_eatSurpriseEggs", false);
+		set_property("aftercore_eatSurpriseEggs", false);
 	}
-	if(get_property("tt_aftercore_consumeAll") == "")
+	if(get_property("aftercore_consumeAll") == "")
 	{
-		set_property("tt_aftercore_consumeAll", false);
+		set_property("aftercore_consumeAll", false);
 	}
 }
 
@@ -112,8 +112,9 @@ void tt_initialize()
 {
 	//initialize settings defaults for all associated scripts
 	tt_depreciate();				//remove depreciated settings
+	tt_settingsUpgrade();			//upgrade settings from old format to new format
 	settings_tt_login();			//initialize default settings for tt_login
 	settings_greygoo();				//initialize default settings for greygoo
 	settings_plevel();				//initialize default settings for plevel
-	settings_tt_aftercore();		//initialize default settings for tt_aftercore
+	settings_aftercore();		//initialize default settings for aftercore
 }

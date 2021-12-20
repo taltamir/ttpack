@@ -3,14 +3,14 @@
 
 # variable timing, number, variable name, variable type, description
 
-aftercore	0	tt_aftercore_fatLootToken	boolean	Farm fat loot tokens if you still need more to buy the skills and familiars
-aftercore	1	tt_aftercore_iceHouseAMC	boolean	Automatically capture AMC gremlin in the ice house
-aftercore	2	tt_aftercore_guildUnlock	boolean	Unlock your guild
-aftercore	3	tt_aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
-aftercore	4	tt_aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
-aftercore	5	tt_aftercore_buyStuff	boolean	Allow buying some useful things
-aftercore	6	tt_aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
-aftercore	7	tt_aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
+aftercore	0	aftercore_fatLootToken	boolean	Farm fat loot tokens if you still need more to buy the skills and familiars
+aftercore	1	aftercore_iceHouseAMC	boolean	Automatically capture AMC gremlin in the ice house
+aftercore	2	aftercore_guildUnlock	boolean	Unlock your guild
+aftercore	3	aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
+aftercore	4	aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
+aftercore	5	aftercore_buyStuff	boolean	Allow buying some useful things
+aftercore	6	aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
+aftercore	7	aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
 
 greygoo	0	greygoo_galaktikQuest	boolean	do galaktik quest
 greygoo	1	greygoo_foodHardcoreUnlock	boolean	unlock food and booze NPC shops if in hardcore

@@ -78,7 +78,7 @@ boolean tt_acquire(item it)
 
 void tt_eatSurpriseEggs()
 {
-	if(!get_property("tt_aftercore_eatSurpriseEggs").to_boolean())
+	if(!get_property("aftercore_eatSurpriseEggs").to_boolean())
 	{
 		return;
 	}
