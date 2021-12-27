@@ -208,7 +208,7 @@ void pl_buff_mainstat(int target)
 		print("cost of an adventure = magazine cost + mpa + total current buff cost = " +adv_cost+ ". value = " + adv_value);
 		if(best_value < adv_value)
 		{
-			print("I have not reached target buff of " +target+ ". But the best item I found costs more meat than just using more magazines. So I am giving up", "red");
+			print("I have not reached target buff of " +target+ ". But the best item I found costs more meat than just using more magazines. I will make due with the existing buff", "red");
 			break;
 		}
 		if(!retrieve_item(1, best_item))
