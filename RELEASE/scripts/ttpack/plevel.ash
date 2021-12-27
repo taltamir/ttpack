@@ -234,7 +234,7 @@ void use_gameinform_magazine()
 	visit_url("inv_use.php?pwd=&confirm=Yep.&whichitem=6174");		//press [Read it] button
 	run_choice(1);													//press [Awesome!] button
 	
-	set_property("_gameinform_zonesFinished", "0");		//internal tracking because mafia does not track gameinform progress.
+	remove_property("_gameinform_zonesFinished");		//internal tracking because mafia does not track gameinform progress.
 }
 
 boolean pl_gameinform()
