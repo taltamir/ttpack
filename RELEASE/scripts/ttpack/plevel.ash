@@ -277,6 +277,11 @@ boolean pl_gameinform()
 			return true;
 		}
 		break;
+	case 3:
+		remove_property("_gameinform_zonesFinished");
+		autoAdv($location[Video Game Level 3]);
+		return true;
+		break;
 	}
 	
 	return advResult;
