@@ -166,3 +166,15 @@ boolean out_of_adv()
 	}
 	return false;
 }
+
+boolean has_numbers(string target)
+{
+    for(int i=0; i<10; i++)
+    {
+        if(target.contains_text(i.to_string()))
+        {
+            return true;
+        }
+    }
+    return false;
+}
