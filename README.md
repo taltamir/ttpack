@@ -19,7 +19,7 @@ https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/
 
 Run this command in the gCLI:
 ```
-git checkout https://github.com/taltamir/ttpack/trunk/RELEASE/
+git checkout https://github.com/taltamir/ttpack.git
 ```
 Will require [a recent build of KoLMafia](http://builds.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/).
 
