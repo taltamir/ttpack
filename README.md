@@ -16,7 +16,7 @@ You should also manually install these 3 dependencies:
 git checkout https://github.com/Loathing-Associates-Scripting-Society/autoscend.git
 ```
 ```
-git checkout https://github.com/Ezandora/Briefcase.git
+svn checkout https://github.com/Ezandora/Briefcase/branches/Release/
 ```
 ```
 git checkout https://github.com/soolar/CONSUME.ash.git
