@@ -9,10 +9,17 @@ If there is a file in the pack that you see that is lacking a description here. 
 ## Dependencies
 When installed it will also install the following dependencies:
 ```
-https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/
-https://github.com/Ezandora/Briefcase/branches/Release/
-https://github.com/soolar/CONSUME.ash/trunk/RELEASE/
 https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/
+```
+You should also manually install these 3 dependencies:
+```
+git checkout https://github.com/Loathing-Associates-Scripting-Society/autoscend.git
+```
+```
+git checkout https://github.com/Ezandora/Briefcase.git
+```
+```
+git checkout https://github.com/soolar/CONSUME.ash.git
 ```
 
 ## Installation
