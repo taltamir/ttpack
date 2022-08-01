@@ -19,7 +19,7 @@ https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/
 
 Run this command in the gCLI:
 ```
-svn checkout https://github.com/taltamir/ttpack/trunk/RELEASE/
+git checkout https://github.com/taltamir/ttpack/trunk/RELEASE/
 ```
 Will require [a recent build of KoLMafia](http://builds.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/).
 
@@ -27,7 +27,7 @@ Will require [a recent build of KoLMafia](http://builds.kolmafia.us/job/Kolmafia
 
 Run this command in the gCLI:
 ```
-svn delete ttpack
+git delete ttpack
 ```
 
 ## getmu.ash
