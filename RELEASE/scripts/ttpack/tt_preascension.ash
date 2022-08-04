@@ -154,7 +154,7 @@ void main()
 	pa_consume();							//fill up liver and stomach before ascending
 	
 	KGB();									//Do some briefcase things before ascension.
-	combBeach();							//burn all remaining adventures on beach combing before ascension.
+	catch combBeach();						//burn all remaining adventures on beach combing before ascension.
 	pa_pvp();								//using remaining pvp fights.
 	
 	if(my_path() == "Grey Goo")
