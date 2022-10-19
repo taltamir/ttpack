@@ -53,7 +53,10 @@ void tt_consumeAll()
 	{
 		return;
 	}
-	
+	if(my_familiar() == $familiar[Stooper])
+	{
+		use_familiar($familiar[none]);
+	}
 	cli_execute("CONSUME ALL");
 }
 
