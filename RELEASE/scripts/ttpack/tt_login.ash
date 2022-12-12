@@ -325,14 +325,19 @@ void crimboAdventCalendar()
 	if(!dec && !jan) return;
 	
 	int grab = day();
-	if(jan) grab = 25;
+	int adj_year = year();
+	if(jan)
+	{
+		grab = 25;
+		adj_year = adj_year-1;
+	}
 	
 	for(int i = 1; i <= grab; i++)
 	{
-		if(get_property("tt_login_crimboAdventCalendar" +i).to_int() != year())
+		if(get_property("tt_login_crimboAdventCalendar" +i).to_int() != adj_year)
 		{
 			visit_url("campground.php?preaction=openadvent&whichadvent=" +i);
-			set_property("tt_login_crimboAdventCalendar" +i, year());
+			set_property("tt_login_crimboAdventCalendar" +i, adj_year);
 		}
 	}
 }
