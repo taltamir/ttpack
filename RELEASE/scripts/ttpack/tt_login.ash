@@ -318,6 +318,25 @@ void spaceGate()
 	}
 }
 
+void crimboAdventCalendar()
+{
+	boolean dec = month() == 12;
+	boolean jan = month() == 1 && day() <= 15;
+	if(!dec && !jan) return;
+	
+	int grab = day();
+	if(jan) grab = 25;
+	
+	for(int i = 1; i <= grab; i++)
+	{
+		if(get_property("tt_login_crimboAdventCalendar" +i).to_int() != year())
+		{
+			visit_url("campground.php?preaction=openadvent&whichadvent=" +i);
+			set_property("tt_login_crimboAdventCalendar" +i, year());
+		}
+	}
+}
+
 void postStuff()
 {
 	//do some stuff in casual, postronin, or aftercore
@@ -543,6 +562,7 @@ void main()
 	glitchmon();							//fight glitch monster
 	auto_beachUseFreeCombs();				//use free beach combs
 	eatChocolate();							//size 0 special consumables.
+	crimboAdventCalendar();					//automatically grab the free items from advent calendar
 
 	print("login script finished", "green");
 	
