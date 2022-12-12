@@ -178,3 +178,24 @@ boolean has_numbers(string target)
     }
     return false;
 }
+
+int day()
+{
+	string today = today_to_string();
+	string retval = char_at(today, 6) + char_at(today, 7);
+	return retval.to_int();
+}
+
+int month()
+{
+	string today = today_to_string();
+	string retval = char_at(today, 4) + char_at(today, 5);
+	return retval.to_int();
+}
+
+int year()
+{
+	string today = today_to_string();
+	string retval = char_at(today, 0) + char_at(today, 1) + char_at(today, 2) + char_at(today, 3);
+	return retval.to_int();
+}
