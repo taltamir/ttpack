@@ -6,6 +6,19 @@ import <ttpack/util/tt_header.ash>
 import <ttpack/util/tt_defaults.ash>
 import <ttpack/util/tt_depreciate.ash>
 
+void noStooper()
+{
+	//switches out stooper familiar if it is the current familiar.
+	if(!pathHasFamiliar() || !pathAllowsChangingFamiliar())
+		return;		//path incompatible with familiars
+	if(my_familiar() != $familiar[stooper])
+		return;		//familiar is not stooper at the moment
+	if(inebriety_left() == 0)
+		return;		//familiar is stooper. but must be kept as it is the only thing preventing overdrunk
+	
+	use_familiar(lookupFamiliarDatafile("item"));
+}
+
 boolean quest_unstarted(string quest_name)
 {
 	//returns true if a quest is currently unstarted.
