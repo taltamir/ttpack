@@ -76,5 +76,6 @@ void main()
 	tt_whenDrunk();							//actions we only want to take if overdrunk on logout
 	tt_cargoPants();
 	tt_collect_on_logout();
+	cli_execute("crimbo22train.ash");		//train clan mates in the crimbo 2022 skills
 	print("logout script finished", "green");
 }

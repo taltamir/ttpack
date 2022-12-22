@@ -1,12 +1,23 @@
 since r27007;
 
+boolean hastrained()
+{
+	return get_property( "_crimboTraining" ).to_boolean();
+}
+
 void main()
 {
-	boolean hastrained = get_property( "_crimboTraining" ).to_boolean();
-	if( hastrained )
+	if(get_clan_id( ) == -1)
 	{
-		print_html( "You've already trained someone today" );
-		exit;
+		return;
+	}
+	if(item_amount($item[Crimbo training manual]) == 0)
+	{
+		return;
+	}
+	if( hastrained() )
+	{
+		return;
 	}
 	boolean[string] clannies = who_clan();
 	string[int] randomlist;
@@ -19,12 +30,11 @@ void main()
 	for( i = 0; i < randomlist.count(); i++ )
 	{
 		cli_execute( "try; crimbotrain " + randomlist[i] );
-		hastrained = get_property( "_crimboTraining" ).to_boolean();
-		if( hastrained )
+		if( hastrained() )
 		{
-			print_html( "Successfully trained " + randomlist[i] );
-			exit;
+			print( "crimbo22train successfully trained " + randomlist[i] );
+			return;
 		}
 	}
-	print_html( "Nobody in chat could be trained, try again later." );
+	print( "crimbo22train could not find anyone in your clan to train." );
 }
