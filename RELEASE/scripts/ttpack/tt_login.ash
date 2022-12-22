@@ -357,7 +357,7 @@ void postStuff()
 	}
 	
 	//Use 3 meteoride-ade (+5 pvp fights ea. at no organ space. max 3 per day. worth ~6k meat each in mall)
-	if(tt_isRich() && (get_property("_meteoriteAdesUsed").to_int() < 3))
+	if(tt_isRich() && (get_property("_meteoriteAdesUsed").to_int() < 3) && hippy_stone_broken())
 	{
 		int qty = 3 - get_property("_meteoriteAdesUsed").to_int();
 		use(qty, $item[Meteorite-Ade]);
