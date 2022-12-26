@@ -4,5 +4,6 @@ aftercore_guildUnlock	boolean	Unlock your guild
 aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
 aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
 aftercore_buyStuff	boolean	Allow buying some useful things
+aftercore_getChefstaff	boolean	Allow aftercore to acquire various chefstaves
 aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
 aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
