@@ -60,15 +60,53 @@ void tt_consumeAll()
 	cli_execute("CONSUME ALL");
 }
 
-void tt_buyStuff()
+boolean aftercore_getChefstaff(boolean override)
 {
-	if(!get_property("aftercore_buyStuff").to_boolean())
+	if(!get_property("aftercore_getChefstaff").to_boolean() && !override)
 	{
-		return;
+		return false;
+	}
+	if(my_meat() < 1000000)
+		return false;		//too poor
+		
+	item it;
+	boolean sam = have_skill($skill[Super-Advanced Meatsmithing]);
+	
+	//cheap basic staves
+	if(retrieve_new($item[Staff of the Short Order Cook])) return true;
+	if(retrieve_new($item[Staff of the Midnight Snack])) return true;
+	if(retrieve_new($item[Staff of Blood and Pudding])) return true;
+	if(retrieve_new($item[Staff of the Teapot Tempest])) return true;
+	if(retrieve_new($item[Staff of the Greasefire])) return true;
+	if(retrieve_new($item[Staff of the Electric Range])) return true;
+	
+	//retrieve_check($item[Staff of the Black Kettle]);
+	
+	it = $item[rib of the Bonerdagon];
+	if(!possessEquipment(it))
+	{
+		if(item_amount($item[rib of the Bonerdagon]) > 0 && item_amount($item[Glass Balls of the Goblin King]) > 0)
+		{
+			if(retrieve_new(it)) return true;
+		}
 	}
 	
-	tt_acquire($item[mafia pinky ring]);
-	tt_acquire($item[mafia thumb ring]);
+	return false;
+}
+
+void aftercore_buyExpensive()
+{
+	if(!gbool("aftercore_buyExpensive"))
+		return;
+	
+	foreach it in $items[mafia pinky ring, mafia thumb ring]
+	{
+		int lim = gint("aftercore_buyExpensiveLimit");
+		if(possessEquipment(it)) continue;		//already owned. skip to next
+		if(retrieve_price(it) > lim) continue;		//exceeds max price. skip to next
+		if(my_meat() < 1000000 + retrieve_price(it)) break;		//not enough meat. stop so we can save enough meat
+		tt_acquire(it,retrieve_price(it));
+	}
 }
 
 boolean tt_acquireFamiliars()
@@ -268,6 +306,7 @@ boolean tt_doTasks()
 	if(tt_iceHouseAMC(false)) return true;
 	if(tt_fatLootToken(false)) return true;
 	if(tt_guild(false)) return true;
+	if(aftercore_getChefstaff(false)) return true;
 	if(tt_meatFarm(false)) return true;
 	return false;
 }
@@ -319,6 +358,10 @@ boolean tt_doSingleTask(string command)
 	if(command == "nemesis")
 	{
 		return LX_NemesisQuest();
+	}
+	if(command == "staff")
+	{
+		return aftercore_getChefstaff(true);
 	}
 	
 	return false;
@@ -375,6 +418,7 @@ void main(string command)
 	tt_useAstralLeftovers();
 	tt_eatSurpriseEggs();
 	tt_consumeAll();
+	aftercore_buyExpensive();
 	
 	if(command == "auto")
 	{
@@ -388,7 +432,7 @@ void main(string command)
 			restoreAllSettings();
 		}
 	}
-	else if($strings[guild, token, amc, meat, nemesis] contains command)
+	else if($strings[guild, token, amc, meat, nemesis, staff] contains command)
 	{
 		try
 		{

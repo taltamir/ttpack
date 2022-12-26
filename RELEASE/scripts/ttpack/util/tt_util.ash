@@ -109,6 +109,26 @@ boolean tt_acquire(item it)
 	return tt_acquire(it, gint("autoBuyPriceLimit"));
 }
 
+boolean safe_retrieve(item it)
+{
+	//performs retrieve_item with some safety checks and clearer return values
+	//true means you have the item
+	if(item_amount(it) > 0) return true;		//already have it
+	if(retrieve_price(it) > gint("autoBuyPriceLimit") || retrieve_price(it) > my_meat())
+		return false;	//too expensive and will trigger an abort if attempted
+	
+	retrieve_item(it);
+	return item_amount(it) > 0;
+}
+
+boolean retrieve_new(item it)
+{
+	//do a safe_retrieve but only report true only if we acted to get a new item we didn't already have
+	if(item_amount(it) > 0) return false;	//already have so didn't act
+	safe_retrieve(it);
+	return item_amount(it) > 0;
+}
+
 void tt_eatSurpriseEggs()
 {
 	if(!get_property("aftercore_eatSurpriseEggs").to_boolean())
