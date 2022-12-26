@@ -6,6 +6,21 @@ import <ttpack/util/tt_header.ash>
 import <ttpack/util/tt_defaults.ash>
 import <ttpack/util/tt_depreciate.ash>
 
+boolean gbool(string prop)
+{
+	return to_boolean(get_property(prop));
+}
+
+int gint(string prop)
+{
+	return to_int(get_property(prop));
+}
+
+float gfloat(string prop)
+{
+	return to_float(get_property(prop));
+}
+
 void noStooper()
 {
 	//switches out stooper familiar if it is the current familiar.
@@ -40,6 +55,11 @@ void tt_printSetting(string name)
 }
 
 boolean tt_acquire(item it)
+{
+	return tt_acquire(it, gint("autoBuyPriceLimit"));
+}
+
+boolean tt_acquire(item it, int price_limit)
 {
 	//already have it?
 	if((item_amount(it) + equipped_amount(it)) > 0) return true;
@@ -80,9 +100,9 @@ boolean tt_acquire(item it)
 		expected_price = npc_price;
 	}
 	
-	if(my_meat()+20000 > expected_price && expected_price > 0 && expected_price < 1000000)
+	if(my_meat()+20000 > expected_price && expected_price > 0 && expected_price < price_limit)
 	{
-		buy(1, it, expected_price);
+		buy(1, it, expected_price+100);
 		if(item_amount(it) > 0) return true;
 	}
 	
