@@ -8,10 +8,11 @@ aftercore	1	aftercore_iceHouseAMC	boolean	Automatically capture AMC gremlin in t
 aftercore	2	aftercore_guildUnlock	boolean	Unlock your guild
 aftercore	3	aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
 aftercore	4	aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
-aftercore	5	aftercore_buyStuff	boolean	Allow buying some useful things
-aftercore	6	aftercore_getChefstaff	boolean	Allow aftercore to acquire various chefstaves
-aftercore	7	aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
-aftercore	8	aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
+aftercore	5	aftercore_buyExpensive	boolean	Allows investing in useful but expensive items.
+aftercore	6	aftercore_buyExpensiveLimit	int	Sets absolute spending limit on each individual expensive item price.
+aftercore	7	aftercore_getChefstaff	boolean	Allow aftercore to acquire various chefstaves
+aftercore	8	aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
+aftercore	9	aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
 
 greygoo	0	greygoo_galaktikQuest	boolean	do galaktik quest
 greygoo	1	greygoo_foodHardcoreUnlock	boolean	unlock food and booze NPC shops if in hardcore

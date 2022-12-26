@@ -56,8 +56,9 @@ void settings_aftercore()
 	set_default("aftercore_guildUnlock", "false");
 	set_default("aftercore_meatFarm", "false");
 	set_default("aftercore_useAstralLeftovers", "true");
-	set_default("aftercore_buyStuff", "true");
-	set_default("aftercore_getChefstaff", "true");
+	set_default("aftercore_buyExpensive", "false");
+	set_default("aftercore_buyExpensiveLimit", "100000");
+	set_default("aftercore_getChefstaff", "false");
 	set_default("aftercore_eatSurpriseEggs", "false");
 	set_default("aftercore_consumeAll", "false");
 }

@@ -7,6 +7,8 @@ void tt_depreciate()
 	remove_property("greygoo_bakeryHardcoreUnlock");
 	remove_property("greygoo_bakerySoftcoreUnlock");
 	remove_property("greygoo_guildUnlock");
+	remove_property("tt_aftercore_buyStuff");
+	remove_property("aftercore_buyStuff");
 }
 
 void tt_settingsUpgrade()
@@ -17,7 +19,6 @@ void tt_settingsUpgrade()
 	auto_rename_property("tt_aftercore_guildUnlock", "aftercore_guildUnlock");
 	auto_rename_property("tt_aftercore_meatFarm", "aftercore_meatFarm");
 	auto_rename_property("tt_aftercore_useAstralLeftovers", "aftercore_useAstralLeftovers");
-	auto_rename_property("tt_aftercore_buyStuff", "aftercore_buyStuff");
 	auto_rename_property("tt_aftercore_eatSurpriseEggs", "aftercore_eatSurpriseEggs");
 	auto_rename_property("tt_aftercore_consumeAll", "aftercore_consumeAll");
 }
