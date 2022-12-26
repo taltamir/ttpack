@@ -10,7 +10,7 @@ aftercore	3	aftercore_meatFarm	boolean	Farm some meat. Currently terrible at it.
 aftercore	4	aftercore_useAstralLeftovers	boolean	Use leftover astral drink/food
 aftercore	5	aftercore_buyExpensive	boolean	Allows investing in useful but expensive items.
 aftercore	6	aftercore_buyExpensiveLimit	int	Sets absolute spending limit on each individual expensive item price.
-aftercore	7	aftercore_getChefstaff	boolean	Allow aftercore to acquire various chefstaves
+aftercore	7	aftercore_getChefstaff	boolean	Allow aftercore to acquire various chefstaves. only works if you are a mys class and guild is unlocked.
 aftercore	8	aftercore_eatSurpriseEggs	boolean	Automatically fill stomach with [lucky surprise egg] and [spooky surprise egg]
 aftercore	9	aftercore_consumeAll	boolean	Run soolar CONSUME script with ALL command after all other eating is done
 

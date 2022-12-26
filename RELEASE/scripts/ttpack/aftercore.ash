@@ -3,6 +3,7 @@ import <scripts/ttpack/util/tt_util.ash>
 //public prototypes
 void tt_chooseFamiliar();
 boolean tt_iceHouseAMC();
+boolean tt_guild(boolean override);
 boolean tt_dailyDungeon();
 boolean tt_fatLootToken();
 boolean tt_meatFarm();
@@ -60,6 +61,19 @@ void tt_consumeAll()
 	cli_execute("CONSUME ALL");
 }
 
+boolean LX_aroundTheWorld()
+{
+	//do the repeatable quest [Around the World Quest] to get the drink with the same name
+	boolean has_trap = item_amount($item[Spanish fly trap]) > 0;
+	boolean has_drink = item_amount($item[around the world]) > 0;
+	location orcplace = $location[Frat House];
+	
+	//start the quest by getting [I Just Wanna Fly] or [Me Just Want Fly] noncombat adv
+	//if(!has_trap && !has_drink &&)
+	
+	return false;
+}
+
 boolean aftercore_getChefstaff(boolean override)
 {
 	if(!get_property("aftercore_getChefstaff").to_boolean() && !override)
@@ -68,26 +82,56 @@ boolean aftercore_getChefstaff(boolean override)
 	}
 	if(my_meat() < 1000000)
 		return false;		//too poor
-		
-	item it;
-	boolean sam = have_skill($skill[Super-Advanced Meatsmithing]);
+	if(!($classes[pastamancer, sauceror] contains my_class()))
+		return false;	//no rodrick access
 	
-	//cheap basic staves
+	if(override)	//override should also apply to unlocking guild store
+	{
+		if(tt_guild(true)) return true;
+	}
+	
+	//syntax is staffname[component]
+	item[item] missing;
+		
+	//cheap basic staves we can just easily mallbuy the parts of
 	if(retrieve_new($item[Staff of the Short Order Cook])) return true;
 	if(retrieve_new($item[Staff of the Midnight Snack])) return true;
 	if(retrieve_new($item[Staff of Blood and Pudding])) return true;
 	if(retrieve_new($item[Staff of the Teapot Tempest])) return true;
 	if(retrieve_new($item[Staff of the Greasefire])) return true;
 	if(retrieve_new($item[Staff of the Electric Range])) return true;
-	
-	//retrieve_check($item[Staff of the Black Kettle]);
-	
-	it = $item[rib of the Bonerdagon];
+
+	boolean sam = have_skill($skill[Super-Advanced Meatsmithing]);
+	item it = $item[Staff of the Black Kettle];
 	if(!possessEquipment(it))
 	{
-		if(item_amount($item[rib of the Bonerdagon]) > 0 && item_amount($item[Glass Balls of the Goblin King]) > 0)
+		if(item_amount($item[around the world]) > 1) 	//do not use last one. having 1 in inventory shortens the quest
 		{
 			if(retrieve_new(it)) return true;
+		}
+		else missing[$item[around the world]] = it;
+		//acquisition currently disabled due to missing mafia tracking
+		//else if(LX_aroundTheWorld()) return true;	//do the quest to get the booze
+	}
+	
+	it = $item[Staff of the Soupbone];
+	if(!possessEquipment(it))
+	{
+		boolean has_rib = item_amount($item[rib of the Bonerdagon]) > 0;
+		boolean has_balls = item_amount($item[Glass Balls of the Goblin King]) > 0;
+		if(!has_rib) missing[$item[rib of the Bonerdagon]] = it;
+		if(!has_balls) missing[$item[Glass Balls of the Goblin King]] = it;
+		if(has_rib && has_balls)
+		{
+			if(retrieve_new(it)) return true;
+		}
+	}
+	
+	if(override)
+	{
+		foreach com, staff in missing
+		{
+			print("[" +staff+ "] cannot be crafted due to not having [" +com+ "].", "red");
 		}
 	}
 	
