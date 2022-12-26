@@ -54,11 +54,6 @@ void tt_printSetting(string name)
 	tt_printSetting(name, "");
 }
 
-boolean tt_acquire(item it)
-{
-	return tt_acquire(it, gint("autoBuyPriceLimit"));
-}
-
 boolean tt_acquire(item it, int price_limit)
 {
 	//already have it?
@@ -107,6 +102,11 @@ boolean tt_acquire(item it, int price_limit)
 	}
 	
 	return false;
+}
+
+boolean tt_acquire(item it)
+{
+	return tt_acquire(it, gint("autoBuyPriceLimit"));
 }
 
 void tt_eatSurpriseEggs()
