@@ -61,7 +61,7 @@ void tt_consumeAll()
 	cli_execute("CONSUME ALL");
 }
 
-boolean LX_aroundTheWorld()
+boolean tt_aroundTheWorld()
 {
 	//do the repeatable quest [Around the World Quest] to get the drink with the same name
 	boolean has_trap = item_amount($item[Spanish fly trap]) > 0;
@@ -90,18 +90,32 @@ boolean aftercore_getChefstaff(boolean override)
 		if(tt_guild(true)) return true;
 	}
 	
-	//syntax is staffname[component]
-	item[item] missing;
+	item it;
+	item[item] missing;		//syntax is staffname[component]
 		
 	//cheap basic staves we can just easily mallbuy the parts of
 	if(retrieve_new($item[Staff of the Short Order Cook])) return true;
 	if(retrieve_new($item[Staff of the Midnight Snack])) return true;
-	if(retrieve_new($item[Staff of Blood and Pudding])) return true;
+	
+	//while very cheap. one of the ingredients is a quest item you must acquire yourself
+	it = $item[Staff of Blood and Pudding];
+	if(!possessEquipment(it))
+	{
+		if(item_amount($item[bottle of used blood]) > 0)
+		{
+			if(retrieve_new(it)) return true;
+		}
+		else missing[$item[bottle of used blood]] = it;
+		//acquisition no done yet
+		//else if(tt_usedBlood()) return true;	//do the quest to get the booze
+	}
+	
+	//more cheap basic staves
 	if(retrieve_new($item[Staff of the Teapot Tempest])) return true;
 	if(retrieve_new($item[Staff of the Greasefire])) return true;
 	if(retrieve_new($item[Staff of the Electric Range])) return true;
 
-	item it = $item[Staff of the Black Kettle];
+	it = $item[Staff of the Black Kettle];
 	if(!possessEquipment(it))
 	{
 		if(item_amount($item[around the world]) > 1) 	//do not use last one. having 1 in inventory shortens the quest
@@ -110,7 +124,7 @@ boolean aftercore_getChefstaff(boolean override)
 		}
 		else missing[$item[around the world]] = it;
 		//acquisition currently disabled due to missing mafia tracking
-		//else if(LX_aroundTheWorld()) return true;	//do the quest to get the booze
+		//else if(tt_aroundTheWorld()) return true;	//do the quest to get the booze
 	}
 	
 	it = $item[Staff of the Soupbone];
@@ -128,11 +142,18 @@ boolean aftercore_getChefstaff(boolean override)
 	
 	//[Staff of Holiday Sensations]
 	
-	//ingredients are very cheap and common. just craft it
-	if(retrieve_new($item[Staff of the Walk-In Freezer])) return true;
+	it = $item[Staff of the Walk-In Freezer];
+	if(!possessEquipment(it))
+	{
+		try_retrieve($item[ram stick]);
+		try_retrieve(3, $item[cold hi mein]);
+		try_retrieve($item[icy mushroom wine]);
+		try_retrieve(10, $item[cold wad]);
+		try_retrieve($item[frozen feather]);
+		if(retrieve_item(it)) return true;
+	}
 	
 	it = $item[Staff of the Grand Flambé];
-	/*
 	if(!possessEquipment(it))
 	{
 		try_retrieve($item[smoldering staff]);
@@ -142,7 +163,6 @@ boolean aftercore_getChefstaff(boolean override)
 		try_retrieve($item[flaming feather]);
 		if(retrieve_item(it)) return true;
 	}
-	*/
 	
 	it = $item[Staff of the Kitchen Floor];
 	if(!possessEquipment(it))
