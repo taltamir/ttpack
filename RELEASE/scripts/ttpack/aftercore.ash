@@ -101,7 +101,6 @@ boolean aftercore_getChefstaff(boolean override)
 	if(retrieve_new($item[Staff of the Greasefire])) return true;
 	if(retrieve_new($item[Staff of the Electric Range])) return true;
 
-	boolean sam = have_skill($skill[Super-Advanced Meatsmithing]);
 	item it = $item[Staff of the Black Kettle];
 	if(!possessEquipment(it))
 	{
@@ -129,6 +128,7 @@ boolean aftercore_getChefstaff(boolean override)
 	
 	//[Staff of Holiday Sensations]
 	
+	//ingredients are very cheap and common. just craft it
 	if(retrieve_new($item[Staff of the Walk-In Freezer])) return true;
 	
 	it = $item[Staff of the Grand Flambé];
