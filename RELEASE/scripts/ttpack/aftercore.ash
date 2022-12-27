@@ -128,7 +128,8 @@ boolean aftercore_getChefstaff(boolean override)
 	}
 	
 	//[Staff of Holiday Sensations]
-	//[Staff of the Walk-In Freezer]
+	
+	if(retrieve_new($item[Staff of the Walk-In Freezer])) return true;
 	
 	it = $item[Staff of the Grand Flambé];
 	if(!possessEquipment(it))
