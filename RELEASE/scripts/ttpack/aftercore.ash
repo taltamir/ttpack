@@ -136,7 +136,7 @@ boolean aftercore_getChefstaff(boolean override)
 	{
 		safe_retrieve($item[smoldering staff]);
 		safe_retrieve(3, $item[hot hi mein]);
-		safe_retrieve($item[flat mushroom wine]);
+		safe_retrieve($item[flaming mushroom wine]);
 		safe_retrieve(10, $item[hot wad]);
 		safe_retrieve($item[flaming feather]);
 		if(retrieve_new(it)) return true;
@@ -147,7 +147,7 @@ boolean aftercore_getChefstaff(boolean override)
 	{
 		safe_retrieve($item[linoleum staff]);
 		safe_retrieve(3, $item[stinky hi mein]);
-		safe_retrieve($item[flat mushroom wine]);
+		safe_retrieve($item[stinky mushroom wine]);
 		safe_retrieve(10, $item[stench wad]);
 		safe_retrieve($item[fetid feather]);
 		if(retrieve_new(it)) return true;
