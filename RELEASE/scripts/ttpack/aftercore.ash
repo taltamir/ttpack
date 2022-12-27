@@ -129,17 +129,37 @@ boolean aftercore_getChefstaff(boolean override)
 	
 	//[Staff of Holiday Sensations]
 	//[Staff of the Walk-In Freezer]
-	//[Staff of the Grand Flambé]
-	//[Staff of the Kitchen Floor]
+	
+	it = $item[Staff of the Grand Flambé];
+	if(!possessEquipment(it))
+	{
+		safe_retrieve($item[smoldering staff]);
+		safe_retrieve(3, $item[hot hi mein]);
+		safe_retrieve($item[flat mushroom wine]);
+		safe_retrieve(10, $item[hot wad]);
+		safe_retrieve($item[flaming feather]);
+		if(retrieve_new(it)) return true;
+	}
+	
+	it = $item[Staff of the Kitchen Floor];
+	if(!possessEquipment(it))
+	{
+		safe_retrieve($item[linoleum staff]);
+		safe_retrieve(3, $item[stinky hi mein]);
+		safe_retrieve($item[flat mushroom wine]);
+		safe_retrieve(10, $item[stench wad]);
+		safe_retrieve($item[fetid feather]);
+		if(retrieve_new(it)) return true;
+	}
 	
 	it = $item[Staff of the Grease Trap];
 	if(!possessEquipment(it))
 	{
 		safe_retrieve($item[giant cheesestick]);
-		safe_retrieve($item[flat mushroom wine]);
-		safe_retrieve($item[flirtatious feather]);
 		safe_retrieve(3, $item[sleazy hi mein]);
+		safe_retrieve($item[flat mushroom wine]);
 		safe_retrieve(10, $item[sleaze wad]);
+		safe_retrieve($item[flirtatious feather]);
 		if(retrieve_new(it)) return true;
 	}
 	
