@@ -132,35 +132,37 @@ boolean aftercore_getChefstaff(boolean override)
 	if(retrieve_new($item[Staff of the Walk-In Freezer])) return true;
 	
 	it = $item[Staff of the Grand Flambé];
+	/*
 	if(!possessEquipment(it))
 	{
-		safe_retrieve($item[smoldering staff]);
-		safe_retrieve(3, $item[hot hi mein]);
-		safe_retrieve($item[flaming mushroom wine]);
-		safe_retrieve(10, $item[hot wad]);
-		safe_retrieve($item[flaming feather]);
-		if(retrieve_new(it)) return true;
+		try_retrieve($item[smoldering staff]);
+		try_retrieve(3, $item[hot hi mein]);
+		try_retrieve($item[flaming mushroom wine]);
+		try_retrieve(10, $item[hot wad]);
+		try_retrieve($item[flaming feather]);
+		if(retrieve_item(it)) return true;
 	}
+	*/
 	
 	it = $item[Staff of the Kitchen Floor];
 	if(!possessEquipment(it))
 	{
-		safe_retrieve($item[linoleum staff]);
-		safe_retrieve(3, $item[stinky hi mein]);
-		safe_retrieve($item[stinky mushroom wine]);
-		safe_retrieve(10, $item[stench wad]);
-		safe_retrieve($item[fetid feather]);
+		try_retrieve($item[linoleum staff]);
+		try_retrieve(3, $item[stinky hi mein]);
+		try_retrieve($item[stinky mushroom wine]);
+		try_retrieve(10, $item[stench wad]);
+		try_retrieve($item[fetid feather]);
 		if(retrieve_new(it)) return true;
 	}
 	
 	it = $item[Staff of the Grease Trap];
 	if(!possessEquipment(it))
 	{
-		safe_retrieve($item[giant cheesestick]);
-		safe_retrieve(3, $item[sleazy hi mein]);
-		safe_retrieve($item[flat mushroom wine]);
-		safe_retrieve(10, $item[sleaze wad]);
-		safe_retrieve($item[flirtatious feather]);
+		try_retrieve($item[giant cheesestick]);
+		try_retrieve(3, $item[sleazy hi mein]);
+		try_retrieve($item[flat mushroom wine]);
+		try_retrieve(10, $item[sleaze wad]);
+		try_retrieve($item[flirtatious feather]);
 		if(retrieve_new(it)) return true;
 	}
 	

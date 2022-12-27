@@ -109,37 +109,33 @@ boolean tt_acquire(item it)
 	return tt_acquire(it, gint("autoBuyPriceLimit"));
 }
 
-boolean safe_retrieve(int amt, item it)
+boolean try_retrieve(int amt, item it)
 {
-	//performs retrieve_item with some safety checks and clearer return values
-	//this is because a failed retrieve command aborts your current script
-	//true means you have the items
-	if(item_amount(it) >= amt) return true;		//already have it
-	if(retrieve_price(amt,it) > gint("autoBuyPriceLimit") || retrieve_price(amt,it) > my_meat())
-		return false;	//too expensive and will trigger an abort if attempted
-	
-	retrieve_item(amt,it);
-	return item_amount(it) >= amt;
+	//a failed retrieve command throws an abort instead of merely returning false.
+	try retrieve_item(amt,it);
+	finally return item_amount(it) >= amt;
 }
 
-boolean safe_retrieve(item it)
+boolean try_retrieve(item it)
 {
-	//performs retrieve_item with some safety checks and clearer return values
-	//true means you have the item
-	if(item_amount(it) > 0) return true;		//already have it
-	if(retrieve_price(it) > gint("autoBuyPriceLimit") || retrieve_price(it) > my_meat())
-		return false;	//too expensive and will trigger an abort if attempted
-	
-	retrieve_item(it);
-	return item_amount(it) > 0;
+	return try_retrieve(1,it);
+}
+
+boolean retrieve_new(int amt, item it)
+{
+	//do a try_retrieve with different return values
+	//false means we already had it (thus did not act). or that we failed to acquire it.
+	//true means we did not have it before, but do have it now.
+	int start = item_amount(it);
+	int needed = amt - start;
+	if(needed < 1) return false;
+	try_retrieve(amt, it);
+	return (item_amount(it) - needed) == start;
 }
 
 boolean retrieve_new(item it)
 {
-	//do a safe_retrieve but only report true only if we acted to get a new item we didn't already have
-	if(item_amount(it) > 0) return false;	//already have so didn't act
-	safe_retrieve(it);
-	return item_amount(it) > 0;
+	return retrieve_new(1,it);
 }
 
 void tt_eatSurpriseEggs()
