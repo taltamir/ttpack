@@ -109,6 +109,19 @@ boolean tt_acquire(item it)
 	return tt_acquire(it, gint("autoBuyPriceLimit"));
 }
 
+boolean safe_retrieve(int amt, item it)
+{
+	//performs retrieve_item with some safety checks and clearer return values
+	//this is because a failed retrieve command aborts your current script
+	//true means you have the items
+	if(item_amount(it) >= amt) return true;		//already have it
+	if(retrieve_price(amt,it) > gint("autoBuyPriceLimit") || retrieve_price(amt,it) > my_meat())
+		return false;	//too expensive and will trigger an abort if attempted
+	
+	retrieve_item(amt,it);
+	return item_amount(it) >= amt;
+}
+
 boolean safe_retrieve(item it)
 {
 	//performs retrieve_item with some safety checks and clearer return values

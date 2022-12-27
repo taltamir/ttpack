@@ -127,6 +127,29 @@ boolean aftercore_getChefstaff(boolean override)
 		}
 	}
 	
+	//[Staff of Holiday Sensations]
+	//[Staff of the Walk-In Freezer]
+	//[Staff of the Grand Flambé]
+	//[Staff of the Kitchen Floor]
+	
+	it = $item[Staff of the Grease Trap];
+	if(!possessEquipment(it))
+	{
+		safe_retrieve($item[giant cheesestick]);
+		safe_retrieve($item[flat mushroom wine]);
+		safe_retrieve($item[flirtatious feather]);
+		safe_retrieve(3, $item[sleazy hi mein]);
+		safe_retrieve(10, $item[sleaze wad]);
+		if(retrieve_new(it)) return true;
+	}
+	
+	//[Staff of the Scummy Sink]
+	//[Staff of the Deepest Freeze]
+	//[Staff of the Roaring Hearth]
+	//[Staff of Kitchen Royalty]
+	//[Staff of Frozen Lard]. items must be malled. ~100k meat
+	//[Staff of the Peppermint Twist]. core item is 5 million at mall
+	
 	if(override)
 	{
 		foreach com, staff in missing
