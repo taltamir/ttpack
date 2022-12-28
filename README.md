@@ -11,7 +11,7 @@ When installed it will also install the following dependencies:
 ```
 https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/
 ```
-You should also manually install these 3 dependencies:
+You should also manually install these scripts:
 ```
 git checkout https://github.com/Loathing-Associates-Scripting-Society/autoscend.git
 ```
@@ -20,6 +20,9 @@ svn checkout https://github.com/Ezandora/Briefcase/branches/Release/
 ```
 ```
 git checkout https://github.com/soolar/CONSUME.ash.git
+```
+```
+git checkout https://github.com/Loathing-Associates-Scripting-Society/philter.git main
 ```
 
 ## Installation
