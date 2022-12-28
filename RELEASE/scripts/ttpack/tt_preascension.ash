@@ -165,7 +165,7 @@ void main()
 	
 	if(have_shop())
 	{
-		cli_execute("OCDInv.ash");			//run OCD inventory control script (must be installed seperately)
+		cli_execute("philter");			//run OCD inventory control script (must be installed seperately)
 	}
 	cli_execute("Rollover Management.ash");			//runs the rollover management script (must be installed seperately)
 	cli_execute("tt_logout.ash");			//runs the tt_logout script (must be installed seperately)

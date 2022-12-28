@@ -390,7 +390,7 @@ void postStuff()
 	//execute the OCD inventory script
 	if(have_shop())
 	{
-		cli_execute("OCDInv.ash");
+		cli_execute("philter");
 	}
 }
 
