@@ -174,7 +174,7 @@ boolean aftercore_getChefstaff(boolean override)
 		if(retrieve_item(it)) return true;
 	}
 	
-	it = $item[Staff of the Grand Flambé];
+	it = $item[Staff of the Grand Flamb&eacute;];
 	if(!possessEquipment(it))
 	{
 		try_retrieve($item[smoldering staff]);
