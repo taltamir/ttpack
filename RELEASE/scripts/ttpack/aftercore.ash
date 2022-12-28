@@ -74,6 +74,21 @@ boolean tt_aroundTheWorld()
 	return false;
 }
 
+boolean tt_usedBlood()
+{
+	//get 1 quest item [bottle of used blood] for making a [Staff of Blood and Pudding]
+	//see noncombat handling is done in aftercore_choice_adv.ash
+	if(!gbool("_aftercoreGetUsedBlood")) return false;
+	if(item_amount($item[bottle of used blood]) > 0) return false;
+	
+	if(item_amount($item[Vampire heart]) == 0 && possessEquipment($item[wooden stakes]))
+		autoForceEquip($item[wooden stakes]);
+		
+	location loc = $location[The Spooky Forest];
+	providePlusNonCombat(25, loc);
+	return autoAdv(loc);
+}
+
 boolean aftercore_getChefstaff(boolean override)
 {
 	if(!get_property("aftercore_getChefstaff").to_boolean() && !override)
@@ -103,11 +118,15 @@ boolean aftercore_getChefstaff(boolean override)
 	{
 		if(item_amount($item[bottle of used blood]) > 0)
 		{
+			remove_property("_aftercoreGetUsedBlood");
 			if(retrieve_new(it)) return true;
 		}
-		else missing[$item[bottle of used blood]] = it;
-		//acquisition no done yet
-		//else if(tt_usedBlood()) return true;	//do the quest to get the booze
+		else
+		{
+			set_property("_aftercoreGetUsedBlood", true);
+			if(tt_usedBlood()) return true;	//do the quest to get the booze
+			missing[$item[bottle of used blood]] = it;		//if we can not adventure for some reason
+		}
 	}
 	
 	//more cheap basic staves
@@ -123,6 +142,7 @@ boolean aftercore_getChefstaff(boolean override)
 			if(retrieve_new(it)) return true;
 		}
 		else missing[$item[around the world]] = it;
+		//TODO
 		//acquisition currently disabled due to missing mafia tracking
 		//else if(tt_aroundTheWorld()) return true;	//do the quest to get the booze
 	}
@@ -140,6 +160,7 @@ boolean aftercore_getChefstaff(boolean override)
 		}
 	}
 	
+	//TODO
 	//[Staff of Holiday Sensations]
 	
 	it = $item[Staff of the Walk-In Freezer];
@@ -186,6 +207,7 @@ boolean aftercore_getChefstaff(boolean override)
 		if(retrieve_new(it)) return true;
 	}
 	
+	//TODO
 	//[Staff of the Scummy Sink]
 	//[Staff of the Deepest Freeze]
 	//[Staff of the Roaring Hearth]
@@ -506,7 +528,7 @@ void main(string command)
 	backupSetting("promptAboutCrafting", 0);
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
-	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("choiceAdventureScript", "scripts/ttpack/util/aftercore_choice_adv.ash");
 	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");

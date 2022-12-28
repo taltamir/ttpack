@@ -12,22 +12,29 @@ boolean aftercore_run_choice(int choice, string page)
 			# 2 => Explore the stream (505)
 			# 3 => Brave the dark thicket (506)
 			
-			if(gbool("_aftercoreGetUsedBlood"))	//trying to acquire [bottle of used blood]
+			if(get_property("_aftercoreGetUsedBlood").to_boolean())	//trying to acquire [bottle of used blood]
 			{
 				boolean has_blood = item_amount($item[bottle of used blood]) > 0;
 				boolean has_heart = item_amount($item[Vampire heart]) > 0;
-				boolean has_stakes = possessEquipment($item[wooden stakes];
-				boolean equipped_stakes = equipped_amount($item[wooden stakes] > 0;
+				boolean has_stakes = possessEquipment($item[wooden stakes]);
+				boolean equipped_stakes = equipped_amount($item[wooden stakes]) > 0;
 				
 				if(has_blood)
 					abort("_aftercoreGetUsedBlood is true but we already have [bottle of used blood]. yet we are still trying to get it");
-				else if(has_heart || !has_stakes)
+				else if(has_heart)
 				{
-					run_choice(1);		//goto choice 503 to trade hearts or get wooden stakes
-					run_choice(2);		//talk to vampire hunter in choice 503.
+					run_choice(1);		//goto choice 503 to trade hearts
+					run_choice(2);		//talk to vampire hunter in choice 503. goto choice 47
+					run_choice(1);		//trade hearts for used blood in choice 47
 					break;
 				}
-				else if(has_stakes)
+				else if(!has_stakes)
+				{
+					run_choice(1);		//goto choice 503 to get wooden stakes
+					run_choice(2);		//talk to vampire hunter in choice 503 to get stakes
+					break;
+				}
+				else
 				{
 					if(equipped_stakes)
 					{
