@@ -61,7 +61,7 @@ void tt_consumeAll()
 	cli_execute("CONSUME ALL");
 }
 
-boolean LX_aroundTheWorld()
+boolean tt_aroundTheWorld()
 {
 	//do the repeatable quest [Around the World Quest] to get the drink with the same name
 	boolean has_trap = item_amount($item[Spanish fly trap]) > 0;
@@ -72,6 +72,21 @@ boolean LX_aroundTheWorld()
 	//if(!has_trap && !has_drink &&)
 	
 	return false;
+}
+
+boolean tt_usedBlood()
+{
+	//get 1 quest item [bottle of used blood] for making a [Staff of Blood and Pudding]
+	//see noncombat handling is done in aftercore_choice_adv.ash
+	if(!gbool("_aftercoreGetUsedBlood")) return false;
+	if(item_amount($item[bottle of used blood]) > 0) return false;
+	
+	if(item_amount($item[Vampire heart]) == 0 && possessEquipment($item[wooden stakes]))
+		autoForceEquip($item[wooden stakes]);
+		
+	location loc = $location[The Spooky Forest];
+	providePlusNonCombat(25, loc);
+	return autoAdv(loc);
 }
 
 boolean aftercore_getChefstaff(boolean override)
@@ -90,19 +105,36 @@ boolean aftercore_getChefstaff(boolean override)
 		if(tt_guild(true)) return true;
 	}
 	
-	//syntax is staffname[component]
-	item[item] missing;
+	item it;
+	item[item] missing;		//syntax is staffname[component]
 		
 	//cheap basic staves we can just easily mallbuy the parts of
 	if(retrieve_new($item[Staff of the Short Order Cook])) return true;
 	if(retrieve_new($item[Staff of the Midnight Snack])) return true;
-	if(retrieve_new($item[Staff of Blood and Pudding])) return true;
+	
+	//while very cheap. one of the ingredients is a quest item you must acquire yourself
+	it = $item[Staff of Blood and Pudding];
+	if(!possessEquipment(it))
+	{
+		if(item_amount($item[bottle of used blood]) > 0)
+		{
+			remove_property("_aftercoreGetUsedBlood");
+			if(retrieve_new(it)) return true;
+		}
+		else
+		{
+			set_property("_aftercoreGetUsedBlood", true);
+			if(tt_usedBlood()) return true;	//do the quest to get the booze
+			missing[$item[bottle of used blood]] = it;		//if we can not adventure for some reason
+		}
+	}
+	
+	//more cheap basic staves
 	if(retrieve_new($item[Staff of the Teapot Tempest])) return true;
 	if(retrieve_new($item[Staff of the Greasefire])) return true;
 	if(retrieve_new($item[Staff of the Electric Range])) return true;
 
-	boolean sam = have_skill($skill[Super-Advanced Meatsmithing]);
-	item it = $item[Staff of the Black Kettle];
+	it = $item[Staff of the Black Kettle];
 	if(!possessEquipment(it))
 	{
 		if(item_amount($item[around the world]) > 1) 	//do not use last one. having 1 in inventory shortens the quest
@@ -110,8 +142,9 @@ boolean aftercore_getChefstaff(boolean override)
 			if(retrieve_new(it)) return true;
 		}
 		else missing[$item[around the world]] = it;
+		//TODO
 		//acquisition currently disabled due to missing mafia tracking
-		//else if(LX_aroundTheWorld()) return true;	//do the quest to get the booze
+		//else if(tt_aroundTheWorld()) return true;	//do the quest to get the booze
 	}
 	
 	it = $item[Staff of the Soupbone];
@@ -127,42 +160,54 @@ boolean aftercore_getChefstaff(boolean override)
 		}
 	}
 	
+	//TODO
 	//[Staff of Holiday Sensations]
-	//[Staff of the Walk-In Freezer]
+	
+	it = $item[Staff of the Walk-In Freezer];
+	if(!possessEquipment(it))
+	{
+		try_retrieve($item[ram stick]);
+		try_retrieve(3, $item[cold hi mein]);
+		try_retrieve($item[icy mushroom wine]);
+		try_retrieve(10, $item[cold wad]);
+		try_retrieve($item[frozen feather]);
+		if(retrieve_item(it)) return true;
+	}
 	
 	it = $item[Staff of the Grand Flambé];
 	if(!possessEquipment(it))
 	{
-		safe_retrieve($item[smoldering staff]);
-		safe_retrieve(3, $item[hot hi mein]);
-		safe_retrieve($item[flat mushroom wine]);
-		safe_retrieve(10, $item[hot wad]);
-		safe_retrieve($item[flaming feather]);
-		if(retrieve_new(it)) return true;
+		try_retrieve($item[smoldering staff]);
+		try_retrieve(3, $item[hot hi mein]);
+		try_retrieve($item[flaming mushroom wine]);
+		try_retrieve(10, $item[hot wad]);
+		try_retrieve($item[flaming feather]);
+		if(retrieve_item(it)) return true;
 	}
 	
 	it = $item[Staff of the Kitchen Floor];
 	if(!possessEquipment(it))
 	{
-		safe_retrieve($item[linoleum staff]);
-		safe_retrieve(3, $item[stinky hi mein]);
-		safe_retrieve($item[flat mushroom wine]);
-		safe_retrieve(10, $item[stench wad]);
-		safe_retrieve($item[fetid feather]);
+		try_retrieve($item[linoleum staff]);
+		try_retrieve(3, $item[stinky hi mein]);
+		try_retrieve($item[stinky mushroom wine]);
+		try_retrieve(10, $item[stench wad]);
+		try_retrieve($item[fetid feather]);
 		if(retrieve_new(it)) return true;
 	}
 	
 	it = $item[Staff of the Grease Trap];
 	if(!possessEquipment(it))
 	{
-		safe_retrieve($item[giant cheesestick]);
-		safe_retrieve(3, $item[sleazy hi mein]);
-		safe_retrieve($item[flat mushroom wine]);
-		safe_retrieve(10, $item[sleaze wad]);
-		safe_retrieve($item[flirtatious feather]);
+		try_retrieve($item[giant cheesestick]);
+		try_retrieve(3, $item[sleazy hi mein]);
+		try_retrieve($item[flat mushroom wine]);
+		try_retrieve(10, $item[sleaze wad]);
+		try_retrieve($item[flirtatious feather]);
 		if(retrieve_new(it)) return true;
 	}
 	
+	//TODO
 	//[Staff of the Scummy Sink]
 	//[Staff of the Deepest Freeze]
 	//[Staff of the Roaring Hearth]
@@ -483,7 +528,7 @@ void main(string command)
 	backupSetting("promptAboutCrafting", 0);
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
-	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("choiceAdventureScript", "scripts/ttpack/util/aftercore_choice_adv.ash");
 	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 	backupSetting("battleAction", "custom combat script");
 	backupSetting("maximizerCombinationLimit", "10000");
