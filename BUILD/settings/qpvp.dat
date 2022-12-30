@@ -1,0 +1,3 @@
+qpvp_maximize	string	what maximizer string should we use before doing pvp?
+qpvp_reward	string	which reward do we want from qpvp? our options are flowers | loot | fame. some players will blacklist you if you loot them.
+qpvp_stance	int	which stance should we use for qpvp. stances are listed at the bottom of the page

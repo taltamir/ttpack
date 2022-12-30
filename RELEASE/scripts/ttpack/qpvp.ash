@@ -10,10 +10,21 @@ void pvpEnable()
 	}
 }
 
+string[int] stances()
+{
+	int[string] input = current_pvp_stances();
+	string[int] retval;
+	foreach s, i in input
+	{
+		retval[i] = s;
+	}
+	return retval;
+}
+
 void main()
 {
 	pvpEnable();
-	if(!hippy_stone_broken())
+	if(stances()[0] == "" || !hippy_stone_broken())
 	{
 		print("qpvp could not break hippy stone. sometimes there is a day or two between pvp seasons where pvp is unavailable. try again tomorrow.", "red");
 		print("or if this is not the issue then fix it and run me again. Also please report this at:", "red");
@@ -21,6 +32,7 @@ void main()
 		return;
 	}
 	
+	cli_execute("outfit checkpoint");
 	string max = get_property("qpvp_maximize");
 	if(max != "")
 		maximize(get_property("qpvp_maximize"), 0, 0, false, true);
@@ -31,6 +43,5 @@ void main()
 	get_property("qpvp_stance").to_int();
 	
 	cli_execute(do);
+	cli_execute("checkpoint clear");
 }
-
-//current_pvp_stances()
