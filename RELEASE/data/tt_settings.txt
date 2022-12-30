@@ -34,3 +34,6 @@ tt_login	2	tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for 
 tt_login	3	tt_login_startQuestLTT	boolean	automatically start LT&T quest if available. will not spend meat on overtime
 tt_login	4	tt_login_startQuestLTTDifficulty	int	LT&T Difficulty: 1 = easy. 2 = moderate. 3 = hard
 
+tt_logout	0	tt_logout_pvp_aftercore	boolean	tt_logout should run qpvp to spend all remaining pvp fights while in aftercore
+tt_logout	1	tt_logout_pvp_overdrunk	boolean	tt_logout should only run qpvp if overdrunk
+
