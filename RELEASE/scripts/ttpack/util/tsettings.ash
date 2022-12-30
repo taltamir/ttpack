@@ -67,6 +67,11 @@ void settings_qpvp()
 {
 	set_default("qpvp_maximize", "item");
 	set_default("qpvp_reward", "flowers");
+	if( !($strings[flowers,loot,fame] contains get_property("qpvp_reward")) )
+	{
+		print("invalid string detected in qpvp_reward. resetting to default value","red");
+		set_property("qpvp_reward", "flowers");
+	}
 }
 
 void tt_initialize()
