@@ -30,6 +30,13 @@ void settings_tt_login()
 	}
 }
 
+void settings_tt_logout()
+{
+	set_default("tt_logout_pvp_aftercore", "false");
+	set_default("tt_logout_pvp_ascend", "false");
+	set_default("tt_logout_pvp_overdrunk", "true");
+}
+
 void settings_greygoo()
 {
 	//configure default settings on first run for greygoo.ash script
@@ -80,6 +87,7 @@ void tt_initialize()
 	tt_depreciate();				//remove depreciated settings
 	tt_settingsUpgrade();			//upgrade settings from old format to new format
 	settings_tt_login();			//initialize default settings for tt_login
+	settings_tt_logout();			//initialize default settings for tt_logout
 	settings_greygoo();				//initialize default settings for greygoo
 	settings_plevel();				//initialize default settings for plevel
 	settings_aftercore();			//initialize default settings for aftercore
