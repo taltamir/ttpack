@@ -31,6 +31,8 @@ void main()
 		print("https://github.com/taltamir/ttpack/issues", "red");
 		return;
 	}
+	if(pvp_attacks_left() < 1)
+		return;
 	
 	cli_execute("outfit checkpoint");
 	string max = get_property("qpvp_maximize");
