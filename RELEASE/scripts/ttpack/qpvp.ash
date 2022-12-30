@@ -26,7 +26,7 @@ void main()
 	if(pvp_attacks_left() < 1)
 		return;
 	
-	cli_execute("outfit checkpoint");
+	cli_execute("checkpoint");
 	string max = get_property("qpvp_maximize");
 	if(max != "")
 		maximize(get_property("qpvp_maximize"), 0, 0, false, true);
@@ -37,5 +37,6 @@ void main()
 	get_property("qpvp_stance").to_int();
 	
 	cli_execute(do);
+	cli_execute("outfit checkpoint");
 	cli_execute("checkpoint clear");
 }
