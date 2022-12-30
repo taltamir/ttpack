@@ -43,6 +43,7 @@ void handleSetting(string type, int x)
 	case "plevel":			color = "#8BDCE7";		break;
 	case "aftercore":		color = "#6FE26F";		break;
 	case "tt_login":		color = "#8BDCE7";		break;
+	case "qpvp":			color = "#6FE26F";		break;
 	default:				color = "#ffffff";		break;
 	}
 
@@ -110,6 +111,19 @@ void write_settings_key()
 	writeln("<tr bgcolor=#8BDCE7><td>plevel.ash script to automate some powerleveling in aftercore</td></tr>");
 	writeln("<tr bgcolor=#6FE26F><td>aftercore.ash script to automate aftercore actions</td></tr>");
 	writeln("<tr bgcolor=#8BDCE7><td>tt_login.ash script to automate some post login actions</td></tr>");
+	writeln("<tr bgcolor=#6FE26F><td>qpvp.ash script to quickly spend all your pvp fights</td></tr>");
+	writeln("</table>");
+}
+
+void write_pvp_stances()
+{
+	//display the pvp stances	
+	writeln("<table><tr><th>PVP Stances</th></tr>");
+	foreach i, s in stances()
+	{
+		string content = "Stance " +i+ " = " +s;
+		writeln("<tr bgcolor=#8BDCE7><td>" +content+ "</td></tr>");
+	}
 	writeln("</table>");
 }
 
@@ -179,9 +193,15 @@ void main()
 	{
 		handleSetting("tt_login", x);
 	}
+	foreach x in s["qpvp"]
+	{
+		handleSetting("qpvp", x);
+	}
 	writeln("<tr><td align=center colspan='3'><input type='submit' name='' value='Save Changes'/></td></tr></table></form>");
 
 	write_settings_key();		//display the key to the settings table
+	writeln("<br>");
+	write_pvp_stances();		//display the pvp stances
 
 	writeln("<h2>Info</h2>");
 	writeln("Ascension: " + my_ascensions() + "<br>");

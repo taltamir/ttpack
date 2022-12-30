@@ -261,3 +261,14 @@ int year()
 	string retval = char_at(today, 0) + char_at(today, 1) + char_at(today, 2) + char_at(today, 3);
 	return retval.to_int();
 }
+
+string[int] stances()
+{
+	int[string] input = current_pvp_stances();
+	string[int] retval;
+	foreach s, i in input
+	{
+		retval[i] = s;
+	}
+	return retval;
+}
