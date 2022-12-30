@@ -71,7 +71,8 @@ void pvp_logout()
 	//spend pvp fights on logout
 	if(pvp_attacks_left() < 1)
 		return;
-	if(gbool("tt_logout_pvp_overdrunk") && can_drink() && my_inebriety() <= inebriety_limit())
+	boolean overdrunk = my_inebriety() > inebriety_limit();
+	if(gbool("tt_logout_pvp_overdrunk") && can_drink() && !overdrunk)
 		return;		//not overdrunk yet so do not run this function.
 	boolean forbid = true;
 	if(inAftercore() && gbool("tt_logout_pvp_aftercore"))
