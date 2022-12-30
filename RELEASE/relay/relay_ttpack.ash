@@ -43,7 +43,8 @@ void handleSetting(string type, int x)
 	case "plevel":			color = "#8BDCE7";		break;
 	case "aftercore":		color = "#6FE26F";		break;
 	case "tt_login":		color = "#8BDCE7";		break;
-	case "qpvp":			color = "#6FE26F";		break;
+	case "tt_logout":		color = "#6FE26F";		break;
+	case "qpvp":			color = "#8BDCE7";		break;
 	default:				color = "#ffffff";		break;
 	}
 
@@ -111,7 +112,8 @@ void write_settings_key()
 	writeln("<tr bgcolor=#8BDCE7><td>plevel.ash script to automate some powerleveling in aftercore</td></tr>");
 	writeln("<tr bgcolor=#6FE26F><td>aftercore.ash script to automate aftercore actions</td></tr>");
 	writeln("<tr bgcolor=#8BDCE7><td>tt_login.ash script to automate some post login actions</td></tr>");
-	writeln("<tr bgcolor=#6FE26F><td>qpvp.ash script to quickly spend all your pvp fights</td></tr>");
+	writeln("<tr bgcolor=#6FE26F><td>tt_logout.ash script to automate stuff on logout</td></tr>");
+	writeln("<tr bgcolor=#8BDCE7><td>qpvp.ash script to quickly spend all your pvp fights</td></tr>");
 	writeln("</table>");
 }
 
@@ -192,6 +194,10 @@ void main()
 	foreach x in s["tt_login"]
 	{
 		handleSetting("tt_login", x);
+	}
+	foreach x in s["tt_logout"]
+	{
+		handleSetting("tt_logout", x);
 	}
 	foreach x in s["qpvp"]
 	{
