@@ -63,6 +63,12 @@ void settings_aftercore()
 	set_default("aftercore_consumeAll", "false");
 }
 
+void settings_qpvp()
+{
+	set_default("qpvp_maximize", "item");
+	set_default("qpvp_reward", "flowers");
+}
+
 void tt_initialize()
 {
 	//initialize settings defaults for all associated scripts
@@ -72,4 +78,5 @@ void tt_initialize()
 	settings_greygoo();				//initialize default settings for greygoo
 	settings_plevel();				//initialize default settings for plevel
 	settings_aftercore();			//initialize default settings for aftercore
+	settings_qpvp();				//initialize default settings for qpvp
 }
