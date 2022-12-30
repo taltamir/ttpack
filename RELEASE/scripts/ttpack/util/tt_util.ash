@@ -3,7 +3,7 @@
 
 import <autoscend.ash>
 import <ttpack/util/tt_header.ash>
-import <ttpack/util/tt_defaults.ash>
+import <ttpack/util/tsettings.ash>
 import <ttpack/util/tt_depreciate.ash>
 
 boolean gbool(string prop)
