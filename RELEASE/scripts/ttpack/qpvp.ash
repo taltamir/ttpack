@@ -1,6 +1,8 @@
 //qpvp = quick pvp. just execute the command line "qpvp" to use up all your pvp fights
 //configure settings via ttpack gui
 
+import <scripts/ttpack/util/tt_util.ash>
+
 void pvpEnable()
 {
 	if(!hippy_stone_broken())
@@ -10,19 +12,9 @@ void pvpEnable()
 	}
 }
 
-string[int] stances()
-{
-	int[string] input = current_pvp_stances();
-	string[int] retval;
-	foreach s, i in input
-	{
-		retval[i] = s;
-	}
-	return retval;
-}
-
 void main()
 {
+	tt_initialize();		//configures ttpack settings to default values on first run and removes depreciated settings.
 	pvpEnable();
 	if(stances()[0] == "" || !hippy_stone_broken())
 	{
