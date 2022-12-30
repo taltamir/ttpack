@@ -66,6 +66,23 @@ void tt_collect_on_logout()
 	}
 }
 
+void pvp_logout()
+{
+	//spend pvp fights on logout
+	if(pvp_attacks_left() < 1)
+		return;
+	if(gbool("tt_logout_pvp_overdrunk") && can_drink() && my_inebriety() <= inebriety_limit())
+		return;		//not overdrunk yet so do not run this function.
+	boolean forbid = true;
+	if(inAftercore() && gbool("tt_logout_pvp_aftercore"))
+		forbid = false;
+	if(!inAftercore() && gbool("tt_logout_pvp_ascend"))
+		forbid = false;
+	if(forbid) return;
+	
+	cli_execute("qpvp.ash");
+}
+
 void main()
 {
 	cli_execute("breakfast");				//Run mafia built in breakfast script to do many daily tasks
@@ -76,6 +93,7 @@ void main()
 	tt_whenDrunk();							//actions we only want to take if overdrunk on logout
 	tt_cargoPants();
 	tt_collect_on_logout();
+	pvp_logout();							//quickly spend all remaining pvp fights on logout. based on user settings
 	cli_execute("crimbo22train.ash");		//train clan mates in the crimbo 2022 skills
 	print("logout script finished", "green");
 }
