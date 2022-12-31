@@ -24,9 +24,17 @@ greygoo	6	greygoo_fightGoo	boolean	fight the goo monsters
 
 plevel	0	plevel_mpa	int	meat per adventure value. input how much each adventure is worth to you if you were farming meat. this will be used to calculate whether it is worth it or not to buy a potion.
 
+qpvp	0	qpvp_maximize	string	What maximizer string should we use before doing pvp?
+qpvp	1	qpvp_reward	string	Which reward do we want from qpvp? Choose between [flowers] || [loot] || [fame]. Do not use any symbols, just write the word in lowercase letters. Be warned that some players will blacklist you if you loot them.
+qpvp	2	qpvp_stance	int	Which stance should we use for qpvp. stances are listed at the bottom of the page
+
 tt_login	0	tt_login_pvp	boolean	break hippy stone to unlock pvp
 tt_login	1	tt_login_chocolateEat	boolean	when login with unlimited mall access eat chocolates
 tt_login	2	tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for chocolates
 tt_login	3	tt_login_startQuestLTT	boolean	automatically start LT&T quest if available. will not spend meat on overtime
 tt_login	4	tt_login_startQuestLTTDifficulty	int	LT&T Difficulty: 1 = easy. 2 = moderate. 3 = hard
+
+tt_logout	0	tt_logout_pvp_aftercore	boolean	tt_logout should run qpvp to spend all remaining pvp fights while in aftercore
+tt_logout	1	tt_logout_pvp_ascend	boolean	tt_logout should run qpvp to spend all remaining pvp fights while still ascending
+tt_logout	2	tt_logout_pvp_overdrunk	boolean	tt_logout should only run qpvp if overdrunk
 

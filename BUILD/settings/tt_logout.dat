@@ -1,0 +1,3 @@
+tt_logout_pvp_aftercore	boolean	tt_logout should run qpvp to spend all remaining pvp fights while in aftercore
+tt_logout_pvp_ascend	boolean	tt_logout should run qpvp to spend all remaining pvp fights while still ascending
+tt_logout_pvp_overdrunk	boolean	tt_logout should only run qpvp if overdrunk

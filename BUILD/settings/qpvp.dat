@@ -1,0 +1,3 @@
+qpvp_maximize	string	What maximizer string should we use before doing pvp?
+qpvp_reward	string	Which reward do we want from qpvp? Choose between [flowers] || [loot] || [fame]. Do not use any symbols, just write the word in lowercase letters. Be warned that some players will blacklist you if you loot them.
+qpvp_stance	int	Which stance should we use for qpvp. stances are listed at the bottom of the page
