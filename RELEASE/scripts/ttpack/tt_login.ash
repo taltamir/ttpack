@@ -387,7 +387,8 @@ void postStuff()
 	//	buy($coinmaster[Internet Meme Shop],1,$item[print screen button]);
 	//}
 
-	//execute the OCD inventory script
+	//execute Philter script
+	// https://github.com/Loathing-Associates-Scripting-Society/philter
 	if(have_shop())
 	{
 		cli_execute("philter");
@@ -524,6 +525,7 @@ void eatChocolate()
 
 void runAutoscend()
 {
+	// https://github.com/Loathing-Associates-Scripting-Society/autoscend
 	if(!gbool("tt_login_autoscend"))
 		return;
 	if(inAftercore())
@@ -533,6 +535,7 @@ void runAutoscend()
 
 void runGarbo()
 {
+	// https://github.com/Loathing-Associates-Scripting-Society/garbage-collector
 	if(!gbool("tt_login_garbo"))
 		return;
 	if(!inAftercore())
