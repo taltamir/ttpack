@@ -522,24 +522,22 @@ void eatChocolate()
 	}
 }
 
-void fullAuto()
+void runAutoscend()
 {
-	if(!get_property("tt_login_auto").to_boolean())
-	{
+	if(!gbool("tt_login_autoscend"))
 		return;
-	}
 	if(inAftercore())
-	{
 		return;
-	}
-	if(my_path() == "Grey Goo")
-	{
-		cli_execute("greygoo.ash");
-	}
-	else
-	{
-		cli_execute("autoscend.ash");
-	}
+	cli_execute("autoscend.ash");
+}
+
+void runGarbo()
+{
+	if(!gbool("tt_login_garbo"))
+		return;
+	if(!inAftercore())
+		return;
+	cli_execute("garbo");
 }
 
 void main()
@@ -572,5 +570,6 @@ void main()
 
 	print("login script finished", "green");
 	
-	fullAuto();								//if configured to. run autoscend or another appropriate script to fully automate a run.
+	runAutoscend();							//run Autoscend to fully automate a run based on setting.
+	runGarbo();								//run Garbo to fully automate aftercore farming, based on setting.
 }

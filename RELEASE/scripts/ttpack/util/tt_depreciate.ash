@@ -21,4 +21,5 @@ void tt_settingsUpgrade()
 	auto_rename_property("tt_aftercore_useAstralLeftovers", "aftercore_useAstralLeftovers");
 	auto_rename_property("tt_aftercore_eatSurpriseEggs", "aftercore_eatSurpriseEggs");
 	auto_rename_property("tt_aftercore_consumeAll", "aftercore_consumeAll");
+	auto_rename_property("tt_login_auto", "tt_login_autoscend");
 }

@@ -3,3 +3,5 @@ tt_login_chocolateEat	boolean	when login with unlimited mall access eat chocolat
 tt_login_chocolateMaxPricePerAdv	int	maximum price per adventure for chocolates
 tt_login_startQuestLTT	boolean	automatically start LT&T quest if available. will not spend meat on overtime
 tt_login_startQuestLTTDifficulty	int	LT&T Difficulty: 1 = easy. 2 = moderate. 3 = hard
+tt_login_autoscend	boolean	If true will automatically run Autoscend when login is done and you are not in aftercore.
+tt_login_garbo	boolean	If true will automatically run Garbo when login is done and you are in aftercore.

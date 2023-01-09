@@ -15,7 +15,7 @@ void settings_tt_login()
 	//configure default settings on first run for tt_login.ash script
 	set_default("tt_login_pvp", "true");
 	set_default("tt_login_chocolateEat", "true");
-	set_default("tt_login_auto", "false");
+	set_default("tt_login_autoscend", "false");
 	set_default("tt_login_chocolateMaxPricePerAdv", "100");
 	set_default("tt_login_startQuestLTT", "true");
 	set_default("tt_login_startQuestLTTDifficulty", "3");
