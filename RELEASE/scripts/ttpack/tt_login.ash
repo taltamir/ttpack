@@ -311,6 +311,8 @@ void spaceGate()
 	tt_closetTakeAll($item[alien gemstone]);		//uncloset them to turn in. pvprotect keeps closetting them
 	visit_url("place.php?whichplace=spacegate&action=sg_tech");		//turn in your research items.
 
+	//workaround for an issue with mafia tracking of inventory amounts on these which causes an abort to occur here.
+	cli_execute("refresh inv");
 	//acquire all the spacegate gear
 	foreach it in $items[geological sample kit, botanical sample kit, zoological sample kit, exo-servo leg braces, filter helmet, rad cloak, high-friction boots, gate transceiver]
 	{
