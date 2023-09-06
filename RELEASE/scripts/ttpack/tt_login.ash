@@ -523,6 +523,22 @@ void eatChocolate()
 	}
 }
 
+boolean overdrunk()
+{
+	if(auto_have_familiar($familiar[Stooper]))
+	{
+		if($familiar[Stooper] == my_familiar() && inebriety_left() < 0) return true;		//stooper is current familiar and overdrunk
+		else if(inebriety_left() < -1) return true;		//stooper not current familiar. but will be overdrunk even if switching to it
+	}
+	else if(inebriety_left() < 0) return true;	//we can not use stooper and are overdrunk
+	return false;
+}
+
+boolean canAdvDrunk()
+{
+	return possessEquipment($item[Drunkula\'s Wineglass]) && auto_can_equip($item[Drunkula\'s Wineglass]);
+}
+
 void runAutoscend()
 {
 	// https://github.com/Loathing-Associates-Scripting-Society/autoscend
@@ -540,6 +556,8 @@ void runGarbo()
 		return;
 	if(!inAftercore())
 		return;
+	if(overdrunk() && !canAdvDrunk())
+		return;		//garbo will throw an abort instead of cleanly exiting if you are overdrunk when you run it.
 	cli_execute("garbo");
 }
 
