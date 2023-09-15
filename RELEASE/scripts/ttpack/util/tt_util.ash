@@ -211,9 +211,9 @@ void tt_snapshot()
 		return;		//only want to run this once per ascension.
 	}
 	
-	if(svn_info("ccascend-snapshot").last_changed_rev > 0)
+	if(git_info("greenbox").last_changed_date != "")
 	{
-		cli_execute("cc_snapshot.ash");
+		cli_execute("greenbox.js");
 	}
 
 	set_property("auto_snapshot", my_ascensions());
