@@ -89,6 +89,7 @@ void main()
 	cli_execute("breakfast");				//Run mafia built in breakfast script to do many daily tasks
 	cli_execute("tt_fortune.ash");			//reply and send zatara fortune teller requests
 	cli_execute("pvprotect.ash");			//closet your expensive pvpable items
+	tt_steelOrganConsume();					//consume steel organ item if possible
 	while(LX_freeCombats(true));			//use remaining free combats for the day
 	doBedtime();							//various actions from autoscend bedtime
 	tt_whenDrunk();							//actions we only want to take if overdrunk on logout

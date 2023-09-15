@@ -6,6 +6,19 @@ import <ttpack/util/tt_header.ash>
 import <ttpack/util/tsettings.ash>
 import <ttpack/util/tt_depreciate.ash>
 
+void tt_steelOrganConsume()
+{
+	//consume a steel organ enhancing item if you have it
+	item it = $item[steel margarita];
+	if(item_amount(it) > 0 && canDrink(it)) drink(1, it);
+	
+	it = $item[steel lasagna];
+	if(item_amount(it) > 0 && canEat(it)) eat(1, it);
+	
+	it = $item[steel-scented air freshener];
+	if(item_amount(it) > 0 && canChew(it)) chew(1, it);
+}
+
 boolean gbool(string prop)
 {
 	return to_boolean(get_property(prop));

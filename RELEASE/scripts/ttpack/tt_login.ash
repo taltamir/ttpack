@@ -566,6 +566,7 @@ void runGarbo()
 void main()
 {
 	tt_initialize();						//initialize settings if needed
+	tt_steelOrganConsume();					//consume steel organ item if possible
 	noStooper();							//switch out stooper if it is current familiar
 	pvpEnable();							//breaks the hippy stone to enable PVP fighting
 	songboomSetting(2);						//set boombox to food if available.
