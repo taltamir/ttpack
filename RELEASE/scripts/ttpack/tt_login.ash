@@ -560,6 +560,9 @@ void runGarbo()
 		return;
 	if(overdrunk() && !canAdvDrunk())
 		return;		//garbo will throw an abort instead of cleanly exiting if you are overdrunk when you run it.
+	//workaround for https://github.com/loathers/garbage-collector/issues/1577
+	if(inebriety_left() < 1 && fullness_left() < 1 && my_adventures() < 1)
+		return;		//garbo will get stuck in infinite loop if you run it with 0 adv remaining and no space to consume.
 	cli_execute("garbo");
 }
 
