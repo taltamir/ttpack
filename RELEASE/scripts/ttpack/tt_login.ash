@@ -563,6 +563,8 @@ void runGarbo()
 	//workaround for https://github.com/loathers/garbage-collector/issues/1577
 	if(inebriety_left() < 1 && fullness_left() < 1 && my_adventures() < 1)
 		return;		//garbo will get stuck in infinite loop if you run it with 0 adv remaining and no space to consume.
+	if(have_effect($effect[Beaten Up]) > 0)
+		uneffect($effect[Beaten Up]);
 	cli_execute("garbo");
 }
 
